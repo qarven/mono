@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: bufbuild/buf-action@v1
+      - run: make gen
+      - name: Check generated code is up to date
+        run: git diff --exit-code
+
+  build:
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v7
+      - uses: bufbuild/buf-action@v1
+      - uses: actions/setup-go@v7
+        with:
+          go-version: "1.26"
+      - uses: dtolnay/rust-toolchain@stable
+      - run: make gen
+      - run: go build ./gen/go/...
+      - run: cargo check --manifest-path gen/rust/oryon/Cargo.toml
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v7
+      - uses: bufbuild/buf-action@v1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@qarven"
+      - run: make gen
+      - name: Set version from tag
+        run: npm pkg set version="${GITHUB_REF_NAME#v}"
+        working-directory: gen/ts
+      - name: Publish to GitHub Packages
+        run: npm publish
+        working-directory: gen/ts
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

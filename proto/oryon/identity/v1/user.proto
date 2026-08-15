@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package oryon.identity.v1;
+
+option go_package = "github.com/qarven/mono/gen/go/oryon/identity/v1;identity";
+
+// ========
+// services
+// ========
+
+service UserService {
+  rpc Users(UsersRequest) returns (UsersResponse) {}
+}
+
+// =====
+// enums
+// =====
+
+// ======
+// models
+// ======
+
+message User {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UsersRequest {
+  string email = 1;
+  string name = 2;
+}
+
+message UsersResponse {
+  repeated User users = 1;
+  int64 total = 2;
+}

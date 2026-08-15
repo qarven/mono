@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package oryon.identity.v1;
+
+option go_package = "github.com/qarven/mono/gen/go/oryon/identity/v1;identity";
+
+// ========
+// services
+// ========
+
+service AuthenticationService {
+  rpc Login(LoginRequest) returns (LoginResponse) {}
+}
+
+// =====
+// enums
+// =====
+
+// ======
+// models
+// ======
+
+message Token {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  Token token = 1;
+}

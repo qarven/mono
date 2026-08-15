@@ -1,0 +1,46 @@
+version: v2
+clean: true
+inputs:
+  - directory: proto
+managed:
+  enabled: true
+  override:
+    - file_option: go_package
+      path: oryon/authorization/v1
+      value: github.com/qarven/mono/gen/go/oryon/authorization/v1;authorization
+    - file_option: go_package
+      path: oryon/identity/v1
+      value: github.com/qarven/mono/gen/go/oryon/identity/v1;identity
+plugins:
+  # golang
+  - remote: buf.build/protocolbuffers/go:v1.36.12
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - remote: buf.build/grpc/go:v1.6.2
+    out: gen/go
+    opt:
+      - paths=source_relative
+  - remote: buf.build/connectrpc/go:v1.20.0
+    out: gen/go
+    opt:
+      - paths=source_relative
+
+  # rust
+  - remote: buf.build/anthropics/buffa:v0.9.1
+    out: gen/rust/oryon/proto
+    opt:
+      - views=true
+      - json=true
+      - file_per_package=true
+  - remote: buf.build/connectrpc/rust:v0.8.0
+    out: gen/rust/oryon
+    opt:
+      - extern_path=.=crate::proto
+      - file_per_package
+
+  # ts
+  - remote: buf.build/bufbuild/es:v2.7.0
+    out: gen/ts
+    opt:
+      - target=ts

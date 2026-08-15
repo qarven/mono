@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package oryon.authorization.v1;
+
+option go_package = "github.com/qarven/mono/gen/go/oryon/authorization/v1;authorization";
+
+// ========
+// services
+// ========
+
+service AuthorizationService {
+  rpc Permissions(PermissionsRequest) returns (PermissionsResponse) {}
+}
+
+// =====
+// enums
+// =====
+
+// ======
+// models
+// ======
+
+message Permission {
+  int64 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message PermissionsRequest {}
+
+message PermissionsResponse {
+  repeated Permission permissions = 1;
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@qarven/mono",
+  "version": "0.1.0",
+  "description": "Generated protobuf types for mono modules",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "oryon"
+  ],
+  "exports": {
+    "./authorization/v1/authorization_pb": {
+      "types": "./oryon/authorization/v1/authorization_pb.ts",
+      "default": "./oryon/authorization/v1/authorization_pb.ts"
+    },
+    "./identity/v1/authentication_pb": {
+      "types": "./oryon/identity/v1/authentication_pb.ts",
+      "default": "./oryon/identity/v1/authentication_pb.ts"
+    },
+    "./identity/v1/user_pb": {
+      "types": "./oryon/identity/v1/user_pb.ts",
+      "default": "./oryon/identity/v1/user_pb.ts"
+    }
+  },
+  "peerDependencies": {
+    "@bufbuild/protobuf": "^2.14.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
