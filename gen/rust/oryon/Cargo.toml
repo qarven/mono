@@ -9,6 +9,6 @@ description = "Generated protobuf types and Connect stubs for mono modules"
 path = "lib.rs"
 
 [dependencies]
-buffa = { version = "0.9.1", features = ["json"] }
+buffa = { version = "0.8.1", features = ["json"] }
 connectrpc = "0.8.1"
 serde = { version = "1", features = ["derive"] }

@@ -27,7 +27,7 @@ plugins:
       - paths=source_relative
 
   # rust
-  - remote: buf.build/anthropics/buffa:v0.9.1
+  - remote: buf.build/anthropics/buffa:v0.8.1
     out: gen/rust/oryon/proto
     opt:
       - views=true
