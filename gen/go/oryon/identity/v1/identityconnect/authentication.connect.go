@@ -36,11 +36,19 @@ const (
 	// AuthenticationServiceLoginProcedure is the fully-qualified name of the AuthenticationService's
 	// Login RPC.
 	AuthenticationServiceLoginProcedure = "/oryon.identity.v1.AuthenticationService/Login"
+	// AuthenticationServiceLogoutProcedure is the fully-qualified name of the AuthenticationService's
+	// Logout RPC.
+	AuthenticationServiceLogoutProcedure = "/oryon.identity.v1.AuthenticationService/Logout"
+	// AuthenticationServiceRefreshTokenProcedure is the fully-qualified name of the
+	// AuthenticationService's RefreshToken RPC.
+	AuthenticationServiceRefreshTokenProcedure = "/oryon.identity.v1.AuthenticationService/RefreshToken"
 )
 
 // AuthenticationServiceClient is a client for the oryon.identity.v1.AuthenticationService service.
 type AuthenticationServiceClient interface {
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
+	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
 }
 
 // NewAuthenticationServiceClient constructs a client for the
@@ -60,12 +68,26 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			connect.WithSchema(authenticationServiceMethods.ByName("Login")),
 			connect.WithClientOptions(opts...),
 		),
+		logout: connect.NewClient[v1.LogoutRequest, v1.LogoutResponse](
+			httpClient,
+			baseURL+AuthenticationServiceLogoutProcedure,
+			connect.WithSchema(authenticationServiceMethods.ByName("Logout")),
+			connect.WithClientOptions(opts...),
+		),
+		refreshToken: connect.NewClient[v1.RefreshTokenRequest, v1.RefreshTokenResponse](
+			httpClient,
+			baseURL+AuthenticationServiceRefreshTokenProcedure,
+			connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // authenticationServiceClient implements AuthenticationServiceClient.
 type authenticationServiceClient struct {
-	login *connect.Client[v1.LoginRequest, v1.LoginResponse]
+	login        *connect.Client[v1.LoginRequest, v1.LoginResponse]
+	logout       *connect.Client[v1.LogoutRequest, v1.LogoutResponse]
+	refreshToken *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
 }
 
 // Login calls oryon.identity.v1.AuthenticationService.Login.
@@ -73,10 +95,22 @@ func (c *authenticationServiceClient) Login(ctx context.Context, req *connect.Re
 	return c.login.CallUnary(ctx, req)
 }
 
+// Logout calls oryon.identity.v1.AuthenticationService.Logout.
+func (c *authenticationServiceClient) Logout(ctx context.Context, req *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {
+	return c.logout.CallUnary(ctx, req)
+}
+
+// RefreshToken calls oryon.identity.v1.AuthenticationService.RefreshToken.
+func (c *authenticationServiceClient) RefreshToken(ctx context.Context, req *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
+	return c.refreshToken.CallUnary(ctx, req)
+}
+
 // AuthenticationServiceHandler is an implementation of the oryon.identity.v1.AuthenticationService
 // service.
 type AuthenticationServiceHandler interface {
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
+	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
 }
 
 // NewAuthenticationServiceHandler builds an HTTP handler from the service implementation. It
@@ -92,10 +126,26 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		connect.WithSchema(authenticationServiceMethods.ByName("Login")),
 		connect.WithHandlerOptions(opts...),
 	)
+	authenticationServiceLogoutHandler := connect.NewUnaryHandler(
+		AuthenticationServiceLogoutProcedure,
+		svc.Logout,
+		connect.WithSchema(authenticationServiceMethods.ByName("Logout")),
+		connect.WithHandlerOptions(opts...),
+	)
+	authenticationServiceRefreshTokenHandler := connect.NewUnaryHandler(
+		AuthenticationServiceRefreshTokenProcedure,
+		svc.RefreshToken,
+		connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/oryon.identity.v1.AuthenticationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AuthenticationServiceLoginProcedure:
 			authenticationServiceLoginHandler.ServeHTTP(w, r)
+		case AuthenticationServiceLogoutProcedure:
+			authenticationServiceLogoutHandler.ServeHTTP(w, r)
+		case AuthenticationServiceRefreshTokenProcedure:
+			authenticationServiceRefreshTokenHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -107,4 +157,12 @@ type UnimplementedAuthenticationServiceHandler struct{}
 
 func (UnimplementedAuthenticationServiceHandler) Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Login is not implemented"))
+}
+
+func (UnimplementedAuthenticationServiceHandler) Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Logout is not implemented"))
+}
+
+func (UnimplementedAuthenticationServiceHandler) RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.RefreshToken is not implemented"))
 }

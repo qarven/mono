@@ -2,14 +2,14 @@ syntax = "proto3";
 
 package oryon.identity.v1;
 
-option go_package = "github.com/qarven/mono/gen/go/oryon/identity/v1;identity";
-
 // ========
 // services
 // ========
 
 service AuthenticationService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
+  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
 }
 
 // =====
@@ -31,5 +31,19 @@ message LoginRequest {
 }
 
 message LoginResponse {
+  Token token = 1;
+}
+
+message LogoutRequest {
+  string refresh_token = 1;
+}
+
+message LogoutResponse {}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
   Token token = 1;
 }

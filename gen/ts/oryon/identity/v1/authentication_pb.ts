@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file oryon/identity/v1/authentication.proto.
  */
 export const file_oryon_identity_v1_authentication: GenFile = /*@__PURE__*/
-  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEiNAoFVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhUKDXJlZnJlc2hfdG9rZW4YAiABKAkiLwoMTG9naW5SZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJIjgKDUxvZ2luUmVzcG9uc2USJwoFdG9rZW4YASABKAsyGC5vcnlvbi5pZGVudGl0eS52MS5Ub2tlbjJlChVBdXRoZW50aWNhdGlvblNlcnZpY2USTAoFTG9naW4SHy5vcnlvbi5pZGVudGl0eS52MS5Mb2dpblJlcXVlc3QaIC5vcnlvbi5pZGVudGl0eS52MS5Mb2dpblJlc3BvbnNlIgBCzAEKFWNvbS5vcnlvbi5pZGVudGl0eS52MUITQXV0aGVudGljYXRpb25Qcm90b1ABWjhnaXRodWIuY29tL3FhcnZlbi9tb25vL2dlbi9nby9vcnlvbi9pZGVudGl0eS92MTtpZGVudGl0eaICA09JWKoCEU9yeW9uLklkZW50aXR5LlYxygIRT3J5b25cSWRlbnRpdHlcVjHiAh1PcnlvblxJZGVudGl0eVxWMVxHUEJNZXRhZGF0YeoCE09yeW9uOjpJZGVudGl0eTo6VjFiBnByb3RvMw");
+  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEiNAoFVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhUKDXJlZnJlc2hfdG9rZW4YAiABKAkiLwoMTG9naW5SZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJIjgKDUxvZ2luUmVzcG9uc2USJwoFdG9rZW4YASABKAsyGC5vcnlvbi5pZGVudGl0eS52MS5Ub2tlbiImCg1Mb2dvdXRSZXF1ZXN0EhUKDXJlZnJlc2hfdG9rZW4YASABKAkiEAoOTG9nb3V0UmVzcG9uc2UiLAoTUmVmcmVzaFRva2VuUmVxdWVzdBIVCg1yZWZyZXNoX3Rva2VuGAEgASgJIj8KFFJlZnJlc2hUb2tlblJlc3BvbnNlEicKBXRva2VuGAEgASgLMhgub3J5b24uaWRlbnRpdHkudjEuVG9rZW4ymQIKFUF1dGhlbnRpY2F0aW9uU2VydmljZRJMCgVMb2dpbhIfLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVxdWVzdBogLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVzcG9uc2UiABJPCgZMb2dvdXQSIC5vcnlvbi5pZGVudGl0eS52MS5Mb2dvdXRSZXF1ZXN0GiEub3J5b24uaWRlbnRpdHkudjEuTG9nb3V0UmVzcG9uc2UiABJhCgxSZWZyZXNoVG9rZW4SJi5vcnlvbi5pZGVudGl0eS52MS5SZWZyZXNoVG9rZW5SZXF1ZXN0Gicub3J5b24uaWRlbnRpdHkudjEuUmVmcmVzaFRva2VuUmVzcG9uc2UiAELMAQoVY29tLm9yeW9uLmlkZW50aXR5LnYxQhNBdXRoZW50aWNhdGlvblByb3RvUAFaOGdpdGh1Yi5jb20vcWFydmVuL21vbm8vZ2VuL2dvL29yeW9uL2lkZW50aXR5L3YxO2lkZW50aXR5ogIDT0lYqgIRT3J5b24uSWRlbnRpdHkuVjHKAhFPcnlvblxJZGVudGl0eVxWMeICHU9yeW9uXElkZW50aXR5XFYxXEdQQk1ldGFkYXRh6gITT3J5b246OklkZW50aXR5OjpWMWIGcHJvdG8z");
 
 /**
  * @generated from message oryon.identity.v1.Token
@@ -74,6 +74,70 @@ export const LoginResponseSchema: GenMessage<LoginResponse> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 2);
 
 /**
+ * @generated from message oryon.identity.v1.LogoutRequest
+ */
+export type LogoutRequest = Message<"oryon.identity.v1.LogoutRequest"> & {
+  /**
+   * @generated from field: string refresh_token = 1;
+   */
+  refreshToken: string;
+};
+
+/**
+ * Describes the message oryon.identity.v1.LogoutRequest.
+ * Use `create(LogoutRequestSchema)` to create a new message.
+ */
+export const LogoutRequestSchema: GenMessage<LogoutRequest> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 3);
+
+/**
+ * @generated from message oryon.identity.v1.LogoutResponse
+ */
+export type LogoutResponse = Message<"oryon.identity.v1.LogoutResponse"> & {
+};
+
+/**
+ * Describes the message oryon.identity.v1.LogoutResponse.
+ * Use `create(LogoutResponseSchema)` to create a new message.
+ */
+export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 4);
+
+/**
+ * @generated from message oryon.identity.v1.RefreshTokenRequest
+ */
+export type RefreshTokenRequest = Message<"oryon.identity.v1.RefreshTokenRequest"> & {
+  /**
+   * @generated from field: string refresh_token = 1;
+   */
+  refreshToken: string;
+};
+
+/**
+ * Describes the message oryon.identity.v1.RefreshTokenRequest.
+ * Use `create(RefreshTokenRequestSchema)` to create a new message.
+ */
+export const RefreshTokenRequestSchema: GenMessage<RefreshTokenRequest> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 5);
+
+/**
+ * @generated from message oryon.identity.v1.RefreshTokenResponse
+ */
+export type RefreshTokenResponse = Message<"oryon.identity.v1.RefreshTokenResponse"> & {
+  /**
+   * @generated from field: oryon.identity.v1.Token token = 1;
+   */
+  token?: Token;
+};
+
+/**
+ * Describes the message oryon.identity.v1.RefreshTokenResponse.
+ * Use `create(RefreshTokenResponseSchema)` to create a new message.
+ */
+export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 6);
+
+/**
  * @generated from service oryon.identity.v1.AuthenticationService
  */
 export const AuthenticationService: GenService<{
@@ -84,6 +148,22 @@ export const AuthenticationService: GenService<{
     methodKind: "unary";
     input: typeof LoginRequestSchema;
     output: typeof LoginResponseSchema;
+  },
+  /**
+   * @generated from rpc oryon.identity.v1.AuthenticationService.Logout
+   */
+  logout: {
+    methodKind: "unary";
+    input: typeof LogoutRequestSchema;
+    output: typeof LogoutResponseSchema;
+  },
+  /**
+   * @generated from rpc oryon.identity.v1.AuthenticationService.RefreshToken
+   */
+  refreshToken: {
+    methodKind: "unary";
+    input: typeof RefreshTokenRequestSchema;
+    output: typeof RefreshTokenResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_oryon_identity_v1_authentication, 0);

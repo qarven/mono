@@ -169,6 +169,174 @@ func (x *LoginResponse) GetToken() *Token {
 	return nil
 }
 
+type LogoutRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogoutRequest) Reset() {
+	*x = LogoutRequest{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogoutRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutRequest) ProtoMessage() {}
+
+func (x *LogoutRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutRequest.ProtoReflect.Descriptor instead.
+func (*LogoutRequest) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *LogoutRequest) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+type LogoutResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *LogoutResponse) Reset() {
+	*x = LogoutResponse{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *LogoutResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LogoutResponse) ProtoMessage() {}
+
+func (x *LogoutResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use LogoutResponse.ProtoReflect.Descriptor instead.
+func (*LogoutResponse) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{4}
+}
+
+type RefreshTokenRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenRequest) Reset() {
+	*x = RefreshTokenRequest{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenRequest) ProtoMessage() {}
+
+func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
+func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *RefreshTokenRequest) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
+	}
+	return ""
+}
+
+type RefreshTokenResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         *Token                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RefreshTokenResponse) Reset() {
+	*x = RefreshTokenResponse{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RefreshTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RefreshTokenResponse) ProtoMessage() {}
+
+func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
+func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *RefreshTokenResponse) GetToken() *Token {
+	if x != nil {
+		return x.Token
+	}
+	return nil
+}
+
 var File_oryon_identity_v1_authentication_proto protoreflect.FileDescriptor
 
 const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
@@ -181,9 +349,18 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"?\n" +
 	"\rLoginResponse\x12.\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token2e\n" +
+	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\"4\n" +
+	"\rLogoutRequest\x12#\n" +
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"\x10\n" +
+	"\x0eLogoutResponse\":\n" +
+	"\x13RefreshTokenRequest\x12#\n" +
+	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"F\n" +
+	"\x14RefreshTokenResponse\x12.\n" +
+	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token2\x99\x02\n" +
 	"\x15AuthenticationService\x12L\n" +
-	"\x05Login\x12\x1f.oryon.identity.v1.LoginRequest\x1a .oryon.identity.v1.LoginResponse\"\x00B\xcc\x01\n" +
+	"\x05Login\x12\x1f.oryon.identity.v1.LoginRequest\x1a .oryon.identity.v1.LoginResponse\"\x00\x12O\n" +
+	"\x06Logout\x12 .oryon.identity.v1.LogoutRequest\x1a!.oryon.identity.v1.LogoutResponse\"\x00\x12a\n" +
+	"\fRefreshToken\x12&.oryon.identity.v1.RefreshTokenRequest\x1a'.oryon.identity.v1.RefreshTokenResponse\"\x00B\xcc\x01\n" +
 	"\x15com.oryon.identity.v1B\x13AuthenticationProtoP\x01Z8github.com/qarven/mono/gen/go/oryon/identity/v1;identity\xa2\x02\x03OIX\xaa\x02\x11Oryon.Identity.V1\xca\x02\x11Oryon\\Identity\\V1\xe2\x02\x1dOryon\\Identity\\V1\\GPBMetadata\xea\x02\x13Oryon::Identity::V1b\x06proto3"
 
 var (
@@ -198,21 +375,30 @@ func file_oryon_identity_v1_authentication_proto_rawDescGZIP() []byte {
 	return file_oryon_identity_v1_authentication_proto_rawDescData
 }
 
-var file_oryon_identity_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_oryon_identity_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_oryon_identity_v1_authentication_proto_goTypes = []any{
-	(*Token)(nil),         // 0: oryon.identity.v1.Token
-	(*LoginRequest)(nil),  // 1: oryon.identity.v1.LoginRequest
-	(*LoginResponse)(nil), // 2: oryon.identity.v1.LoginResponse
+	(*Token)(nil),                // 0: oryon.identity.v1.Token
+	(*LoginRequest)(nil),         // 1: oryon.identity.v1.LoginRequest
+	(*LoginResponse)(nil),        // 2: oryon.identity.v1.LoginResponse
+	(*LogoutRequest)(nil),        // 3: oryon.identity.v1.LogoutRequest
+	(*LogoutResponse)(nil),       // 4: oryon.identity.v1.LogoutResponse
+	(*RefreshTokenRequest)(nil),  // 5: oryon.identity.v1.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil), // 6: oryon.identity.v1.RefreshTokenResponse
 }
 var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
 	0, // 0: oryon.identity.v1.LoginResponse.token:type_name -> oryon.identity.v1.Token
-	1, // 1: oryon.identity.v1.AuthenticationService.Login:input_type -> oryon.identity.v1.LoginRequest
-	2, // 2: oryon.identity.v1.AuthenticationService.Login:output_type -> oryon.identity.v1.LoginResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 1: oryon.identity.v1.RefreshTokenResponse.token:type_name -> oryon.identity.v1.Token
+	1, // 2: oryon.identity.v1.AuthenticationService.Login:input_type -> oryon.identity.v1.LoginRequest
+	3, // 3: oryon.identity.v1.AuthenticationService.Logout:input_type -> oryon.identity.v1.LogoutRequest
+	5, // 4: oryon.identity.v1.AuthenticationService.RefreshToken:input_type -> oryon.identity.v1.RefreshTokenRequest
+	2, // 5: oryon.identity.v1.AuthenticationService.Login:output_type -> oryon.identity.v1.LoginResponse
+	4, // 6: oryon.identity.v1.AuthenticationService.Logout:output_type -> oryon.identity.v1.LogoutResponse
+	6, // 7: oryon.identity.v1.AuthenticationService.RefreshToken:output_type -> oryon.identity.v1.RefreshTokenResponse
+	5, // [5:8] is the sub-list for method output_type
+	2, // [2:5] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_oryon_identity_v1_authentication_proto_init() }
@@ -226,7 +412,7 @@ func file_oryon_identity_v1_authentication_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_oryon_identity_v1_authentication_proto_rawDesc), len(file_oryon_identity_v1_authentication_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

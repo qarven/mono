@@ -8,6 +8,22 @@ pub type OwnedLoginRequestView = ::buffa::view::OwnedView<
 pub type OwnedLoginResponseView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'static>,
 >;
+///Shorthand for `OwnedView<LogoutRequestView<'static>>`.
+pub type OwnedLogoutRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::LogoutRequestView<'static>,
+>;
+///Shorthand for `OwnedView<LogoutResponseView<'static>>`.
+pub type OwnedLogoutResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::LogoutResponseView<'static>,
+>;
+///Shorthand for `OwnedView<RefreshTokenRequestView<'static>>`.
+pub type OwnedRefreshTokenRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenRequestView<'static>,
+>;
+///Shorthand for `OwnedView<RefreshTokenResponseView<'static>>`.
+pub type OwnedRefreshTokenResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<'static>,
+>;
 impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LoginResponse>
 for crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'_> {
     fn encode(
@@ -28,6 +44,46 @@ for ::buffa::view::OwnedView<
         ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
     }
 }
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LogoutResponse>
+for crate::proto::oryon::identity::v1::__buffa::view::LogoutResponseView<'_> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LogoutResponse>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::LogoutResponseView<'static>,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+}
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::RefreshTokenResponse>
+for crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<'_> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::RefreshTokenResponse>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<'static>,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+}
 /// Full service name for this service.
 pub const AUTHENTICATION_SERVICE_SERVICE_NAME: &str = "oryon.identity.v1.AuthenticationService";
 /// Static [`Spec`](::connectrpc::Spec) for the server-side `Login` RPC.
@@ -36,6 +92,24 @@ pub const AUTHENTICATION_SERVICE_SERVICE_NAME: &str = "oryon.identity.v1.Authent
 /// [`RequestContext::spec`](::connectrpc::RequestContext::spec).
 pub const AUTHENTICATION_SERVICE_LOGIN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
         "/oryon.identity.v1.AuthenticationService/Login",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the server-side `Logout` RPC.
+///
+/// The dispatcher surfaces this on
+/// [`RequestContext::spec`](::connectrpc::RequestContext::spec).
+pub const AUTHENTICATION_SERVICE_LOGOUT_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/Logout",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the server-side `RefreshToken` RPC.
+///
+/// The dispatcher surfaces this on
+/// [`RequestContext::spec`](::connectrpc::RequestContext::spec).
+pub const AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/RefreshToken",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -113,6 +187,52 @@ pub trait AuthenticationService: Send + Sync + 'static {
             > + Send + use<'a, Self>,
         >,
     > + Send;
+    /// Handle the Logout RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn logout<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::LogoutRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::LogoutResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the RefreshToken RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn refresh_token<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::RefreshTokenRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::RefreshTokenResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
 }
 /// Extension trait for registering a service implementation with a Router.
 ///
@@ -174,6 +294,64 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
                 },
             )
             .with_spec(AUTHENTICATION_SERVICE_LOGIN_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "Logout",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::LogoutRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::LogoutRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.logout(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::LogoutResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_LOGOUT_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "RefreshToken",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::RefreshTokenRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.refresh_token(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::RefreshTokenResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC)
     }
 }
 /// Type-inference marker used by [`Router::add_service`](::connectrpc::Router::add_service).
@@ -237,6 +415,18 @@ for AuthenticationServiceServer<T> {
                         .with_spec(AUTHENTICATION_SERVICE_LOGIN_SPEC),
                 )
             }
+            "Logout" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_LOGOUT_SPEC),
+                )
+            }
+            "RefreshToken" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC),
+                )
+            }
             _ => None,
         }
     }
@@ -271,6 +461,48 @@ for AuthenticationServiceServer<T> {
                         .await?
                         .encode::<
                             crate::proto::oryon::identity::v1::LoginResponse,
+                        >(format)
+                })
+            }
+            "Logout" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::LogoutRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::LogoutRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::LogoutRequest,
+                    >::from_parts(&req, &body);
+                    svc.logout(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::LogoutResponse,
+                        >(format)
+                })
+            }
+            "RefreshToken" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::RefreshTokenRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::RefreshTokenRequest,
+                    >::from_parts(&req, &body);
+                    svc.refresh_token(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::RefreshTokenResponse,
                         >(format)
                 })
             }
@@ -442,6 +674,93 @@ where
                 &self.config,
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "Login",
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the Logout RPC. Sends a request to /oryon.identity.v1.AuthenticationService/Logout.
+    pub async fn logout(
+        &self,
+        request: crate::proto::oryon::identity::v1::LogoutRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::LogoutResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.logout_with_options(request, ::connectrpc::client::CallOptions::default())
+            .await
+    }
+    /// Call the Logout RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn logout_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::LogoutRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::LogoutResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "Logout",
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the RefreshToken RPC. Sends a request to /oryon.identity.v1.AuthenticationService/RefreshToken.
+    pub async fn refresh_token(
+        &self,
+        request: crate::proto::oryon::identity::v1::RefreshTokenRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.refresh_token_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the RefreshToken RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn refresh_token_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::RefreshTokenRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "RefreshToken",
                 request,
                 options,
             )

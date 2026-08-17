@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package oryon.authorization.v1;
 
-option go_package = "github.com/qarven/mono/gen/go/oryon/authorization/v1;authorization";
-
 // ========
 // services
 // ========

@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package oryon.identity.v1;
 
-option go_package = "github.com/qarven/mono/gen/go/oryon/identity/v1;identity";
-
 // ========
 // services
 // ========
