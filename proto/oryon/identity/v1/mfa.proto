@@ -1,0 +1,181 @@
+syntax = "proto3";
+
+package oryon.identity.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+// ========
+// services
+// ========
+
+service MfaService {
+  rpc ListFactors(ListFactorsRequest) returns (ListFactorsResponse);
+  rpc BeginTotpSetup(BeginTotpSetupRequest) returns (BeginTotpSetupResponse);
+  rpc ConfirmTotpSetup(ConfirmTotpSetupRequest) returns (ConfirmTotpSetupResponse);
+  rpc DisableTotp(DisableTotpRequest) returns (DisableTotpResponse);
+  rpc GenerateRecoveryCodes(GenerateRecoveryCodesRequest) returns (GenerateRecoveryCodesResponse);
+  rpc RevokeRecoveryCodes(RevokeRecoveryCodesRequest) returns (RevokeRecoveryCodesResponse);
+}
+
+// =====
+// enums
+// =====
+
+enum MfaFactorType {
+  MFA_FACTOR_TYPE_UNSPECIFIED = 0;
+  MFA_FACTOR_TYPE_TOTP = 1;
+  MFA_FACTOR_TYPE_SMS = 2;
+  MFA_FACTOR_TYPE_EMAIL = 3;
+  MFA_FACTOR_TYPE_WEBAUTHN = 4;
+  MFA_FACTOR_TYPE_BACKUP_CODE = 5;
+}
+
+enum TotpAlgorithm {
+  TOTP_ALGORITHM_UNSPECIFIED = 0;
+  TOTP_ALGORITHM_SHA1 = 1;
+  TOTP_ALGORITHM_SHA256 = 2;
+  TOTP_ALGORITHM_SHA512 = 3;
+}
+
+// ======
+// models
+// ======
+
+// MfaFactor maps to `mfa_factors` table.
+message MfaFactor {
+  int64 id = 1;
+  int64 user_id = 2;
+  MfaFactorType type = 3;
+  string name = 4 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp created_at = 5;
+  optional google.protobuf.Timestamp verified_at = 6;
+  optional google.protobuf.Timestamp last_used_at = 7;
+  optional google.protobuf.Timestamp revoked_at = 8;
+}
+
+// TotpFactor maps to `totp_factors` table.
+// secret is encrypted (AES-256-GCM) in DB and never returned except during setup
+// via BeginTotpSetupResponse.
+message TotpFactor {
+  int64 factor_id = 1;
+  TotpAlgorithm algorithm = 2;
+  int32 digits = 3 [
+    (buf.validate.field).int32.in = 6,
+    (buf.validate.field).int32.in = 8
+  ];
+  int32 period = 4 [(buf.validate.field).int32.gt = 0];
+  google.protobuf.Timestamp created_at = 5;
+}
+
+// Passkey maps to `passkeys` table.
+// credential_id and public_key are BYTEA and represented as bytes in proto.
+message Passkey {
+  int64 id = 1;
+  int64 user_id = 2;
+  bytes credential_id = 3;
+  bytes public_key = 4;
+  int64 sign_count = 5;
+  string name = 6;
+  optional string aaguid = 7;
+  repeated string transports = 8;
+  optional string device_type = 9;
+  bool backed_up = 10;
+  google.protobuf.Timestamp created_at = 11;
+  optional google.protobuf.Timestamp last_used_at = 12;
+  optional google.protobuf.Timestamp revoked_at = 13;
+}
+
+// BackupCode maps to `backup_codes` table.
+// code hash is never returned; plaintext codes are only returned once at generation time.
+message BackupCode {
+  int64 id = 1;
+  int64 user_id = 2;
+  optional google.protobuf.Timestamp used_at = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+// ==============
+// rpc messages
+// ==============
+
+message ListFactorsRequest {
+  bool include_revoked = 1;
+}
+
+message ListFactorsResponse {
+  repeated MfaFactor factors = 1;
+  // Totp details expanded for convenience when factor type is TOTP.
+  repeated TotpFactor totp_factors = 2;
+  repeated Passkey passkeys = 3;
+  // Number of unused backup codes remaining (hashes not exposed).
+  int32 backup_codes_remaining = 4;
+}
+
+message BeginTotpSetupRequest {
+  // Human-readable label for the factor, e.g., "Authenticator App".
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  TotpAlgorithm algorithm = 2;
+  int32 digits = 3 [
+    (buf.validate.field).int32.in = 6,
+    (buf.validate.field).int32.in = 8
+  ];
+  int32 period = 4 [(buf.validate.field).int32.gt = 0];
+  // Optional issuer to embed in otpauth:// URI (e.g., "Oryon").
+  optional string issuer = 5;
+}
+
+message BeginTotpSetupResponse {
+  MfaFactor factor = 1;
+  TotpFactor totp_factor = 2;
+  // Base32-encoded secret for manual entry (only returned once).
+  string secret = 3;
+  // otpauth:// URI suitable for QR generation.
+  string uri = 4;
+  // Base64-encoded QR image or otpauth URI; client may render QR locally from uri.
+  optional string qr_code_data_url = 5;
+}
+
+message ConfirmTotpSetupRequest {
+  int64 factor_id = 1 [(buf.validate.field).int64.gt = 0];
+  string code = 2 [
+    (buf.validate.field).string.min_len = 6,
+    (buf.validate.field).string.max_len = 8,
+    (buf.validate.field).string.pattern = "^[0-9]+$"
+  ];
+}
+
+message ConfirmTotpSetupResponse {
+  MfaFactor factor = 1;
+}
+
+message DisableTotpRequest {
+  int64 factor_id = 1 [(buf.validate.field).int64.gt = 0];
+  // Require current password or recent re-auth to disable MFA.
+  optional string current_password = 2;
+}
+
+message DisableTotpResponse {}
+
+message GenerateRecoveryCodesRequest {
+  // Number of codes to generate (default 10, max 20).
+  int32 count = 1 [
+    (buf.validate.field).int32.gte = 1,
+    (buf.validate.field).int32.lte = 20
+  ];
+}
+
+message GenerateRecoveryCodesResponse {
+  // Plaintext codes; only returned once. Caller must store securely.
+  // Hashes (bcrypt/SHA-256) are persisted in `backup_codes` table.
+  repeated string codes = 1;
+  int32 count = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp expires_at = 4;
+}
+
+message RevokeRecoveryCodesRequest {}
+
+message RevokeRecoveryCodesResponse {
+  int64 revoked_count = 1;
+}

@@ -33,13 +33,31 @@ const (
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// UserServiceUsersProcedure is the fully-qualified name of the UserService's Users RPC.
-	UserServiceUsersProcedure = "/oryon.identity.v1.UserService/Users"
+	// UserServiceGetCurrentUserProcedure is the fully-qualified name of the UserService's
+	// GetCurrentUser RPC.
+	UserServiceGetCurrentUserProcedure = "/oryon.identity.v1.UserService/GetCurrentUser"
+	// UserServiceUpdateCurrentUserProcedure is the fully-qualified name of the UserService's
+	// UpdateCurrentUser RPC.
+	UserServiceUpdateCurrentUserProcedure = "/oryon.identity.v1.UserService/UpdateCurrentUser"
+	// UserServiceListEmailsProcedure is the fully-qualified name of the UserService's ListEmails RPC.
+	UserServiceListEmailsProcedure = "/oryon.identity.v1.UserService/ListEmails"
+	// UserServiceAddEmailProcedure is the fully-qualified name of the UserService's AddEmail RPC.
+	UserServiceAddEmailProcedure = "/oryon.identity.v1.UserService/AddEmail"
+	// UserServiceRemoveEmailProcedure is the fully-qualified name of the UserService's RemoveEmail RPC.
+	UserServiceRemoveEmailProcedure = "/oryon.identity.v1.UserService/RemoveEmail"
+	// UserServiceSetPrimaryEmailProcedure is the fully-qualified name of the UserService's
+	// SetPrimaryEmail RPC.
+	UserServiceSetPrimaryEmailProcedure = "/oryon.identity.v1.UserService/SetPrimaryEmail"
 )
 
 // UserServiceClient is a client for the oryon.identity.v1.UserService service.
 type UserServiceClient interface {
-	Users(context.Context, *connect.Request[v1.UsersRequest]) (*connect.Response[v1.UsersResponse], error)
+	GetCurrentUser(context.Context, *connect.Request[v1.GetCurrentUserRequest]) (*connect.Response[v1.GetCurrentUserResponse], error)
+	UpdateCurrentUser(context.Context, *connect.Request[v1.UpdateCurrentUserRequest]) (*connect.Response[v1.UpdateCurrentUserResponse], error)
+	ListEmails(context.Context, *connect.Request[v1.ListEmailsRequest]) (*connect.Response[v1.ListEmailsResponse], error)
+	AddEmail(context.Context, *connect.Request[v1.AddEmailRequest]) (*connect.Response[v1.AddEmailResponse], error)
+	RemoveEmail(context.Context, *connect.Request[v1.RemoveEmailRequest]) (*connect.Response[v1.RemoveEmailResponse], error)
+	SetPrimaryEmail(context.Context, *connect.Request[v1.SetPrimaryEmailRequest]) (*connect.Response[v1.SetPrimaryEmailResponse], error)
 }
 
 // NewUserServiceClient constructs a client for the oryon.identity.v1.UserService service. By
@@ -53,10 +71,40 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 	baseURL = strings.TrimRight(baseURL, "/")
 	userServiceMethods := v1.File_oryon_identity_v1_user_proto.Services().ByName("UserService").Methods()
 	return &userServiceClient{
-		users: connect.NewClient[v1.UsersRequest, v1.UsersResponse](
+		getCurrentUser: connect.NewClient[v1.GetCurrentUserRequest, v1.GetCurrentUserResponse](
 			httpClient,
-			baseURL+UserServiceUsersProcedure,
-			connect.WithSchema(userServiceMethods.ByName("Users")),
+			baseURL+UserServiceGetCurrentUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("GetCurrentUser")),
+			connect.WithClientOptions(opts...),
+		),
+		updateCurrentUser: connect.NewClient[v1.UpdateCurrentUserRequest, v1.UpdateCurrentUserResponse](
+			httpClient,
+			baseURL+UserServiceUpdateCurrentUserProcedure,
+			connect.WithSchema(userServiceMethods.ByName("UpdateCurrentUser")),
+			connect.WithClientOptions(opts...),
+		),
+		listEmails: connect.NewClient[v1.ListEmailsRequest, v1.ListEmailsResponse](
+			httpClient,
+			baseURL+UserServiceListEmailsProcedure,
+			connect.WithSchema(userServiceMethods.ByName("ListEmails")),
+			connect.WithClientOptions(opts...),
+		),
+		addEmail: connect.NewClient[v1.AddEmailRequest, v1.AddEmailResponse](
+			httpClient,
+			baseURL+UserServiceAddEmailProcedure,
+			connect.WithSchema(userServiceMethods.ByName("AddEmail")),
+			connect.WithClientOptions(opts...),
+		),
+		removeEmail: connect.NewClient[v1.RemoveEmailRequest, v1.RemoveEmailResponse](
+			httpClient,
+			baseURL+UserServiceRemoveEmailProcedure,
+			connect.WithSchema(userServiceMethods.ByName("RemoveEmail")),
+			connect.WithClientOptions(opts...),
+		),
+		setPrimaryEmail: connect.NewClient[v1.SetPrimaryEmailRequest, v1.SetPrimaryEmailResponse](
+			httpClient,
+			baseURL+UserServiceSetPrimaryEmailProcedure,
+			connect.WithSchema(userServiceMethods.ByName("SetPrimaryEmail")),
 			connect.WithClientOptions(opts...),
 		),
 	}
@@ -64,17 +112,52 @@ func NewUserServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // userServiceClient implements UserServiceClient.
 type userServiceClient struct {
-	users *connect.Client[v1.UsersRequest, v1.UsersResponse]
+	getCurrentUser    *connect.Client[v1.GetCurrentUserRequest, v1.GetCurrentUserResponse]
+	updateCurrentUser *connect.Client[v1.UpdateCurrentUserRequest, v1.UpdateCurrentUserResponse]
+	listEmails        *connect.Client[v1.ListEmailsRequest, v1.ListEmailsResponse]
+	addEmail          *connect.Client[v1.AddEmailRequest, v1.AddEmailResponse]
+	removeEmail       *connect.Client[v1.RemoveEmailRequest, v1.RemoveEmailResponse]
+	setPrimaryEmail   *connect.Client[v1.SetPrimaryEmailRequest, v1.SetPrimaryEmailResponse]
 }
 
-// Users calls oryon.identity.v1.UserService.Users.
-func (c *userServiceClient) Users(ctx context.Context, req *connect.Request[v1.UsersRequest]) (*connect.Response[v1.UsersResponse], error) {
-	return c.users.CallUnary(ctx, req)
+// GetCurrentUser calls oryon.identity.v1.UserService.GetCurrentUser.
+func (c *userServiceClient) GetCurrentUser(ctx context.Context, req *connect.Request[v1.GetCurrentUserRequest]) (*connect.Response[v1.GetCurrentUserResponse], error) {
+	return c.getCurrentUser.CallUnary(ctx, req)
+}
+
+// UpdateCurrentUser calls oryon.identity.v1.UserService.UpdateCurrentUser.
+func (c *userServiceClient) UpdateCurrentUser(ctx context.Context, req *connect.Request[v1.UpdateCurrentUserRequest]) (*connect.Response[v1.UpdateCurrentUserResponse], error) {
+	return c.updateCurrentUser.CallUnary(ctx, req)
+}
+
+// ListEmails calls oryon.identity.v1.UserService.ListEmails.
+func (c *userServiceClient) ListEmails(ctx context.Context, req *connect.Request[v1.ListEmailsRequest]) (*connect.Response[v1.ListEmailsResponse], error) {
+	return c.listEmails.CallUnary(ctx, req)
+}
+
+// AddEmail calls oryon.identity.v1.UserService.AddEmail.
+func (c *userServiceClient) AddEmail(ctx context.Context, req *connect.Request[v1.AddEmailRequest]) (*connect.Response[v1.AddEmailResponse], error) {
+	return c.addEmail.CallUnary(ctx, req)
+}
+
+// RemoveEmail calls oryon.identity.v1.UserService.RemoveEmail.
+func (c *userServiceClient) RemoveEmail(ctx context.Context, req *connect.Request[v1.RemoveEmailRequest]) (*connect.Response[v1.RemoveEmailResponse], error) {
+	return c.removeEmail.CallUnary(ctx, req)
+}
+
+// SetPrimaryEmail calls oryon.identity.v1.UserService.SetPrimaryEmail.
+func (c *userServiceClient) SetPrimaryEmail(ctx context.Context, req *connect.Request[v1.SetPrimaryEmailRequest]) (*connect.Response[v1.SetPrimaryEmailResponse], error) {
+	return c.setPrimaryEmail.CallUnary(ctx, req)
 }
 
 // UserServiceHandler is an implementation of the oryon.identity.v1.UserService service.
 type UserServiceHandler interface {
-	Users(context.Context, *connect.Request[v1.UsersRequest]) (*connect.Response[v1.UsersResponse], error)
+	GetCurrentUser(context.Context, *connect.Request[v1.GetCurrentUserRequest]) (*connect.Response[v1.GetCurrentUserResponse], error)
+	UpdateCurrentUser(context.Context, *connect.Request[v1.UpdateCurrentUserRequest]) (*connect.Response[v1.UpdateCurrentUserResponse], error)
+	ListEmails(context.Context, *connect.Request[v1.ListEmailsRequest]) (*connect.Response[v1.ListEmailsResponse], error)
+	AddEmail(context.Context, *connect.Request[v1.AddEmailRequest]) (*connect.Response[v1.AddEmailResponse], error)
+	RemoveEmail(context.Context, *connect.Request[v1.RemoveEmailRequest]) (*connect.Response[v1.RemoveEmailResponse], error)
+	SetPrimaryEmail(context.Context, *connect.Request[v1.SetPrimaryEmailRequest]) (*connect.Response[v1.SetPrimaryEmailResponse], error)
 }
 
 // NewUserServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -84,16 +167,56 @@ type UserServiceHandler interface {
 // and JSON codecs. They also support gzip compression.
 func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
 	userServiceMethods := v1.File_oryon_identity_v1_user_proto.Services().ByName("UserService").Methods()
-	userServiceUsersHandler := connect.NewUnaryHandler(
-		UserServiceUsersProcedure,
-		svc.Users,
-		connect.WithSchema(userServiceMethods.ByName("Users")),
+	userServiceGetCurrentUserHandler := connect.NewUnaryHandler(
+		UserServiceGetCurrentUserProcedure,
+		svc.GetCurrentUser,
+		connect.WithSchema(userServiceMethods.ByName("GetCurrentUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceUpdateCurrentUserHandler := connect.NewUnaryHandler(
+		UserServiceUpdateCurrentUserProcedure,
+		svc.UpdateCurrentUser,
+		connect.WithSchema(userServiceMethods.ByName("UpdateCurrentUser")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceListEmailsHandler := connect.NewUnaryHandler(
+		UserServiceListEmailsProcedure,
+		svc.ListEmails,
+		connect.WithSchema(userServiceMethods.ByName("ListEmails")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceAddEmailHandler := connect.NewUnaryHandler(
+		UserServiceAddEmailProcedure,
+		svc.AddEmail,
+		connect.WithSchema(userServiceMethods.ByName("AddEmail")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceRemoveEmailHandler := connect.NewUnaryHandler(
+		UserServiceRemoveEmailProcedure,
+		svc.RemoveEmail,
+		connect.WithSchema(userServiceMethods.ByName("RemoveEmail")),
+		connect.WithHandlerOptions(opts...),
+	)
+	userServiceSetPrimaryEmailHandler := connect.NewUnaryHandler(
+		UserServiceSetPrimaryEmailProcedure,
+		svc.SetPrimaryEmail,
+		connect.WithSchema(userServiceMethods.ByName("SetPrimaryEmail")),
 		connect.WithHandlerOptions(opts...),
 	)
 	return "/oryon.identity.v1.UserService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
-		case UserServiceUsersProcedure:
-			userServiceUsersHandler.ServeHTTP(w, r)
+		case UserServiceGetCurrentUserProcedure:
+			userServiceGetCurrentUserHandler.ServeHTTP(w, r)
+		case UserServiceUpdateCurrentUserProcedure:
+			userServiceUpdateCurrentUserHandler.ServeHTTP(w, r)
+		case UserServiceListEmailsProcedure:
+			userServiceListEmailsHandler.ServeHTTP(w, r)
+		case UserServiceAddEmailProcedure:
+			userServiceAddEmailHandler.ServeHTTP(w, r)
+		case UserServiceRemoveEmailProcedure:
+			userServiceRemoveEmailHandler.ServeHTTP(w, r)
+		case UserServiceSetPrimaryEmailProcedure:
+			userServiceSetPrimaryEmailHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -103,6 +226,26 @@ func NewUserServiceHandler(svc UserServiceHandler, opts ...connect.HandlerOption
 // UnimplementedUserServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedUserServiceHandler struct{}
 
-func (UnimplementedUserServiceHandler) Users(context.Context, *connect.Request[v1.UsersRequest]) (*connect.Response[v1.UsersResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.Users is not implemented"))
+func (UnimplementedUserServiceHandler) GetCurrentUser(context.Context, *connect.Request[v1.GetCurrentUserRequest]) (*connect.Response[v1.GetCurrentUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.GetCurrentUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) UpdateCurrentUser(context.Context, *connect.Request[v1.UpdateCurrentUserRequest]) (*connect.Response[v1.UpdateCurrentUserResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.UpdateCurrentUser is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) ListEmails(context.Context, *connect.Request[v1.ListEmailsRequest]) (*connect.Response[v1.ListEmailsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.ListEmails is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) AddEmail(context.Context, *connect.Request[v1.AddEmailRequest]) (*connect.Response[v1.AddEmailResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.AddEmail is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) RemoveEmail(context.Context, *connect.Request[v1.RemoveEmailRequest]) (*connect.Response[v1.RemoveEmailResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.RemoveEmail is not implemented"))
+}
+
+func (UnimplementedUserServiceHandler) SetPrimaryEmail(context.Context, *connect.Request[v1.SetPrimaryEmailRequest]) (*connect.Response[v1.SetPrimaryEmailResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.UserService.SetPrimaryEmail is not implemented"))
 }

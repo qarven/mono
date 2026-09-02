@@ -11,8 +11,7 @@ gen:
 lint:
 	@buf lint
 
-check:
-	@buf lint
+check: lint
 	@go build ./gen/go/...
 	@cargo check --manifest-path gen/rust/oryon/Cargo.toml
 

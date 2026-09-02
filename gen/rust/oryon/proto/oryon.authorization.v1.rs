@@ -62,30 +62,32 @@ impl ::buffa::MessageName for Permission {
 impl ::buffa::Message for Permission {
     /// Returns the total encoded size in bytes.
     ///
-    /// The result is a `u32`; the protobuf specification requires all
-    /// messages to fit within 2 GiB (2,147,483,647 bytes), so a
-    /// compliant message will never overflow this type.
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
     #[allow(clippy::let_and_return)]
     fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        let mut size = 0u32;
+        let mut size = 0u64;
         if self.id != 0i64 {
-            size += 1u32 + ::buffa::types::int64_encoded_len(self.id) as u32;
+            size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
         }
         if !self.name.is_empty() {
-            size += 1u32 + ::buffa::types::string_encoded_len(&self.name) as u32;
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.name) as u64;
         }
         if !self.description.is_empty() {
-            size += 1u32 + ::buffa::types::string_encoded_len(&self.description) as u32;
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.description) as u64;
         }
-        size += self.__buffa_unknown_fields.encoded_len() as u32;
-        size
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
     }
     fn write_to(
         &self,
         _cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::bytes::BufMut,
+        buf: &mut impl ::buffa::EncodeSink,
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
@@ -205,21 +207,23 @@ impl ::buffa::MessageName for PermissionsRequest {
 impl ::buffa::Message for PermissionsRequest {
     /// Returns the total encoded size in bytes.
     ///
-    /// The result is a `u32`; the protobuf specification requires all
-    /// messages to fit within 2 GiB (2,147,483,647 bytes), so a
-    /// compliant message will never overflow this type.
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
     #[allow(clippy::let_and_return)]
     fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        let mut size = 0u32;
-        size += self.__buffa_unknown_fields.encoded_len() as u32;
-        size
+        let mut size = 0u64;
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
     }
     fn write_to(
         &self,
         _cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::bytes::BufMut,
+        buf: &mut impl ::buffa::EncodeSink,
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
@@ -315,34 +319,40 @@ impl ::buffa::MessageName for PermissionsResponse {
 impl ::buffa::Message for PermissionsResponse {
     /// Returns the total encoded size in bytes.
     ///
-    /// The result is a `u32`; the protobuf specification requires all
-    /// messages to fit within 2 GiB (2,147,483,647 bytes), so a
-    /// compliant message will never overflow this type.
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
     #[allow(clippy::let_and_return)]
     fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        let mut size = 0u32;
+        let mut size = 0u64;
         for v in &self.permissions {
             let __slot = __cache.reserve();
             let inner_size = v.compute_size(__cache);
             __cache.set(__slot, inner_size);
             size
-                += 1u32 + ::buffa::encoding::varint_len(inner_size as u64) as u32
-                    + inner_size;
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
         }
-        size += self.__buffa_unknown_fields.encoded_len() as u32;
-        size
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
     }
     fn write_to(
         &self,
         __cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::bytes::BufMut,
+        buf: &mut impl ::buffa::EncodeSink,
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         for v in &self.permissions {
-            ::buffa::types::put_len_delimited_header(1u32, __cache.consume_next(), buf);
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
             v.write_to(__cache, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
@@ -364,6 +374,9 @@ impl ::buffa::Message for PermissionsResponse {
                     ::buffa::encoding::WireType::LengthDelimited,
                 )?;
                 let mut elem = ::core::default::Default::default();
+                ctx.register_element_memory(
+                    ::buffa::__private::element_footprint(&elem),
+                )?;
                 ::buffa::Message::merge_length_delimited(&mut elem, buf, ctx)?;
                 self.permissions.push(elem);
             }
@@ -450,9 +463,13 @@ pub mod __buffa {
                 let __limit = ::core::cell::Cell::new(
                     ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
                 );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
                 <Self as ::buffa::MessageView>::decode_view_ctx(
                     buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit),
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
                 )
             }
             fn decode_view_with_ctx(
@@ -461,6 +478,7 @@ pub mod __buffa {
             ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
                 <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
             }
+            #[inline]
             fn merge_view_field(
                 &mut self,
                 tag: ::buffa::encoding::Tag,
@@ -533,27 +551,27 @@ pub mod __buffa {
             fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                let mut size = 0u32;
+                let mut size = 0u64;
                 if self.id != 0i64 {
-                    size += 1u32 + ::buffa::types::int64_encoded_len(self.id) as u32;
+                    size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
                 }
                 if !self.name.is_empty() {
-                    size += 1u32 + ::buffa::types::string_encoded_len(&self.name) as u32;
+                    size += 1u64 + ::buffa::types::string_encoded_len(&self.name) as u64;
                 }
                 if !self.description.is_empty() {
                     size
-                        += 1u32
+                        += 1u64
                             + ::buffa::types::string_encoded_len(&self.description)
-                                as u32;
+                                as u64;
                 }
-                size += self.__buffa_unknown_fields.encoded_len() as u32;
-                size
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
             }
             #[allow(clippy::needless_borrow)]
             fn write_to(
                 &self,
                 _cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::bytes::BufMut,
+                buf: &mut impl ::buffa::EncodeSink,
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
@@ -656,7 +674,9 @@ pub mod __buffa {
             ///
             /// # Errors
             ///
-            /// Returns [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
             /// somehow invalid (should not happen for well-formed messages).
             pub fn from_owned(
                 msg: &super::super::Permission,
@@ -672,13 +692,13 @@ pub mod __buffa {
             }
             /// Convert to the owned message type.
             ///
-            /// # Errors
-            ///
-            /// Returns an error if re-materializing preserved unknown fields
-            /// fails (e.g. the unknown-field limit is exceeded).
-            pub fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<super::super::Permission, ::buffa::DecodeError> {
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::Permission {
                 self.0.to_owned_message()
             }
             /// The underlying bytes buffer.
@@ -749,9 +769,13 @@ pub mod __buffa {
                 let __limit = ::core::cell::Cell::new(
                     ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
                 );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
                 <Self as ::buffa::MessageView>::decode_view_ctx(
                     buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit),
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
                 )
             }
             fn decode_view_with_ctx(
@@ -760,6 +784,7 @@ pub mod __buffa {
             ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
                 <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
             }
+            #[inline]
             fn merge_view_field(
                 &mut self,
                 tag: ::buffa::encoding::Tag,
@@ -814,15 +839,15 @@ pub mod __buffa {
             fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                let mut size = 0u32;
-                size += self.__buffa_unknown_fields.encoded_len() as u32;
-                size
+                let mut size = 0u64;
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
             }
             #[allow(clippy::needless_borrow)]
             fn write_to(
                 &self,
                 _cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::bytes::BufMut,
+                buf: &mut impl ::buffa::EncodeSink,
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
@@ -905,7 +930,9 @@ pub mod __buffa {
             ///
             /// # Errors
             ///
-            /// Returns [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
             /// somehow invalid (should not happen for well-formed messages).
             pub fn from_owned(
                 msg: &super::super::PermissionsRequest,
@@ -921,16 +948,13 @@ pub mod __buffa {
             }
             /// Convert to the owned message type.
             ///
-            /// # Errors
-            ///
-            /// Returns an error if re-materializing preserved unknown fields
-            /// fails (e.g. the unknown-field limit is exceeded).
-            pub fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::PermissionsRequest,
-                ::buffa::DecodeError,
-            > {
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::PermissionsRequest {
                 self.0.to_owned_message()
             }
             /// The underlying bytes buffer.
@@ -991,9 +1015,13 @@ pub mod __buffa {
                 let __limit = ::core::cell::Cell::new(
                     ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
                 );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
                 <Self as ::buffa::MessageView>::decode_view_ctx(
                     buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit),
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
                 )
             }
             fn decode_view_with_ctx(
@@ -1002,6 +1030,7 @@ pub mod __buffa {
             ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
                 <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
             }
+            #[inline]
             fn merge_view_field(
                 &mut self,
                 tag: ::buffa::encoding::Tag,
@@ -1021,6 +1050,11 @@ pub mod __buffa {
                         )?;
                         let __sub_ctx = ctx.descend()?;
                         let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        ctx.register_element_memory(
+                            ::core::mem::size_of::<
+                                super::super::__buffa::view::PermissionView,
+                            >(),
+                        )?;
                         view.permissions
                             .push(
                                 <super::super::__buffa::view::PermissionView as ::buffa::MessageView>::decode_view_ctx(
@@ -1076,30 +1110,30 @@ pub mod __buffa {
             fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                let mut size = 0u32;
+                let mut size = 0u64;
                 for v in &self.permissions {
                     let __slot = __cache.reserve();
                     let inner_size = v.compute_size(__cache);
                     __cache.set(__slot, inner_size);
                     size
-                        += 1u32 + ::buffa::encoding::varint_len(inner_size as u64) as u32
-                            + inner_size;
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
                 }
-                size += self.__buffa_unknown_fields.encoded_len() as u32;
-                size
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
             }
             #[allow(clippy::needless_borrow)]
             fn write_to(
                 &self,
                 __cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::bytes::BufMut,
+                buf: &mut impl ::buffa::EncodeSink,
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 for v in &self.permissions {
                     ::buffa::types::put_len_delimited_header(
                         1u32,
-                        __cache.consume_next(),
+                        u64::from(__cache.consume_next()),
                         buf,
                     );
                     v.write_to(__cache, buf);
@@ -1186,7 +1220,9 @@ pub mod __buffa {
             ///
             /// # Errors
             ///
-            /// Returns [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
             /// somehow invalid (should not happen for well-formed messages).
             pub fn from_owned(
                 msg: &super::super::PermissionsResponse,
@@ -1202,16 +1238,13 @@ pub mod __buffa {
             }
             /// Convert to the owned message type.
             ///
-            /// # Errors
-            ///
-            /// Returns an error if re-materializing preserved unknown fields
-            /// fails (e.g. the unknown-field limit is exceeded).
-            pub fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::PermissionsResponse,
-                ::buffa::DecodeError,
-            > {
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::PermissionsResponse {
                 self.0.to_owned_message()
             }
             /// The underlying bytes buffer.

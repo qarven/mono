@@ -2,48 +2,331 @@ syntax = "proto3";
 
 package oryon.identity.v1;
 
+import "buf/validate/validate.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "oryon/identity/v1/mfa.proto";
+import "oryon/identity/v1/session.proto";
+import "oryon/identity/v1/user.proto";
+
 // ========
 // services
 // ========
 
 service AuthenticationService {
-  rpc Login(LoginRequest) returns (LoginResponse) {}
-  rpc Logout(LogoutRequest) returns (LogoutResponse) {}
-  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse) {}
+  rpc Registration(RegistrationRequest) returns (RegistrationResponse);
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc CompleteMfa(CompleteMfaRequest) returns (CompleteMfaResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
+  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (RequestPasswordResetResponse);
+  rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
+  rpc RequestEmailVerification(RequestEmailVerificationRequest) returns (RequestEmailVerificationResponse);
+  rpc VerifyEmail(VerifyEmailRequest) returns (VerifyEmailResponse);
+  rpc RequestMagicLink(RequestMagicLinkRequest) returns (RequestMagicLinkResponse);
+  rpc ConsumeMagicLink(ConsumeMagicLinkRequest) returns (ConsumeMagicLinkResponse);
+  rpc BeginPasskeyRegistration(BeginPasskeyRegistrationRequest) returns (BeginPasskeyRegistrationResponse);
+  rpc FinishPasskeyRegistration(FinishPasskeyRegistrationRequest) returns (FinishPasskeyRegistrationResponse);
+  rpc BeginPasskeyLogin(BeginPasskeyLoginRequest) returns (BeginPasskeyLoginResponse);
+  rpc FinishPasskeyLogin(FinishPasskeyLoginRequest) returns (FinishPasskeyLoginResponse);
 }
 
 // =====
 // enums
 // =====
 
+enum AuthFlowType {
+  AUTH_FLOW_TYPE_UNSPECIFIED = 0;
+  AUTH_FLOW_TYPE_REGISTRATION = 1;
+  AUTH_FLOW_TYPE_LOGIN = 2;
+  AUTH_FLOW_TYPE_RECOVERY = 3;
+  AUTH_FLOW_TYPE_STEP_UP_MFA = 4;
+}
+
+enum AuthFlowState {
+  AUTH_FLOW_STATE_UNSPECIFIED = 0;
+  AUTH_FLOW_STATE_PENDING_IDENTIFIER = 1;
+  AUTH_FLOW_STATE_PENDING_PASSWORD = 2;
+  AUTH_FLOW_STATE_PENDING_MFA = 3;
+  AUTH_FLOW_STATE_PENDING_VERIFICATION = 4;
+  AUTH_FLOW_STATE_COMPLETED = 5;
+  AUTH_FLOW_STATE_FAILED = 6;
+}
+
+enum VerificationPurpose {
+  VERIFICATION_PURPOSE_UNSPECIFIED = 0;
+  VERIFICATION_PURPOSE_EMAIL_VERIFICATION = 1;
+  VERIFICATION_PURPOSE_PHONE_VERIFICATION = 2;
+  VERIFICATION_PURPOSE_PASSWORD_RESET = 3;
+  VERIFICATION_PURPOSE_MFA_VERIFICATION = 4;
+  VERIFICATION_PURPOSE_MAGIC_LINK = 5;
+}
+
 // ======
 // models
 // ======
 
+// Token holds bearer tokens issued after successful authentication.
+// Mirrors sessions.token (SHA-256 hash in DB) + refresh_tokens.token.
 message Token {
-  string access_token = 1;
-  string refresh_token = 2;
+  // Opaque access token (JWT or opaque); client sends as Authorization: Bearer.
+  string access_token = 1 [(buf.validate.field).string.min_len = 1];
+  // Opaque refresh token used to rotate sessions.
+  string refresh_token = 2 [(buf.validate.field).string.min_len = 1];
+  string token_type = 3;
+  // Seconds until access_token expires.
+  int64 expires_in = 4;
+  google.protobuf.Timestamp expires_at = 5;
+}
+
+// AuthFlow maps to `auth_flows` table.
+// Short-lived state machine for multi-step authentication (registration/login/recovery/step-up).
+message AuthFlow {
+  int64 id = 1;
+  // Nullable initially for registration flows (no user yet).
+  optional int64 user_id = 2;
+  AuthFlowType flow_type = 3;
+  AuthFlowState flow_state = 4;
+  optional string ip_address = 5 [(buf.validate.field).string.ip = true];
+  optional string user_agent = 6;
+  // Context stores redirect URLs, requested scopes, selected MFA methods etc.
+  google.protobuf.Struct context = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp expires_at = 9;
+  optional google.protobuf.Timestamp completed_at = 10;
+}
+
+// VerificationChallenge maps to `verification_challenges` table.
+// code is stored as SHA-256 hash (BYTEA) and never returned; only verification_id is exposed.
+message VerificationChallenge {
+  int64 id = 1;
+  optional int64 user_id = 2;
+  optional int64 flow_id = 3;
+  string identifier = 4;
+  VerificationPurpose purpose = 5;
+  int32 attempts = 6;
+  int32 max_attempts = 7;
+  optional string ip_address = 8 [(buf.validate.field).string.ip = true];
+  google.protobuf.Timestamp expires_at = 9;
+  optional google.protobuf.Timestamp consumed_at = 10;
+  google.protobuf.Timestamp created_at = 11;
+}
+
+// SecurityEvent maps to `security_events` table for audit logging.
+message SecurityEvent {
+  int64 id = 1;
+  optional int64 user_id = 2;
+  string event_type = 3 [(buf.validate.field).string.min_len = 1];
+  optional string ip_address = 4 [(buf.validate.field).string.ip = true];
+  optional string user_agent = 5;
+  google.protobuf.Struct metadata = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+// ==============
+// rpc messages
+// ==============
+
+message RegistrationRequest {
+  string email = 1 [(buf.validate.field).string.email = true];
+  string password = 2 [
+    (buf.validate.field).string.min_len = 8,
+    (buf.validate.field).string.max_len = 128
+  ];
+  string name = 3 [(buf.validate.field).string.min_len = 1];
+  optional string phone = 4 [(buf.validate.field).string.pattern = "^\\+[1-9]\\d{1,14}$"];
+  optional string avatar_url = 5 [(buf.validate.field).string.uri = true];
+}
+
+message RegistrationResponse {
+  // Created user (always returned even if verification pending).
+  User user = 1;
+  // Associated flow; present when verification or additional steps are required.
+  // flow_state will be PENDING_VERIFICATION for email verification required.
+  optional AuthFlow flow = 2;
+  // Present only if registration completed without pending verification/MFA.
+  optional Token token = 3;
+  // True when email verification is required before login.
+  bool verification_required = 4;
+  // Convenience alias for flow.id as string when flow present.
+  optional string flow_id = 5;
+  optional Session session = 6;
 }
 
 message LoginRequest {
-  string email = 1;
-  string password = 2;
+  // Email, phone (+E.164), or username identifier.
+  string identifier = 1 [(buf.validate.field).string.min_len = 1];
+  // Password not required when initiating passkey/magic-link via flow,
+  // but required for password-based login.
+  optional string password = 2 [(buf.validate.field).string.min_len = 1];
+  // Optional pre-created flow_id to resume a multi-step flow.
+  optional string flow_id = 3;
 }
 
 message LoginResponse {
+  // Present when authentication completes immediately (no MFA/verification).
+  optional Token token = 1;
+  optional Session session = 2;
+  optional User user = 3;
+  // Present when additional step is required (MFA, verification, etc.).
+  optional AuthFlow flow = 4;
+  bool mfa_required = 5;
+  repeated MfaFactorType available_mfa_methods = 6;
+  // Human-readable next step hint: "mfa", "verification", "completed".
+  string next_step = 7;
+}
+
+message CompleteMfaRequest {
+  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
+  // OTP code, TOTP, backup code, or SMS code depending on selected factor.
+  string code = 2 [(buf.validate.field).string.min_len = 1];
+  MfaFactorType factor_type = 3;
+  // Optional factor_id when user has multiple factors of same type.
+  optional int64 factor_id = 4;
+}
+
+message CompleteMfaResponse {
   Token token = 1;
+  Session session = 2;
+  User user = 3;
 }
-
-message LogoutRequest {
-  string refresh_token = 1;
-}
-
-message LogoutResponse {}
 
 message RefreshTokenRequest {
-  string refresh_token = 1;
+  string refresh_token = 1 [(buf.validate.field).string.min_len = 1];
 }
 
 message RefreshTokenResponse {
   Token token = 1;
+  Session session = 2;
+}
+
+message ChangePasswordRequest {
+  string current_password = 1 [(buf.validate.field).string.min_len = 1];
+  string new_password = 2 [
+    (buf.validate.field).string.min_len = 8,
+    (buf.validate.field).string.max_len = 128
+  ];
+}
+
+message ChangePasswordResponse {}
+
+message RequestPasswordResetRequest {
+  string email = 1 [(buf.validate.field).string.email = true];
+}
+
+message RequestPasswordResetResponse {
+  // Always empty to avoid account enumeration; challenge created if email exists.
+  // Identifier for polling/debugging (only returned in dev mode or via email link).
+  optional string verification_id = 1;
+}
+
+message ConfirmPasswordResetRequest {
+  // verification_id or raw token from reset email / challenge.
+  string token = 1 [(buf.validate.field).string.min_len = 1];
+  // Alternatively code + verification_id may be used for OTP flows.
+  optional string code = 2;
+  string new_password = 3 [
+    (buf.validate.field).string.min_len = 8,
+    (buf.validate.field).string.max_len = 128
+  ];
+}
+
+message ConfirmPasswordResetResponse {
+  // Optionally auto-login after reset; token present if configured to do so.
+  optional Token token = 1;
+}
+
+message RequestEmailVerificationRequest {
+  // If empty, uses primary email of current user (authenticated).
+  optional string email = 1 [(buf.validate.field).string.email = true];
+  optional int64 email_id = 2;
+}
+
+message RequestEmailVerificationResponse {
+  VerificationChallenge challenge = 1;
+}
+
+message VerifyEmailRequest {
+  // token from magic link or code from OTP.
+  string token = 1 [(buf.validate.field).string.min_len = 1];
+  optional string code = 2;
+  optional string verification_id = 3;
+  optional string email = 4 [(buf.validate.field).string.email = true];
+}
+
+message VerifyEmailResponse {
+  UserEmail email = 1;
+  bool verified = 2;
+}
+
+message RequestMagicLinkRequest {
+  string email = 1 [(buf.validate.field).string.email = true];
+  // Optional redirect after consumption.
+  optional string redirect_url = 2 [(buf.validate.field).string.uri = true];
+}
+
+message RequestMagicLinkResponse {
+  // Challenge metadata; actual link sent via email.
+  optional VerificationChallenge challenge = 1;
+}
+
+message ConsumeMagicLinkRequest {
+  // Token extracted from magic link URL query param.
+  string token = 1 [(buf.validate.field).string.min_len = 1];
+}
+
+message ConsumeMagicLinkResponse {
+  Token token = 1;
+  Session session = 2;
+  User user = 3;
+}
+
+message BeginPasskeyRegistrationRequest {
+  // Friendly name for the passkey, e.g., "MacBook Touch ID".
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  // Optional flow_id for step-up flows.
+  optional string flow_id = 2;
+}
+
+message BeginPasskeyRegistrationResponse {
+  // JSON-serialized PublicKeyCredentialCreationOptions (to pass to navigator.credentials.create).
+  string creation_options_json = 1 [(buf.validate.field).string.min_len = 1];
+  // Flow/flow_id to complete registration; maps to auth_flows or passkey creation session.
+  string flow_id = 2;
+  AuthFlow flow = 3;
+}
+
+message FinishPasskeyRegistrationRequest {
+  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
+  // JSON-serialized AuthenticatorAttestationResponse from WebAuthn.
+  string attestation_response_json = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message FinishPasskeyRegistrationResponse {
+  Passkey passkey = 1;
+}
+
+message BeginPasskeyLoginRequest {
+  // Optional email hint; when omitted uses discoverable (resident) credentials.
+  optional string email = 1 [(buf.validate.field).string.email = true];
+  optional string flow_id = 2;
+}
+
+message BeginPasskeyLoginResponse {
+  // JSON-serialized PublicKeyCredentialRequestOptions.
+  string request_options_json = 1 [(buf.validate.field).string.min_len = 1];
+  string flow_id = 2;
+  AuthFlow flow = 3;
+}
+
+message FinishPasskeyLoginRequest {
+  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
+  // JSON-serialized AuthenticatorAssertionResponse.
+  string assertion_response_json = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message FinishPasskeyLoginResponse {
+  Token token = 1;
+  Session session = 2;
+  User user = 3;
 }

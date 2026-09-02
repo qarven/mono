@@ -19,14 +19,24 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	UserService_Users_FullMethodName = "/oryon.identity.v1.UserService/Users"
+	UserService_GetCurrentUser_FullMethodName    = "/oryon.identity.v1.UserService/GetCurrentUser"
+	UserService_UpdateCurrentUser_FullMethodName = "/oryon.identity.v1.UserService/UpdateCurrentUser"
+	UserService_ListEmails_FullMethodName        = "/oryon.identity.v1.UserService/ListEmails"
+	UserService_AddEmail_FullMethodName          = "/oryon.identity.v1.UserService/AddEmail"
+	UserService_RemoveEmail_FullMethodName       = "/oryon.identity.v1.UserService/RemoveEmail"
+	UserService_SetPrimaryEmail_FullMethodName   = "/oryon.identity.v1.UserService/SetPrimaryEmail"
 )
 
 // UserServiceClient is the client API for UserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	Users(ctx context.Context, in *UsersRequest, opts ...grpc.CallOption) (*UsersResponse, error)
+	GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserResponse, error)
+	UpdateCurrentUser(ctx context.Context, in *UpdateCurrentUserRequest, opts ...grpc.CallOption) (*UpdateCurrentUserResponse, error)
+	ListEmails(ctx context.Context, in *ListEmailsRequest, opts ...grpc.CallOption) (*ListEmailsResponse, error)
+	AddEmail(ctx context.Context, in *AddEmailRequest, opts ...grpc.CallOption) (*AddEmailResponse, error)
+	RemoveEmail(ctx context.Context, in *RemoveEmailRequest, opts ...grpc.CallOption) (*RemoveEmailResponse, error)
+	SetPrimaryEmail(ctx context.Context, in *SetPrimaryEmailRequest, opts ...grpc.CallOption) (*SetPrimaryEmailResponse, error)
 }
 
 type userServiceClient struct {
@@ -37,10 +47,60 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) Users(ctx context.Context, in *UsersRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
+func (c *userServiceClient) GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UsersResponse)
-	err := c.cc.Invoke(ctx, UserService_Users_FullMethodName, in, out, cOpts...)
+	out := new(GetCurrentUserResponse)
+	err := c.cc.Invoke(ctx, UserService_GetCurrentUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UpdateCurrentUser(ctx context.Context, in *UpdateCurrentUserRequest, opts ...grpc.CallOption) (*UpdateCurrentUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateCurrentUserResponse)
+	err := c.cc.Invoke(ctx, UserService_UpdateCurrentUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) ListEmails(ctx context.Context, in *ListEmailsRequest, opts ...grpc.CallOption) (*ListEmailsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListEmailsResponse)
+	err := c.cc.Invoke(ctx, UserService_ListEmails_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) AddEmail(ctx context.Context, in *AddEmailRequest, opts ...grpc.CallOption) (*AddEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_AddEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) RemoveEmail(ctx context.Context, in *RemoveEmailRequest, opts ...grpc.CallOption) (*RemoveEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(RemoveEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_RemoveEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) SetPrimaryEmail(ctx context.Context, in *SetPrimaryEmailRequest, opts ...grpc.CallOption) (*SetPrimaryEmailResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SetPrimaryEmailResponse)
+	err := c.cc.Invoke(ctx, UserService_SetPrimaryEmail_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +111,12 @@ func (c *userServiceClient) Users(ctx context.Context, in *UsersRequest, opts ..
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility.
 type UserServiceServer interface {
-	Users(context.Context, *UsersRequest) (*UsersResponse, error)
+	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error)
+	UpdateCurrentUser(context.Context, *UpdateCurrentUserRequest) (*UpdateCurrentUserResponse, error)
+	ListEmails(context.Context, *ListEmailsRequest) (*ListEmailsResponse, error)
+	AddEmail(context.Context, *AddEmailRequest) (*AddEmailResponse, error)
+	RemoveEmail(context.Context, *RemoveEmailRequest) (*RemoveEmailResponse, error)
+	SetPrimaryEmail(context.Context, *SetPrimaryEmailRequest) (*SetPrimaryEmailResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -62,8 +127,23 @@ type UserServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUserServiceServer struct{}
 
-func (UnimplementedUserServiceServer) Users(context.Context, *UsersRequest) (*UsersResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method Users not implemented")
+func (UnimplementedUserServiceServer) GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetCurrentUser not implemented")
+}
+func (UnimplementedUserServiceServer) UpdateCurrentUser(context.Context, *UpdateCurrentUserRequest) (*UpdateCurrentUserResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method UpdateCurrentUser not implemented")
+}
+func (UnimplementedUserServiceServer) ListEmails(context.Context, *ListEmailsRequest) (*ListEmailsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListEmails not implemented")
+}
+func (UnimplementedUserServiceServer) AddEmail(context.Context, *AddEmailRequest) (*AddEmailResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method AddEmail not implemented")
+}
+func (UnimplementedUserServiceServer) RemoveEmail(context.Context, *RemoveEmailRequest) (*RemoveEmailResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method RemoveEmail not implemented")
+}
+func (UnimplementedUserServiceServer) SetPrimaryEmail(context.Context, *SetPrimaryEmailRequest) (*SetPrimaryEmailResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method SetPrimaryEmail not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 func (UnimplementedUserServiceServer) testEmbeddedByValue()                     {}
@@ -86,20 +166,110 @@ func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
 	s.RegisterService(&UserService_ServiceDesc, srv)
 }
 
-func _UserService_Users_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UsersRequest)
+func _UserService_GetCurrentUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCurrentUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).Users(ctx, in)
+		return srv.(UserServiceServer).GetCurrentUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_Users_FullMethodName,
+		FullMethod: UserService_GetCurrentUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).Users(ctx, req.(*UsersRequest))
+		return srv.(UserServiceServer).GetCurrentUser(ctx, req.(*GetCurrentUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UpdateCurrentUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateCurrentUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UpdateCurrentUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UpdateCurrentUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UpdateCurrentUser(ctx, req.(*UpdateCurrentUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_ListEmails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListEmailsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ListEmails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_ListEmails_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ListEmails(ctx, req.(*ListEmailsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_AddEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).AddEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_AddEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).AddEmail(ctx, req.(*AddEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_RemoveEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RemoveEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_RemoveEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RemoveEmail(ctx, req.(*RemoveEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_SetPrimaryEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetPrimaryEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).SetPrimaryEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_SetPrimaryEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).SetPrimaryEmail(ctx, req.(*SetPrimaryEmailRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +282,28 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Users",
-			Handler:    _UserService_Users_Handler,
+			MethodName: "GetCurrentUser",
+			Handler:    _UserService_GetCurrentUser_Handler,
+		},
+		{
+			MethodName: "UpdateCurrentUser",
+			Handler:    _UserService_UpdateCurrentUser_Handler,
+		},
+		{
+			MethodName: "ListEmails",
+			Handler:    _UserService_ListEmails_Handler,
+		},
+		{
+			MethodName: "AddEmail",
+			Handler:    _UserService_AddEmail_Handler,
+		},
+		{
+			MethodName: "RemoveEmail",
+			Handler:    _UserService_RemoveEmail_Handler,
+		},
+		{
+			MethodName: "SetPrimaryEmail",
+			Handler:    _UserService_SetPrimaryEmail_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
