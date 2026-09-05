@@ -10003,7 +10003,6 @@ pub enum VerificationPurpose {
     VERIFICATION_PURPOSE_PHONE_VERIFICATION = 2i32,
     VERIFICATION_PURPOSE_PASSWORD_RESET = 3i32,
     VERIFICATION_PURPOSE_MFA_VERIFICATION = 4i32,
-    VERIFICATION_PURPOSE_MAGIC_LINK = 5i32,
 }
 impl VerificationPurpose {
     ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_UNSPECIFIED`]; `Debug` prints the variant name.
@@ -10021,9 +10020,6 @@ impl VerificationPurpose {
     ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_MFA_VERIFICATION`]; `Debug` prints the variant name.
     #[allow(non_upper_case_globals)]
     pub const MfaVerification: Self = Self::VERIFICATION_PURPOSE_MFA_VERIFICATION;
-    ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_MAGIC_LINK`]; `Debug` prints the variant name.
-    #[allow(non_upper_case_globals)]
-    pub const MagicLink: Self = Self::VERIFICATION_PURPOSE_MAGIC_LINK;
 }
 impl ::core::default::Default for VerificationPurpose {
     fn default() -> Self {
@@ -10139,7 +10135,6 @@ impl ::buffa::Enumeration for VerificationPurpose {
             4i32 => {
                 ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MFA_VERIFICATION)
             }
-            5i32 => ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MAGIC_LINK),
             _ => ::core::option::Option::None,
         }
     }
@@ -10161,7 +10156,6 @@ impl ::buffa::Enumeration for VerificationPurpose {
             Self::VERIFICATION_PURPOSE_MFA_VERIFICATION => {
                 "VERIFICATION_PURPOSE_MFA_VERIFICATION"
             }
-            Self::VERIFICATION_PURPOSE_MAGIC_LINK => "VERIFICATION_PURPOSE_MAGIC_LINK",
         }
     }
     fn from_proto_name(name: &str) -> ::core::option::Option<Self> {
@@ -10185,9 +10179,6 @@ impl ::buffa::Enumeration for VerificationPurpose {
             "VERIFICATION_PURPOSE_MFA_VERIFICATION" => {
                 ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MFA_VERIFICATION)
             }
-            "VERIFICATION_PURPOSE_MAGIC_LINK" => {
-                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MAGIC_LINK)
-            }
             _ => ::core::option::Option::None,
         }
     }
@@ -10198,16 +10189,12 @@ impl ::buffa::Enumeration for VerificationPurpose {
             Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION,
             Self::VERIFICATION_PURPOSE_PASSWORD_RESET,
             Self::VERIFICATION_PURPOSE_MFA_VERIFICATION,
-            Self::VERIFICATION_PURPOSE_MAGIC_LINK,
         ]
     }
 }
 /// ======
 /// models
 /// ======
-///
-/// Token holds bearer tokens issued after successful authentication.
-/// Mirrors sessions.token (SHA-256 hash in DB) + refresh_tokens.token.
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
@@ -10450,8 +10437,6 @@ pub const __TOKEN_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type
     from_json: ::buffa::type_registry::any_from_json::<Token>,
     is_wkt: false,
 };
-/// AuthFlow maps to `auth_flows` table.
-/// Short-lived state machine for multi-step authentication (registration/login/recovery/step-up).
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
@@ -10463,17 +10448,7 @@ pub struct AuthFlow {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
     )]
     pub id: i64,
-    /// Nullable initially for registration flows (no user yet).
-    ///
-    /// Field 2: `user_id`
-    #[serde(
-        rename = "userId",
-        alias = "user_id",
-        with = "::buffa::json_helpers::opt_int64",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub user_id: ::core::option::Option<i64>,
-    /// Field 3: `flow_type`
+    /// Field 2: `flow_type`
     #[serde(
         rename = "flowType",
         alias = "flow_type",
@@ -10481,7 +10456,7 @@ pub struct AuthFlow {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_default_enum_value"
     )]
     pub flow_type: ::buffa::EnumValue<AuthFlowType>,
-    /// Field 4: `flow_state`
+    /// Field 3: `flow_state`
     #[serde(
         rename = "flowState",
         alias = "flow_state",
@@ -10489,58 +10464,13 @@ pub struct AuthFlow {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_default_enum_value"
     )]
     pub flow_state: ::buffa::EnumValue<AuthFlowState>,
-    /// Field 5: `ip_address`
-    #[serde(
-        rename = "ipAddress",
-        alias = "ip_address",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub ip_address: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Field 6: `user_agent`
-    #[serde(
-        rename = "userAgent",
-        alias = "user_agent",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub user_agent: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Context stores redirect URLs, requested scopes, selected MFA methods etc.
-    ///
-    /// Field 7: `context`
-    #[serde(
-        rename = "context",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub context: ::buffa::MessageField<
-        ::buffa_types::google::protobuf::Struct,
-        ::buffa::Inline<::buffa_types::google::protobuf::Struct>,
-    >,
-    /// Field 8: `created_at`
-    #[serde(
-        rename = "createdAt",
-        alias = "created_at",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub created_at: ::buffa::MessageField<
-        ::buffa_types::google::protobuf::Timestamp,
-        ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-    >,
-    /// Field 9: `expires_at`
+    /// Field 4: `expires_at`
     #[serde(
         rename = "expiresAt",
         alias = "expires_at",
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
     )]
     pub expires_at: ::buffa::MessageField<
-        ::buffa_types::google::protobuf::Timestamp,
-        ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-    >,
-    /// Field 10: `completed_at`
-    #[serde(
-        rename = "completedAt",
-        alias = "completed_at",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub completed_at: ::buffa::MessageField<
         ::buffa_types::google::protobuf::Timestamp,
         ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
     >,
@@ -10552,15 +10482,9 @@ impl ::core::fmt::Debug for AuthFlow {
     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
         f.debug_struct("AuthFlow")
             .field("id", &self.id)
-            .field("user_id", &self.user_id)
             .field("flow_type", &self.flow_type)
             .field("flow_state", &self.flow_state)
-            .field("ip_address", &self.ip_address)
-            .field("user_agent", &self.user_agent)
-            .field("context", &self.context)
-            .field("created_at", &self.created_at)
             .field("expires_at", &self.expires_at)
-            .field("completed_at", &self.completed_at)
             .finish()
     }
 }
@@ -10570,35 +10494,6 @@ impl AuthFlow {
     ///
     /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
     pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.AuthFlow";
-}
-impl AuthFlow {
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::user_id`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_user_id(mut self, value: i64) -> Self {
-        self.user_id = Some(value);
-        self
-    }
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::ip_address`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_ip_address(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.ip_address = Some(value.into());
-        self
-    }
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::user_agent`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_user_agent(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.user_agent = Some(value.into());
-        self
-    }
 }
 ::buffa::impl_default_instance!(AuthFlow);
 impl ::buffa::MessageName for AuthFlow {
@@ -10623,9 +10518,6 @@ impl ::buffa::Message for AuthFlow {
         if self.id != 0i64 {
             size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
         }
-        if let Some(v) = self.user_id {
-            size += 1u64 + ::buffa::types::int64_encoded_len(v) as u64;
-        }
         {
             let val = self.flow_type.to_i32();
             if val != 0 {
@@ -10638,39 +10530,9 @@ impl ::buffa::Message for AuthFlow {
                 size += 1u64 + ::buffa::types::int32_encoded_len(val) as u64;
             }
         }
-        if let Some(ref v) = self.ip_address {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if let Some(ref v) = self.user_agent {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if self.context.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.context.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.created_at.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.created_at.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
         if self.expires_at.is_set() {
             let __slot = __cache.reserve();
             let inner_size = self.expires_at.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.completed_at.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.completed_at.compute_size(__cache);
             __cache.set(__slot, inner_size);
             size
                 += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
@@ -10689,58 +10551,25 @@ impl ::buffa::Message for AuthFlow {
         if self.id != 0i64 {
             ::buffa::types::put_int64_field(1u32, self.id, buf);
         }
-        if let Some(v) = self.user_id {
-            ::buffa::types::put_int64_field(2u32, v, buf);
-        }
         {
             let val = self.flow_type.to_i32();
             if val != 0 {
-                ::buffa::types::put_int32_field(3u32, val, buf);
+                ::buffa::types::put_int32_field(2u32, val, buf);
             }
         }
         {
             let val = self.flow_state.to_i32();
             if val != 0 {
-                ::buffa::types::put_int32_field(4u32, val, buf);
+                ::buffa::types::put_int32_field(3u32, val, buf);
             }
-        }
-        if let Some(ref v) = self.ip_address {
-            ::buffa::types::put_string_field(5u32, v, buf);
-        }
-        if let Some(ref v) = self.user_agent {
-            ::buffa::types::put_string_field(6u32, v, buf);
-        }
-        if self.context.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                7u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.context.write_to(__cache, buf);
-        }
-        if self.created_at.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                8u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.created_at.write_to(__cache, buf);
         }
         if self.expires_at.is_set() {
             ::buffa::types::put_len_delimited_header(
-                9u32,
+                4u32,
                 u64::from(__cache.consume_next()),
                 buf,
             );
             self.expires_at.write_to(__cache, buf);
-        }
-        if self.completed_at.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                10u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.completed_at.write_to(__cache, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -10767,20 +10596,11 @@ impl ::buffa::Message for AuthFlow {
                     tag,
                     ::buffa::encoding::WireType::Varint,
                 )?;
-                self.user_id = ::core::option::Option::Some(
-                    ::buffa::types::decode_int64(buf)?,
-                );
-            }
-            3u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::Varint,
-                )?;
                 self.flow_type = ::buffa::EnumValue::from(
                     ::buffa::types::decode_int32(buf)?,
                 );
             }
-            4u32 => {
+            3u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
                     ::buffa::encoding::WireType::Varint,
@@ -10789,70 +10609,13 @@ impl ::buffa::Message for AuthFlow {
                     ::buffa::types::decode_int32(buf)?,
                 );
             }
-            5u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .ip_address
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            6u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .user_agent
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            7u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.context.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            8u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.created_at.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            9u32 => {
+            4u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
                     ::buffa::encoding::WireType::LengthDelimited,
                 )?;
                 ::buffa::Message::merge_length_delimited(
                     self.expires_at.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            10u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.completed_at.get_or_insert_default(),
                     buf,
                     ctx,
                 )?;
@@ -10866,15 +10629,9 @@ impl ::buffa::Message for AuthFlow {
     }
     fn clear(&mut self) {
         self.id = 0i64;
-        self.user_id = ::core::option::Option::None;
         self.flow_type = ::buffa::EnumValue::from(0);
         self.flow_state = ::buffa::EnumValue::from(0);
-        self.ip_address = ::core::option::Option::None;
-        self.user_agent = ::core::option::Option::None;
-        self.context = ::buffa::MessageField::none();
-        self.created_at = ::buffa::MessageField::none();
         self.expires_at = ::buffa::MessageField::none();
-        self.completed_at = ::buffa::MessageField::none();
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -10907,8 +10664,6 @@ pub const __AUTH_FLOW_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::
     from_json: ::buffa::type_registry::any_from_json::<AuthFlow>,
     is_wkt: false,
 };
-/// VerificationChallenge maps to `verification_challenges` table.
-/// code is stored as SHA-256 hash (BYTEA) and never returned; only verification_id is exposed.
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
@@ -11352,341 +11107,6 @@ pub const __VERIFICATION_CHALLENGE_JSON_ANY: ::buffa::type_registry::JsonAnyEntr
     from_json: ::buffa::type_registry::any_from_json::<VerificationChallenge>,
     is_wkt: false,
 };
-/// SecurityEvent maps to `security_events` table for audit logging.
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct SecurityEvent {
-    /// Field 1: `id`
-    #[serde(
-        rename = "id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
-    )]
-    pub id: i64,
-    /// Field 2: `user_id`
-    #[serde(
-        rename = "userId",
-        alias = "user_id",
-        with = "::buffa::json_helpers::opt_int64",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub user_id: ::core::option::Option<i64>,
-    /// Field 3: `event_type`
-    #[serde(
-        rename = "eventType",
-        alias = "event_type",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub event_type: ::buffa::alloc::string::String,
-    /// Field 4: `ip_address`
-    #[serde(
-        rename = "ipAddress",
-        alias = "ip_address",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub ip_address: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Field 5: `user_agent`
-    #[serde(
-        rename = "userAgent",
-        alias = "user_agent",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub user_agent: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Field 6: `metadata`
-    #[serde(
-        rename = "metadata",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub metadata: ::buffa::MessageField<
-        ::buffa_types::google::protobuf::Struct,
-        ::buffa::Inline<::buffa_types::google::protobuf::Struct>,
-    >,
-    /// Field 7: `created_at`
-    #[serde(
-        rename = "createdAt",
-        alias = "created_at",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub created_at: ::buffa::MessageField<
-        ::buffa_types::google::protobuf::Timestamp,
-        ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-    >,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for SecurityEvent {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("SecurityEvent")
-            .field("id", &self.id)
-            .field("user_id", &self.user_id)
-            .field("event_type", &self.event_type)
-            .field("ip_address", &self.ip_address)
-            .field("user_agent", &self.user_agent)
-            .field("metadata", &self.metadata)
-            .field("created_at", &self.created_at)
-            .finish()
-    }
-}
-impl SecurityEvent {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.SecurityEvent";
-}
-impl SecurityEvent {
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::user_id`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_user_id(mut self, value: i64) -> Self {
-        self.user_id = Some(value);
-        self
-    }
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::ip_address`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_ip_address(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.ip_address = Some(value.into());
-        self
-    }
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::user_agent`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_user_agent(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.user_agent = Some(value.into());
-        self
-    }
-}
-::buffa::impl_default_instance!(SecurityEvent);
-impl ::buffa::MessageName for SecurityEvent {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "SecurityEvent";
-    const FULL_NAME: &'static str = "oryon.identity.v1.SecurityEvent";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.SecurityEvent";
-}
-impl ::buffa::Message for SecurityEvent {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if self.id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
-        }
-        if let Some(v) = self.user_id {
-            size += 1u64 + ::buffa::types::int64_encoded_len(v) as u64;
-        }
-        if !self.event_type.is_empty() {
-            size += 1u64 + ::buffa::types::string_encoded_len(&self.event_type) as u64;
-        }
-        if let Some(ref v) = self.ip_address {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if let Some(ref v) = self.user_agent {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if self.metadata.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.metadata.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.created_at.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.created_at.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        __cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if self.id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.id, buf);
-        }
-        if let Some(v) = self.user_id {
-            ::buffa::types::put_int64_field(2u32, v, buf);
-        }
-        if !self.event_type.is_empty() {
-            ::buffa::types::put_string_field(3u32, &self.event_type, buf);
-        }
-        if let Some(ref v) = self.ip_address {
-            ::buffa::types::put_string_field(4u32, v, buf);
-        }
-        if let Some(ref v) = self.user_agent {
-            ::buffa::types::put_string_field(5u32, v, buf);
-        }
-        if self.metadata.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                6u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.metadata.write_to(__cache, buf);
-        }
-        if self.created_at.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                7u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.created_at.write_to(__cache, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::Varint,
-                )?;
-                self.id = ::buffa::types::decode_int64(buf)?;
-            }
-            2u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::Varint,
-                )?;
-                self.user_id = ::core::option::Option::Some(
-                    ::buffa::types::decode_int64(buf)?,
-                );
-            }
-            3u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(&mut self.event_type, buf)?;
-            }
-            4u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .ip_address
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            5u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .user_agent
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            6u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.metadata.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            7u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.created_at.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.id = 0i64;
-        self.user_id = ::core::option::Option::None;
-        self.event_type.clear();
-        self.ip_address = ::core::option::Option::None;
-        self.user_agent = ::core::option::Option::None;
-        self.metadata = ::buffa::MessageField::none();
-        self.created_at = ::buffa::MessageField::none();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for SecurityEvent {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.SecurityEvent";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for SecurityEvent {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __SECURITY_EVENT_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.SecurityEvent",
-    to_json: ::buffa::type_registry::any_to_json::<SecurityEvent>,
-    from_json: ::buffa::type_registry::any_from_json::<SecurityEvent>,
-    is_wkt: false,
-};
 /// ==============
 /// rpc messages
 /// ==============
@@ -11695,12 +11115,8 @@ pub const __SECURITY_EVENT_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::bu
 #[serde(default)]
 pub struct RegistrationRequest {
     /// Field 1: `email`
-    #[serde(
-        rename = "email",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub email: ::buffa::alloc::string::String,
+    #[serde(rename = "email", skip_serializing_if = "::core::option::Option::is_none")]
+    pub email: ::core::option::Option<::buffa::alloc::string::String>,
     /// Field 2: `password`
     #[serde(
         rename = "password",
@@ -11718,13 +11134,6 @@ pub struct RegistrationRequest {
     /// Field 4: `phone`
     #[serde(rename = "phone", skip_serializing_if = "::core::option::Option::is_none")]
     pub phone: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Field 5: `avatar_url`
-    #[serde(
-        rename = "avatarUrl",
-        alias = "avatar_url",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub avatar_url: ::core::option::Option<::buffa::alloc::string::String>,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
@@ -11736,7 +11145,6 @@ impl ::core::fmt::Debug for RegistrationRequest {
             .field("password", &self.password)
             .field("name", &self.name)
             .field("phone", &self.phone)
-            .field("avatar_url", &self.avatar_url)
             .finish()
     }
 }
@@ -11750,22 +11158,22 @@ impl RegistrationRequest {
 impl RegistrationRequest {
     #[must_use = "with_* setters return `self` by value; assign or chain the result"]
     #[inline]
+    ///Sets [`Self::email`] to `Some(value)`, consuming and returning `self`.
+    pub fn with_email(
+        mut self,
+        value: impl Into<::buffa::alloc::string::String>,
+    ) -> Self {
+        self.email = Some(value.into());
+        self
+    }
+    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
+    #[inline]
     ///Sets [`Self::phone`] to `Some(value)`, consuming and returning `self`.
     pub fn with_phone(
         mut self,
         value: impl Into<::buffa::alloc::string::String>,
     ) -> Self {
         self.phone = Some(value.into());
-        self
-    }
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::avatar_url`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_avatar_url(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.avatar_url = Some(value.into());
         self
     }
 }
@@ -11789,8 +11197,8 @@ impl ::buffa::Message for RegistrationRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if !self.email.is_empty() {
-            size += 1u64 + ::buffa::types::string_encoded_len(&self.email) as u64;
+        if let Some(ref v) = self.email {
+            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
         }
         if !self.password.is_empty() {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.password) as u64;
@@ -11799,9 +11207,6 @@ impl ::buffa::Message for RegistrationRequest {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.name) as u64;
         }
         if let Some(ref v) = self.phone {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if let Some(ref v) = self.avatar_url {
             size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
         }
         size += self.__buffa_unknown_fields.encoded_len() as u64;
@@ -11814,8 +11219,8 @@ impl ::buffa::Message for RegistrationRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if !self.email.is_empty() {
-            ::buffa::types::put_string_field(1u32, &self.email, buf);
+        if let Some(ref v) = self.email {
+            ::buffa::types::put_string_field(1u32, v, buf);
         }
         if !self.password.is_empty() {
             ::buffa::types::put_string_field(2u32, &self.password, buf);
@@ -11825,9 +11230,6 @@ impl ::buffa::Message for RegistrationRequest {
         }
         if let Some(ref v) = self.phone {
             ::buffa::types::put_string_field(4u32, v, buf);
-        }
-        if let Some(ref v) = self.avatar_url {
-            ::buffa::types::put_string_field(5u32, v, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -11847,7 +11249,10 @@ impl ::buffa::Message for RegistrationRequest {
                     tag,
                     ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                ::buffa::types::merge_string(&mut self.email, buf)?;
+                ::buffa::types::merge_string(
+                    self.email.get_or_insert_with(::buffa::alloc::string::String::new),
+                    buf,
+                )?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -11873,18 +11278,6 @@ impl ::buffa::Message for RegistrationRequest {
                     buf,
                 )?;
             }
-            5u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .avatar_url
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
             _ => {
                 self.__buffa_unknown_fields
                     .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
@@ -11893,11 +11286,10 @@ impl ::buffa::Message for RegistrationRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.email.clear();
+        self.email = ::core::option::Option::None;
         self.password.clear();
         self.name.clear();
         self.phone = ::core::option::Option::None;
-        self.avatar_url = ::core::option::Option::None;
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -11934,34 +11326,13 @@ pub const __REGISTRATION_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry 
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
 pub struct RegistrationResponse {
-    /// Created user (always returned even if verification pending).
-    ///
     /// Field 1: `user`
     #[serde(
         rename = "user",
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
     )]
     pub user: ::buffa::MessageField<User, ::buffa::Inline<User>>,
-    /// Associated flow; present when verification or additional steps are required.
-    /// flow_state will be PENDING_VERIFICATION for email verification required.
-    ///
-    /// Field 2: `flow`
-    #[serde(
-        rename = "flow",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub flow: ::buffa::MessageField<AuthFlow, ::buffa::Inline<AuthFlow>>,
-    /// Present only if registration completed without pending verification/MFA.
-    ///
-    /// Field 3: `token`
-    #[serde(
-        rename = "token",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub token: ::buffa::MessageField<Token, ::buffa::Inline<Token>>,
-    /// True when email verification is required before login.
-    ///
-    /// Field 4: `verification_required`
+    /// Field 2: `verification_required`
     #[serde(
         rename = "verificationRequired",
         alias = "verification_required",
@@ -11969,21 +11340,12 @@ pub struct RegistrationResponse {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_false"
     )]
     pub verification_required: bool,
-    /// Convenience alias for flow.id as string when flow present.
-    ///
-    /// Field 5: `flow_id`
+    /// Field 3: `flow`
     #[serde(
-        rename = "flowId",
-        alias = "flow_id",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub flow_id: ::core::option::Option<::buffa::alloc::string::String>,
-    /// Field 6: `session`
-    #[serde(
-        rename = "session",
+        rename = "flow",
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
     )]
-    pub session: ::buffa::MessageField<Session, ::buffa::Inline<Session>>,
+    pub flow: ::buffa::MessageField<AuthFlow, ::buffa::Inline<AuthFlow>>,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
@@ -11992,11 +11354,8 @@ impl ::core::fmt::Debug for RegistrationResponse {
     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
         f.debug_struct("RegistrationResponse")
             .field("user", &self.user)
-            .field("flow", &self.flow)
-            .field("token", &self.token)
             .field("verification_required", &self.verification_required)
-            .field("flow_id", &self.flow_id)
-            .field("session", &self.session)
+            .field("flow", &self.flow)
             .finish()
     }
 }
@@ -12006,18 +11365,6 @@ impl RegistrationResponse {
     ///
     /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
     pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RegistrationResponse";
-}
-impl RegistrationResponse {
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::flow_id`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_flow_id(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.flow_id = Some(value.into());
-        self
-    }
 }
 ::buffa::impl_default_instance!(RegistrationResponse);
 impl ::buffa::MessageName for RegistrationResponse {
@@ -12047,31 +11394,12 @@ impl ::buffa::Message for RegistrationResponse {
                 += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
                     + inner_size as u64;
         }
-        if self.flow.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.flow.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.token.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.token.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
         if self.verification_required {
             size += 1u64 + ::buffa::types::BOOL_ENCODED_LEN as u64;
         }
-        if let Some(ref v) = self.flow_id {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        if self.session.is_set() {
+        if self.flow.is_set() {
             let __slot = __cache.reserve();
-            let inner_size = self.session.compute_size(__cache);
+            let inner_size = self.flow.compute_size(__cache);
             __cache.set(__slot, inner_size);
             size
                 += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
@@ -12095,35 +11423,16 @@ impl ::buffa::Message for RegistrationResponse {
             );
             self.user.write_to(__cache, buf);
         }
-        if self.flow.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                2u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.flow.write_to(__cache, buf);
+        if self.verification_required {
+            ::buffa::types::put_bool_field(2u32, self.verification_required, buf);
         }
-        if self.token.is_set() {
+        if self.flow.is_set() {
             ::buffa::types::put_len_delimited_header(
                 3u32,
                 u64::from(__cache.consume_next()),
                 buf,
             );
-            self.token.write_to(__cache, buf);
-        }
-        if self.verification_required {
-            ::buffa::types::put_bool_field(4u32, self.verification_required, buf);
-        }
-        if let Some(ref v) = self.flow_id {
-            ::buffa::types::put_string_field(5u32, v, buf);
-        }
-        if self.session.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                6u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.session.write_to(__cache, buf);
+            self.flow.write_to(__cache, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -12152,13 +11461,9 @@ impl ::buffa::Message for RegistrationResponse {
             2u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
+                    ::buffa::encoding::WireType::Varint,
                 )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.flow.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
+                self.verification_required = ::buffa::types::decode_bool(buf)?;
             }
             3u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -12166,35 +11471,7 @@ impl ::buffa::Message for RegistrationResponse {
                     ::buffa::encoding::WireType::LengthDelimited,
                 )?;
                 ::buffa::Message::merge_length_delimited(
-                    self.token.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            4u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::Varint,
-                )?;
-                self.verification_required = ::buffa::types::decode_bool(buf)?;
-            }
-            5u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self.flow_id.get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            6u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.session.get_or_insert_default(),
+                    self.flow.get_or_insert_default(),
                     buf,
                     ctx,
                 )?;
@@ -12208,11 +11485,8 @@ impl ::buffa::Message for RegistrationResponse {
     }
     fn clear(&mut self) {
         self.user = ::buffa::MessageField::none();
-        self.flow = ::buffa::MessageField::none();
-        self.token = ::buffa::MessageField::none();
         self.verification_required = false;
-        self.flow_id = ::core::option::Option::None;
-        self.session = ::buffa::MessageField::none();
+        self.flow = ::buffa::MessageField::none();
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -12258,7 +11532,7 @@ pub struct LoginRequest {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
     pub identifier: ::buffa::alloc::string::String,
-    /// Password not required when initiating passkey/magic-link via flow,
+    /// Password not required when initiating passkey via flow,
     /// but required for password-based login.
     ///
     /// Field 2: `password`
@@ -14716,7 +13990,7 @@ pub const __REQUEST_EMAIL_VERIFICATION_RESPONSE_JSON_ANY: ::buffa::type_registry
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
 pub struct VerifyEmailRequest {
-    /// token from magic link or code from OTP.
+    /// token from verification link or code from OTP.
     ///
     /// Field 1: `token`
     #[serde(
@@ -15100,652 +14374,6 @@ pub const __VERIFY_EMAIL_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry
     type_url: "type.googleapis.com/oryon.identity.v1.VerifyEmailResponse",
     to_json: ::buffa::type_registry::any_to_json::<VerifyEmailResponse>,
     from_json: ::buffa::type_registry::any_from_json::<VerifyEmailResponse>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct RequestMagicLinkRequest {
-    /// Field 1: `email`
-    #[serde(
-        rename = "email",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub email: ::buffa::alloc::string::String,
-    /// Optional redirect after consumption.
-    ///
-    /// Field 2: `redirect_url`
-    #[serde(
-        rename = "redirectUrl",
-        alias = "redirect_url",
-        skip_serializing_if = "::core::option::Option::is_none"
-    )]
-    pub redirect_url: ::core::option::Option<::buffa::alloc::string::String>,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for RequestMagicLinkRequest {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("RequestMagicLinkRequest")
-            .field("email", &self.email)
-            .field("redirect_url", &self.redirect_url)
-            .finish()
-    }
-}
-impl RequestMagicLinkRequest {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkRequest";
-}
-impl RequestMagicLinkRequest {
-    #[must_use = "with_* setters return `self` by value; assign or chain the result"]
-    #[inline]
-    ///Sets [`Self::redirect_url`] to `Some(value)`, consuming and returning `self`.
-    pub fn with_redirect_url(
-        mut self,
-        value: impl Into<::buffa::alloc::string::String>,
-    ) -> Self {
-        self.redirect_url = Some(value.into());
-        self
-    }
-}
-::buffa::impl_default_instance!(RequestMagicLinkRequest);
-impl ::buffa::MessageName for RequestMagicLinkRequest {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "RequestMagicLinkRequest";
-    const FULL_NAME: &'static str = "oryon.identity.v1.RequestMagicLinkRequest";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkRequest";
-}
-impl ::buffa::Message for RequestMagicLinkRequest {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if !self.email.is_empty() {
-            size += 1u64 + ::buffa::types::string_encoded_len(&self.email) as u64;
-        }
-        if let Some(ref v) = self.redirect_url {
-            size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        _cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if !self.email.is_empty() {
-            ::buffa::types::put_string_field(1u32, &self.email, buf);
-        }
-        if let Some(ref v) = self.redirect_url {
-            ::buffa::types::put_string_field(2u32, v, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(&mut self.email, buf)?;
-            }
-            2u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(
-                    self
-                        .redirect_url
-                        .get_or_insert_with(::buffa::alloc::string::String::new),
-                    buf,
-                )?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.email.clear();
-        self.redirect_url = ::core::option::Option::None;
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for RequestMagicLinkRequest {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.RequestMagicLinkRequest";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for RequestMagicLinkRequest {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __REQUEST_MAGIC_LINK_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.RequestMagicLinkRequest",
-    to_json: ::buffa::type_registry::any_to_json::<RequestMagicLinkRequest>,
-    from_json: ::buffa::type_registry::any_from_json::<RequestMagicLinkRequest>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct RequestMagicLinkResponse {
-    /// Challenge metadata; actual link sent via email.
-    ///
-    /// Field 1: `challenge`
-    #[serde(
-        rename = "challenge",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub challenge: ::buffa::MessageField<
-        VerificationChallenge,
-        ::buffa::Inline<VerificationChallenge>,
-    >,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for RequestMagicLinkResponse {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("RequestMagicLinkResponse")
-            .field("challenge", &self.challenge)
-            .finish()
-    }
-}
-impl RequestMagicLinkResponse {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkResponse";
-}
-::buffa::impl_default_instance!(RequestMagicLinkResponse);
-impl ::buffa::MessageName for RequestMagicLinkResponse {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "RequestMagicLinkResponse";
-    const FULL_NAME: &'static str = "oryon.identity.v1.RequestMagicLinkResponse";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkResponse";
-}
-impl ::buffa::Message for RequestMagicLinkResponse {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if self.challenge.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.challenge.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        __cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if self.challenge.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                1u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.challenge.write_to(__cache, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.challenge.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.challenge = ::buffa::MessageField::none();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for RequestMagicLinkResponse {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.RequestMagicLinkResponse";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for RequestMagicLinkResponse {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __REQUEST_MAGIC_LINK_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.RequestMagicLinkResponse",
-    to_json: ::buffa::type_registry::any_to_json::<RequestMagicLinkResponse>,
-    from_json: ::buffa::type_registry::any_from_json::<RequestMagicLinkResponse>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct ConsumeMagicLinkRequest {
-    /// Token extracted from magic link URL query param.
-    ///
-    /// Field 1: `token`
-    #[serde(
-        rename = "token",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub token: ::buffa::alloc::string::String,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for ConsumeMagicLinkRequest {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("ConsumeMagicLinkRequest").field("token", &self.token).finish()
-    }
-}
-impl ConsumeMagicLinkRequest {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkRequest";
-}
-::buffa::impl_default_instance!(ConsumeMagicLinkRequest);
-impl ::buffa::MessageName for ConsumeMagicLinkRequest {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "ConsumeMagicLinkRequest";
-    const FULL_NAME: &'static str = "oryon.identity.v1.ConsumeMagicLinkRequest";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkRequest";
-}
-impl ::buffa::Message for ConsumeMagicLinkRequest {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if !self.token.is_empty() {
-            size += 1u64 + ::buffa::types::string_encoded_len(&self.token) as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        _cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if !self.token.is_empty() {
-            ::buffa::types::put_string_field(1u32, &self.token, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(&mut self.token, buf)?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.token.clear();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for ConsumeMagicLinkRequest {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.ConsumeMagicLinkRequest";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for ConsumeMagicLinkRequest {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __CONSUME_MAGIC_LINK_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkRequest",
-    to_json: ::buffa::type_registry::any_to_json::<ConsumeMagicLinkRequest>,
-    from_json: ::buffa::type_registry::any_from_json::<ConsumeMagicLinkRequest>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct ConsumeMagicLinkResponse {
-    /// Field 1: `token`
-    #[serde(
-        rename = "token",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub token: ::buffa::MessageField<Token, ::buffa::Inline<Token>>,
-    /// Field 2: `session`
-    #[serde(
-        rename = "session",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub session: ::buffa::MessageField<Session, ::buffa::Inline<Session>>,
-    /// Field 3: `user`
-    #[serde(
-        rename = "user",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub user: ::buffa::MessageField<User, ::buffa::Inline<User>>,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for ConsumeMagicLinkResponse {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("ConsumeMagicLinkResponse")
-            .field("token", &self.token)
-            .field("session", &self.session)
-            .field("user", &self.user)
-            .finish()
-    }
-}
-impl ConsumeMagicLinkResponse {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkResponse";
-}
-::buffa::impl_default_instance!(ConsumeMagicLinkResponse);
-impl ::buffa::MessageName for ConsumeMagicLinkResponse {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "ConsumeMagicLinkResponse";
-    const FULL_NAME: &'static str = "oryon.identity.v1.ConsumeMagicLinkResponse";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkResponse";
-}
-impl ::buffa::Message for ConsumeMagicLinkResponse {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if self.token.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.token.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.session.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.session.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.user.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.user.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        __cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if self.token.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                1u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.token.write_to(__cache, buf);
-        }
-        if self.session.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                2u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.session.write_to(__cache, buf);
-        }
-        if self.user.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                3u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.user.write_to(__cache, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.token.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            2u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.session.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            3u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.user.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.token = ::buffa::MessageField::none();
-        self.session = ::buffa::MessageField::none();
-        self.user = ::buffa::MessageField::none();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for ConsumeMagicLinkResponse {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.ConsumeMagicLinkResponse";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for ConsumeMagicLinkResponse {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __CONSUME_MAGIC_LINK_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkResponse",
-    to_json: ::buffa::type_registry::any_to_json::<ConsumeMagicLinkResponse>,
-    from_json: ::buffa::type_registry::any_from_json::<ConsumeMagicLinkResponse>,
     is_wkt: false,
 };
 #[derive(Clone, PartialEq, Default)]
@@ -34161,9 +32789,6 @@ pub mod __buffa {
         /// ======
         /// models
         /// ======
-        ///
-        /// Token holds bearer tokens issued after successful authentication.
-        /// Mirrors sessions.token (SHA-256 hash in DB) + refresh_tokens.token.
         #[derive(Clone, Debug, Default)]
         pub struct TokenView<'a> {
             /// Opaque access token (JWT or opaque); client sends as Authorization: Bearer.
@@ -34589,40 +33214,16 @@ pub mod __buffa {
                 ::serde::Serialize::serialize(&self.0, __s)
             }
         }
-        /// AuthFlow maps to `auth_flows` table.
-        /// Short-lived state machine for multi-step authentication (registration/login/recovery/step-up).
         #[derive(Clone, Debug, Default)]
         pub struct AuthFlowView<'a> {
             /// Field 1: `id`
             pub id: i64,
-            /// Nullable initially for registration flows (no user yet).
-            ///
-            /// Field 2: `user_id`
-            pub user_id: ::core::option::Option<i64>,
-            /// Field 3: `flow_type`
+            /// Field 2: `flow_type`
             pub flow_type: ::buffa::EnumValue<super::super::AuthFlowType>,
-            /// Field 4: `flow_state`
+            /// Field 3: `flow_state`
             pub flow_state: ::buffa::EnumValue<super::super::AuthFlowState>,
-            /// Field 5: `ip_address`
-            pub ip_address: ::core::option::Option<&'a str>,
-            /// Field 6: `user_agent`
-            pub user_agent: ::core::option::Option<&'a str>,
-            /// Context stores redirect URLs, requested scopes, selected MFA methods etc.
-            ///
-            /// Field 7: `context`
-            pub context: ::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::StructView<'a>,
-            >,
-            /// Field 8: `created_at`
-            pub created_at: ::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'a>,
-            >,
-            /// Field 9: `expires_at`
+            /// Field 4: `expires_at`
             pub expires_at: ::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'a>,
-            >,
-            /// Field 10: `completed_at`
-            pub completed_at: ::buffa::MessageFieldView<
                 ::buffa_types::google::protobuf::__buffa::view::TimestampView<'a>,
             >,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
@@ -34675,18 +33276,11 @@ pub mod __buffa {
                             tag,
                             ::buffa::encoding::WireType::Varint,
                         )?;
-                        view.user_id = Some(::buffa::types::decode_int64(&mut cur)?);
-                    }
-                    3u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::Varint,
-                        )?;
                         view.flow_type = ::buffa::EnumValue::from(
                             ::buffa::types::decode_int32(&mut cur)?,
                         );
                     }
-                    4u32 => {
+                    3u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
                             ::buffa::encoding::WireType::Varint,
@@ -34695,71 +33289,7 @@ pub mod __buffa {
                             ::buffa::types::decode_int32(&mut cur)?,
                         );
                     }
-                    5u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.ip_address = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    6u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.user_agent = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    7u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.context.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.context = ::buffa::MessageFieldView::set(
-                                    <::buffa_types::google::protobuf::__buffa::view::StructView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    8u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.created_at.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.created_at = ::buffa::MessageFieldView::set(
-                                    <::buffa_types::google::protobuf::__buffa::view::TimestampView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    9u32 => {
+                    4u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
                             ::buffa::encoding::WireType::LengthDelimited,
@@ -34776,31 +33306,6 @@ pub mod __buffa {
                             }
                             None => {
                                 view.expires_at = ::buffa::MessageFieldView::set(
-                                    <::buffa_types::google::protobuf::__buffa::view::TimestampView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    10u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.completed_at.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.completed_at = ::buffa::MessageFieldView::set(
                                     <::buffa_types::google::protobuf::__buffa::view::TimestampView as ::buffa::MessageView>::decode_view_ctx(
                                         sub,
                                         __sub_ctx,
@@ -34833,39 +33338,9 @@ pub mod __buffa {
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::AuthFlow {
                     id: self.id,
-                    user_id: self.user_id,
                     flow_type: self.flow_type,
                     flow_state: self.flow_state,
-                    ip_address: self.ip_address.map(|s| s.to_string()),
-                    user_agent: self.user_agent.map(|s| s.to_string()),
-                    context: match self.context.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                ::buffa_types::google::protobuf::Struct,
-                                ::buffa::Inline<::buffa_types::google::protobuf::Struct>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    created_at: match self.created_at.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                ::buffa_types::google::protobuf::Timestamp,
-                                ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
                     expires_at: match self.expires_at.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                ::buffa_types::google::protobuf::Timestamp,
-                                ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    completed_at: match self.completed_at.as_option() {
                         Some(v) => {
                             ::buffa::MessageField::<
                                 ::buffa_types::google::protobuf::Timestamp,
@@ -34891,9 +33366,6 @@ pub mod __buffa {
                 if self.id != 0i64 {
                     size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
                 }
-                if let Some(v) = self.user_id {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(v) as u64;
-                }
                 {
                     let val = self.flow_type.to_i32();
                     if val != 0 {
@@ -34906,39 +33378,9 @@ pub mod __buffa {
                         size += 1u64 + ::buffa::types::int32_encoded_len(val) as u64;
                     }
                 }
-                if let Some(ref v) = self.ip_address {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if let Some(ref v) = self.user_agent {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if self.context.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.context.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.created_at.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.created_at.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
                 if self.expires_at.is_set() {
                     let __slot = __cache.reserve();
                     let inner_size = self.expires_at.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.completed_at.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.completed_at.compute_size(__cache);
                     __cache.set(__slot, inner_size);
                     size
                         += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
@@ -34958,58 +33400,25 @@ pub mod __buffa {
                 if self.id != 0i64 {
                     ::buffa::types::put_int64_field(1u32, self.id, buf);
                 }
-                if let Some(v) = self.user_id {
-                    ::buffa::types::put_int64_field(2u32, v, buf);
-                }
                 {
                     let val = self.flow_type.to_i32();
                     if val != 0 {
-                        ::buffa::types::put_int32_field(3u32, val, buf);
+                        ::buffa::types::put_int32_field(2u32, val, buf);
                     }
                 }
                 {
                     let val = self.flow_state.to_i32();
                     if val != 0 {
-                        ::buffa::types::put_int32_field(4u32, val, buf);
+                        ::buffa::types::put_int32_field(3u32, val, buf);
                     }
-                }
-                if let Some(ref v) = self.ip_address {
-                    ::buffa::types::put_string_field(5u32, v, buf);
-                }
-                if let Some(ref v) = self.user_agent {
-                    ::buffa::types::put_string_field(6u32, v, buf);
-                }
-                if self.context.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        7u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.context.write_to(__cache, buf);
-                }
-                if self.created_at.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        8u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.created_at.write_to(__cache, buf);
                 }
                 if self.expires_at.is_set() {
                     ::buffa::types::put_len_delimited_header(
-                        9u32,
+                        4u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
                     self.expires_at.write_to(__cache, buf);
-                }
-                if self.completed_at.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        10u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.completed_at.write_to(__cache, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -35039,13 +33448,6 @@ pub mod __buffa {
                             &::buffa::json_helpers::ProtoJson(&self.id),
                         )?;
                 }
-                if let ::core::option::Option::Some(__v) = self.user_id {
-                    __map
-                        .serialize_entry(
-                            "userId",
-                            &::buffa::json_helpers::ProtoJson(&__v),
-                        )?;
-                }
                 if !::buffa::json_helpers::skip_if::is_default_enum_value(
                     &self.flow_type,
                 ) {
@@ -35056,39 +33458,12 @@ pub mod __buffa {
                 ) {
                     __map.serialize_entry("flowState", &self.flow_state)?;
                 }
-                if let ::core::option::Option::Some(__v) = self.ip_address {
-                    __map.serialize_entry("ipAddress", __v)?;
-                }
-                if let ::core::option::Option::Some(__v) = self.user_agent {
-                    __map.serialize_entry("userAgent", __v)?;
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.context.as_option() {
-                        __map.serialize_entry("context", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self
-                        .created_at
-                        .as_option()
-                    {
-                        __map.serialize_entry("createdAt", __v)?;
-                    }
-                }
                 {
                     if let ::core::option::Option::Some(__v) = self
                         .expires_at
                         .as_option()
                     {
                         __map.serialize_entry("expiresAt", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self
-                        .completed_at
-                        .as_option()
-                    {
-                        __map.serialize_entry("completedAt", __v)?;
                     }
                 }
                 __map.end()
@@ -35189,54 +33564,17 @@ pub mod __buffa {
             pub fn id(&self) -> i64 {
                 self.0.reborrow().id
             }
-            /// Nullable initially for registration flows (no user yet).
-            ///
-            /// Field 2: `user_id`
-            #[must_use]
-            pub fn user_id(&self) -> ::core::option::Option<i64> {
-                self.0.reborrow().user_id
-            }
-            /// Field 3: `flow_type`
+            /// Field 2: `flow_type`
             #[must_use]
             pub fn flow_type(&self) -> ::buffa::EnumValue<super::super::AuthFlowType> {
                 self.0.reborrow().flow_type
             }
-            /// Field 4: `flow_state`
+            /// Field 3: `flow_state`
             #[must_use]
             pub fn flow_state(&self) -> ::buffa::EnumValue<super::super::AuthFlowState> {
                 self.0.reborrow().flow_state
             }
-            /// Field 5: `ip_address`
-            #[must_use]
-            pub fn ip_address(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().ip_address
-            }
-            /// Field 6: `user_agent`
-            #[must_use]
-            pub fn user_agent(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().user_agent
-            }
-            /// Context stores redirect URLs, requested scopes, selected MFA methods etc.
-            ///
-            /// Field 7: `context`
-            #[must_use]
-            pub fn context(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::StructView<'_>,
-            > {
-                &self.0.reborrow().context
-            }
-            /// Field 8: `created_at`
-            #[must_use]
-            pub fn created_at(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'_>,
-            > {
-                &self.0.reborrow().created_at
-            }
-            /// Field 9: `expires_at`
+            /// Field 4: `expires_at`
             #[must_use]
             pub fn expires_at(
                 &self,
@@ -35244,15 +33582,6 @@ pub mod __buffa {
                 ::buffa_types::google::protobuf::__buffa::view::TimestampView<'_>,
             > {
                 &self.0.reborrow().expires_at
-            }
-            /// Field 10: `completed_at`
-            #[must_use]
-            pub fn completed_at(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'_>,
-            > {
-                &self.0.reborrow().completed_at
             }
         }
         impl ::core::convert::From<::buffa::OwnedView<AuthFlowView<'static>>>
@@ -35285,8 +33614,6 @@ pub mod __buffa {
                 ::serde::Serialize::serialize(&self.0, __s)
             }
         }
-        /// VerificationChallenge maps to `verification_challenges` table.
-        /// code is stored as SHA-256 hash (BYTEA) and never returned; only verification_id is exposed.
         #[derive(Clone, Debug, Default)]
         pub struct VerificationChallengeView<'a> {
             /// Field 1: `id`
@@ -35977,534 +34304,19 @@ pub mod __buffa {
                 ::serde::Serialize::serialize(&self.0, __s)
             }
         }
-        /// SecurityEvent maps to `security_events` table for audit logging.
-        #[derive(Clone, Debug, Default)]
-        pub struct SecurityEventView<'a> {
-            /// Field 1: `id`
-            pub id: i64,
-            /// Field 2: `user_id`
-            pub user_id: ::core::option::Option<i64>,
-            /// Field 3: `event_type`
-            pub event_type: &'a str,
-            /// Field 4: `ip_address`
-            pub ip_address: ::core::option::Option<&'a str>,
-            /// Field 5: `user_agent`
-            pub user_agent: ::core::option::Option<&'a str>,
-            /// Field 6: `metadata`
-            pub metadata: ::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::StructView<'a>,
-            >,
-            /// Field 7: `created_at`
-            pub created_at: ::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'a>,
-            >,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for SecurityEventView<'a> {
-            type Owned = super::super::SecurityEvent;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::Varint,
-                        )?;
-                        view.id = ::buffa::types::decode_int64(&mut cur)?;
-                    }
-                    2u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::Varint,
-                        )?;
-                        view.user_id = Some(::buffa::types::decode_int64(&mut cur)?);
-                    }
-                    3u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.event_type = ::buffa::types::borrow_str(&mut cur)?;
-                    }
-                    4u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.ip_address = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    5u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.user_agent = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    6u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.metadata.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.metadata = ::buffa::MessageFieldView::set(
-                                    <::buffa_types::google::protobuf::__buffa::view::StructView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    7u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.created_at.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.created_at = ::buffa::MessageFieldView::set(
-                                    <::buffa_types::google::protobuf::__buffa::view::TimestampView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::SecurityEvent,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::SecurityEvent,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::SecurityEvent {
-                    id: self.id,
-                    user_id: self.user_id,
-                    event_type: self.event_type.to_string(),
-                    ip_address: self.ip_address.map(|s| s.to_string()),
-                    user_agent: self.user_agent.map(|s| s.to_string()),
-                    metadata: match self.metadata.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                ::buffa_types::google::protobuf::Struct,
-                                ::buffa::Inline<::buffa_types::google::protobuf::Struct>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    created_at: match self.created_at.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                ::buffa_types::google::protobuf::Timestamp,
-                                ::buffa::Inline<::buffa_types::google::protobuf::Timestamp>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for SecurityEventView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if self.id != 0i64 {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
-                }
-                if let Some(v) = self.user_id {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(v) as u64;
-                }
-                if !self.event_type.is_empty() {
-                    size
-                        += 1u64
-                            + ::buffa::types::string_encoded_len(&self.event_type)
-                                as u64;
-                }
-                if let Some(ref v) = self.ip_address {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if let Some(ref v) = self.user_agent {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if self.metadata.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.metadata.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.created_at.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.created_at.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                __cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if self.id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.id, buf);
-                }
-                if let Some(v) = self.user_id {
-                    ::buffa::types::put_int64_field(2u32, v, buf);
-                }
-                if !self.event_type.is_empty() {
-                    ::buffa::types::put_string_field(3u32, &self.event_type, buf);
-                }
-                if let Some(ref v) = self.ip_address {
-                    ::buffa::types::put_string_field(4u32, v, buf);
-                }
-                if let Some(ref v) = self.user_agent {
-                    ::buffa::types::put_string_field(5u32, v, buf);
-                }
-                if self.metadata.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        6u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.metadata.write_to(__cache, buf);
-                }
-                if self.created_at.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        7u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.created_at.write_to(__cache, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for SecurityEventView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.id) {
-                    __map
-                        .serialize_entry(
-                            "id",
-                            &::buffa::json_helpers::ProtoJson(&self.id),
-                        )?;
-                }
-                if let ::core::option::Option::Some(__v) = self.user_id {
-                    __map
-                        .serialize_entry(
-                            "userId",
-                            &::buffa::json_helpers::ProtoJson(&__v),
-                        )?;
-                }
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.event_type) {
-                    __map.serialize_entry("eventType", self.event_type)?;
-                }
-                if let ::core::option::Option::Some(__v) = self.ip_address {
-                    __map.serialize_entry("ipAddress", __v)?;
-                }
-                if let ::core::option::Option::Some(__v) = self.user_agent {
-                    __map.serialize_entry("userAgent", __v)?;
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.metadata.as_option()
-                    {
-                        __map.serialize_entry("metadata", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self
-                        .created_at
-                        .as_option()
-                    {
-                        __map.serialize_entry("createdAt", __v)?;
-                    }
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for SecurityEventView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "SecurityEvent";
-            const FULL_NAME: &'static str = "oryon.identity.v1.SecurityEvent";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.SecurityEvent";
-        }
-        ::buffa::impl_default_view_instance!(SecurityEventView);
-        ::buffa::impl_view_reborrow!(SecurityEventView);
-        /** Self-contained, `'static` owned view of a `SecurityEvent` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`SecurityEventView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`SecurityEventView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct SecurityEventOwnedView(
-            ::buffa::OwnedView<SecurityEventView<'static>>,
-        );
-        impl SecurityEventOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    SecurityEventOwnedView(::buffa::OwnedView::decode(bytes)?),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    SecurityEventOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::SecurityEvent,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    SecurityEventOwnedView(::buffa::OwnedView::from_owned(msg)?),
-                )
-            }
-            /// Borrow the full [`SecurityEventView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &SecurityEventView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(&self) -> super::super::SecurityEvent {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Field 1: `id`
-            #[must_use]
-            pub fn id(&self) -> i64 {
-                self.0.reborrow().id
-            }
-            /// Field 2: `user_id`
-            #[must_use]
-            pub fn user_id(&self) -> ::core::option::Option<i64> {
-                self.0.reborrow().user_id
-            }
-            /// Field 3: `event_type`
-            #[must_use]
-            pub fn event_type(&self) -> &'_ str {
-                self.0.reborrow().event_type
-            }
-            /// Field 4: `ip_address`
-            #[must_use]
-            pub fn ip_address(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().ip_address
-            }
-            /// Field 5: `user_agent`
-            #[must_use]
-            pub fn user_agent(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().user_agent
-            }
-            /// Field 6: `metadata`
-            #[must_use]
-            pub fn metadata(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::StructView<'_>,
-            > {
-                &self.0.reborrow().metadata
-            }
-            /// Field 7: `created_at`
-            #[must_use]
-            pub fn created_at(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                ::buffa_types::google::protobuf::__buffa::view::TimestampView<'_>,
-            > {
-                &self.0.reborrow().created_at
-            }
-        }
-        impl ::core::convert::From<::buffa::OwnedView<SecurityEventView<'static>>>
-        for SecurityEventOwnedView {
-            fn from(inner: ::buffa::OwnedView<SecurityEventView<'static>>) -> Self {
-                SecurityEventOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<SecurityEventOwnedView>
-        for ::buffa::OwnedView<SecurityEventView<'static>> {
-            fn from(wrapper: SecurityEventOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<::buffa::OwnedView<SecurityEventView<'static>>>
-        for SecurityEventOwnedView {
-            fn as_ref(&self) -> &::buffa::OwnedView<SecurityEventView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::SecurityEvent {
-            type View<'a> = SecurityEventView<'a>;
-            type ViewHandle = SecurityEventOwnedView;
-        }
-        impl ::serde::Serialize for SecurityEventOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
         /// ==============
         /// rpc messages
         /// ==============
         #[derive(Clone, Debug, Default)]
         pub struct RegistrationRequestView<'a> {
             /// Field 1: `email`
-            pub email: &'a str,
+            pub email: ::core::option::Option<&'a str>,
             /// Field 2: `password`
             pub password: &'a str,
             /// Field 3: `name`
             pub name: &'a str,
             /// Field 4: `phone`
             pub phone: ::core::option::Option<&'a str>,
-            /// Field 5: `avatar_url`
-            pub avatar_url: ::core::option::Option<&'a str>,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
         impl<'a> ::buffa::MessageView<'a> for RegistrationRequestView<'a> {
@@ -36548,7 +34360,7 @@ pub mod __buffa {
                             tag,
                             ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.email = ::buffa::types::borrow_str(&mut cur)?;
+                        view.email = Some(::buffa::types::borrow_str(&mut cur)?);
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -36570,13 +34382,6 @@ pub mod __buffa {
                             ::buffa::encoding::WireType::LengthDelimited,
                         )?;
                         view.phone = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    5u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.avatar_url = Some(::buffa::types::borrow_str(&mut cur)?);
                     }
                     _ => {
                         ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
@@ -36607,11 +34412,10 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::RegistrationRequest {
-                    email: self.email.to_string(),
+                    email: self.email.map(|s| s.to_string()),
                     password: self.password.to_string(),
                     name: self.name.to_string(),
                     phone: self.phone.map(|s| s.to_string()),
-                    avatar_url: self.avatar_url.map(|s| s.to_string()),
                     __buffa_unknown_fields: self
                         .__buffa_unknown_fields
                         .to_owned()?
@@ -36626,9 +34430,8 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if !self.email.is_empty() {
-                    size
-                        += 1u64 + ::buffa::types::string_encoded_len(&self.email) as u64;
+                if let Some(ref v) = self.email {
+                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
                 }
                 if !self.password.is_empty() {
                     size
@@ -36639,9 +34442,6 @@ pub mod __buffa {
                     size += 1u64 + ::buffa::types::string_encoded_len(&self.name) as u64;
                 }
                 if let Some(ref v) = self.phone {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if let Some(ref v) = self.avatar_url {
                     size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
                 }
                 size += self.__buffa_unknown_fields.encoded_len() as u64;
@@ -36655,8 +34455,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if !self.email.is_empty() {
-                    ::buffa::types::put_string_field(1u32, &self.email, buf);
+                if let Some(ref v) = self.email {
+                    ::buffa::types::put_string_field(1u32, v, buf);
                 }
                 if !self.password.is_empty() {
                     ::buffa::types::put_string_field(2u32, &self.password, buf);
@@ -36666,9 +34466,6 @@ pub mod __buffa {
                 }
                 if let Some(ref v) = self.phone {
                     ::buffa::types::put_string_field(4u32, v, buf);
-                }
-                if let Some(ref v) = self.avatar_url {
-                    ::buffa::types::put_string_field(5u32, v, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -36691,8 +34488,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.email) {
-                    __map.serialize_entry("email", self.email)?;
+                if let ::core::option::Option::Some(__v) = self.email {
+                    __map.serialize_entry("email", __v)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_empty_str(self.password) {
                     __map.serialize_entry("password", self.password)?;
@@ -36702,9 +34499,6 @@ pub mod __buffa {
                 }
                 if let ::core::option::Option::Some(__v) = self.phone {
                     __map.serialize_entry("phone", __v)?;
-                }
-                if let ::core::option::Option::Some(__v) = self.avatar_url {
-                    __map.serialize_entry("avatarUrl", __v)?;
                 }
                 __map.end()
             }
@@ -36803,7 +34597,7 @@ pub mod __buffa {
             }
             /// Field 1: `email`
             #[must_use]
-            pub fn email(&self) -> &'_ str {
+            pub fn email(&self) -> ::core::option::Option<&'_ str> {
                 self.0.reborrow().email
             }
             /// Field 2: `password`
@@ -36820,11 +34614,6 @@ pub mod __buffa {
             #[must_use]
             pub fn phone(&self) -> ::core::option::Option<&'_ str> {
                 self.0.reborrow().phone
-            }
-            /// Field 5: `avatar_url`
-            #[must_use]
-            pub fn avatar_url(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().avatar_url
             }
         }
         impl ::core::convert::From<::buffa::OwnedView<RegistrationRequestView<'static>>>
@@ -36861,36 +34650,15 @@ pub mod __buffa {
         }
         #[derive(Clone, Debug, Default)]
         pub struct RegistrationResponseView<'a> {
-            /// Created user (always returned even if verification pending).
-            ///
             /// Field 1: `user`
             pub user: ::buffa::MessageFieldView<
                 super::super::__buffa::view::UserView<'a>,
             >,
-            /// Associated flow; present when verification or additional steps are required.
-            /// flow_state will be PENDING_VERIFICATION for email verification required.
-            ///
-            /// Field 2: `flow`
+            /// Field 2: `verification_required`
+            pub verification_required: bool,
+            /// Field 3: `flow`
             pub flow: ::buffa::MessageFieldView<
                 super::super::__buffa::view::AuthFlowView<'a>,
-            >,
-            /// Present only if registration completed without pending verification/MFA.
-            ///
-            /// Field 3: `token`
-            pub token: ::buffa::MessageFieldView<
-                super::super::__buffa::view::TokenView<'a>,
-            >,
-            /// True when email verification is required before login.
-            ///
-            /// Field 4: `verification_required`
-            pub verification_required: bool,
-            /// Convenience alias for flow.id as string when flow present.
-            ///
-            /// Field 5: `flow_id`
-            pub flow_id: ::core::option::Option<&'a str>,
-            /// Field 6: `session`
-            pub session: ::buffa::MessageFieldView<
-                super::super::__buffa::view::SessionView<'a>,
             >,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
@@ -36958,6 +34726,15 @@ pub mod __buffa {
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
+                            ::buffa::encoding::WireType::Varint,
+                        )?;
+                        view.verification_required = ::buffa::types::decode_bool(
+                            &mut cur,
+                        )?;
+                    }
+                    3u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
                             ::buffa::encoding::WireType::LengthDelimited,
                         )?;
                         let __sub_ctx = ctx.descend()?;
@@ -36973,72 +34750,6 @@ pub mod __buffa {
                             None => {
                                 view.flow = ::buffa::MessageFieldView::set(
                                     <super::super::__buffa::view::AuthFlowView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    3u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.token.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.token = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::TokenView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    4u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::Varint,
-                        )?;
-                        view.verification_required = ::buffa::types::decode_bool(
-                            &mut cur,
-                        )?;
-                    }
-                    5u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.flow_id = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    6u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.session.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.session = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::SessionView as ::buffa::MessageView>::decode_view_ctx(
                                         sub,
                                         __sub_ctx,
                                     )?,
@@ -37084,31 +34795,12 @@ pub mod __buffa {
                         }
                         None => ::buffa::MessageField::none(),
                     },
+                    verification_required: self.verification_required,
                     flow: match self.flow.as_option() {
                         Some(v) => {
                             ::buffa::MessageField::<
                                 super::super::AuthFlow,
                                 ::buffa::Inline<super::super::AuthFlow>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    token: match self.token.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::Token,
-                                ::buffa::Inline<super::super::Token>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    verification_required: self.verification_required,
-                    flow_id: self.flow_id.map(|s| s.to_string()),
-                    session: match self.session.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::Session,
-                                ::buffa::Inline<super::super::Session>,
                             >::some(v.to_owned_from_source(__buffa_src)?)
                         }
                         None => ::buffa::MessageField::none(),
@@ -37135,31 +34827,12 @@ pub mod __buffa {
                         += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
                             + inner_size as u64;
                 }
-                if self.flow.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.flow.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.token.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.token.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
                 if self.verification_required {
                     size += 1u64 + ::buffa::types::BOOL_ENCODED_LEN as u64;
                 }
-                if let Some(ref v) = self.flow_id {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                if self.session.is_set() {
+                if self.flow.is_set() {
                     let __slot = __cache.reserve();
-                    let inner_size = self.session.compute_size(__cache);
+                    let inner_size = self.flow.compute_size(__cache);
                     __cache.set(__slot, inner_size);
                     size
                         += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
@@ -37184,39 +34857,20 @@ pub mod __buffa {
                     );
                     self.user.write_to(__cache, buf);
                 }
-                if self.flow.is_set() {
-                    ::buffa::types::put_len_delimited_header(
+                if self.verification_required {
+                    ::buffa::types::put_bool_field(
                         2u32,
-                        u64::from(__cache.consume_next()),
+                        self.verification_required,
                         buf,
                     );
-                    self.flow.write_to(__cache, buf);
                 }
-                if self.token.is_set() {
+                if self.flow.is_set() {
                     ::buffa::types::put_len_delimited_header(
                         3u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
-                    self.token.write_to(__cache, buf);
-                }
-                if self.verification_required {
-                    ::buffa::types::put_bool_field(
-                        4u32,
-                        self.verification_required,
-                        buf,
-                    );
-                }
-                if let Some(ref v) = self.flow_id {
-                    ::buffa::types::put_string_field(5u32, v, buf);
-                }
-                if self.session.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        6u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.session.write_to(__cache, buf);
+                    self.flow.write_to(__cache, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -37244,16 +34898,6 @@ pub mod __buffa {
                         __map.serialize_entry("user", __v)?;
                     }
                 }
-                {
-                    if let ::core::option::Option::Some(__v) = self.flow.as_option() {
-                        __map.serialize_entry("flow", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.token.as_option() {
-                        __map.serialize_entry("token", __v)?;
-                    }
-                }
                 if self.verification_required {
                     __map
                         .serialize_entry(
@@ -37261,12 +34905,9 @@ pub mod __buffa {
                             &self.verification_required,
                         )?;
                 }
-                if let ::core::option::Option::Some(__v) = self.flow_id {
-                    __map.serialize_entry("flowId", __v)?;
-                }
                 {
-                    if let ::core::option::Option::Some(__v) = self.session.as_option() {
-                        __map.serialize_entry("session", __v)?;
+                    if let ::core::option::Option::Some(__v) = self.flow.as_option() {
+                        __map.serialize_entry("flow", __v)?;
                     }
                 }
                 __map.end()
@@ -37364,8 +35005,6 @@ pub mod __buffa {
             pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
                 self.0.into_bytes()
             }
-            /// Created user (always returned even if verification pending).
-            ///
             /// Field 1: `user`
             #[must_use]
             pub fn user(
@@ -37373,10 +35012,12 @@ pub mod __buffa {
             ) -> &::buffa::MessageFieldView<super::super::__buffa::view::UserView<'_>> {
                 &self.0.reborrow().user
             }
-            /// Associated flow; present when verification or additional steps are required.
-            /// flow_state will be PENDING_VERIFICATION for email verification required.
-            ///
-            /// Field 2: `flow`
+            /// Field 2: `verification_required`
+            #[must_use]
+            pub fn verification_required(&self) -> bool {
+                self.0.reborrow().verification_required
+            }
+            /// Field 3: `flow`
             #[must_use]
             pub fn flow(
                 &self,
@@ -37384,38 +35025,6 @@ pub mod __buffa {
                 super::super::__buffa::view::AuthFlowView<'_>,
             > {
                 &self.0.reborrow().flow
-            }
-            /// Present only if registration completed without pending verification/MFA.
-            ///
-            /// Field 3: `token`
-            #[must_use]
-            pub fn token(
-                &self,
-            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::TokenView<'_>> {
-                &self.0.reborrow().token
-            }
-            /// True when email verification is required before login.
-            ///
-            /// Field 4: `verification_required`
-            #[must_use]
-            pub fn verification_required(&self) -> bool {
-                self.0.reborrow().verification_required
-            }
-            /// Convenience alias for flow.id as string when flow present.
-            ///
-            /// Field 5: `flow_id`
-            #[must_use]
-            pub fn flow_id(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().flow_id
-            }
-            /// Field 6: `session`
-            #[must_use]
-            pub fn session(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::SessionView<'_>,
-            > {
-                &self.0.reborrow().session
             }
         }
         impl ::core::convert::From<::buffa::OwnedView<RegistrationResponseView<'static>>>
@@ -37457,7 +35066,7 @@ pub mod __buffa {
             ///
             /// Field 1: `identifier`
             pub identifier: &'a str,
-            /// Password not required when initiating passkey/magic-link via flow,
+            /// Password not required when initiating passkey via flow,
             /// but required for password-based login.
             ///
             /// Field 2: `password`
@@ -37733,7 +35342,7 @@ pub mod __buffa {
             pub fn identifier(&self) -> &'_ str {
                 self.0.reborrow().identifier
             }
-            /// Password not required when initiating passkey/magic-link via flow,
+            /// Password not required when initiating passkey via flow,
             /// but required for password-based login.
             ///
             /// Field 2: `password`
@@ -42281,7 +39890,7 @@ pub mod __buffa {
         }
         #[derive(Clone, Debug, Default)]
         pub struct VerifyEmailRequestView<'a> {
-            /// token from magic link or code from OTP.
+            /// token from verification link or code from OTP.
             ///
             /// Field 1: `token`
             pub token: &'a str,
@@ -42570,7 +40179,7 @@ pub mod __buffa {
             pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
                 self.0.into_bytes()
             }
-            /// token from magic link or code from OTP.
+            /// token from verification link or code from OTP.
             ///
             /// Field 1: `token`
             #[must_use]
@@ -42951,1357 +40560,6 @@ pub mod __buffa {
             type ViewHandle = VerifyEmailResponseOwnedView;
         }
         impl ::serde::Serialize for VerifyEmailResponseOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct RequestMagicLinkRequestView<'a> {
-            /// Field 1: `email`
-            pub email: &'a str,
-            /// Optional redirect after consumption.
-            ///
-            /// Field 2: `redirect_url`
-            pub redirect_url: ::core::option::Option<&'a str>,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for RequestMagicLinkRequestView<'a> {
-            type Owned = super::super::RequestMagicLinkRequest;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.email = ::buffa::types::borrow_str(&mut cur)?;
-                    }
-                    2u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.redirect_url = Some(::buffa::types::borrow_str(&mut cur)?);
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::RequestMagicLinkRequest,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::RequestMagicLinkRequest,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::RequestMagicLinkRequest {
-                    email: self.email.to_string(),
-                    redirect_url: self.redirect_url.map(|s| s.to_string()),
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for RequestMagicLinkRequestView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if !self.email.is_empty() {
-                    size
-                        += 1u64 + ::buffa::types::string_encoded_len(&self.email) as u64;
-                }
-                if let Some(ref v) = self.redirect_url {
-                    size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                _cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if !self.email.is_empty() {
-                    ::buffa::types::put_string_field(1u32, &self.email, buf);
-                }
-                if let Some(ref v) = self.redirect_url {
-                    ::buffa::types::put_string_field(2u32, v, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for RequestMagicLinkRequestView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.email) {
-                    __map.serialize_entry("email", self.email)?;
-                }
-                if let ::core::option::Option::Some(__v) = self.redirect_url {
-                    __map.serialize_entry("redirectUrl", __v)?;
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for RequestMagicLinkRequestView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "RequestMagicLinkRequest";
-            const FULL_NAME: &'static str = "oryon.identity.v1.RequestMagicLinkRequest";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkRequest";
-        }
-        ::buffa::impl_default_view_instance!(RequestMagicLinkRequestView);
-        ::buffa::impl_view_reborrow!(RequestMagicLinkRequestView);
-        /** Self-contained, `'static` owned view of a `RequestMagicLinkRequest` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`RequestMagicLinkRequestView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`RequestMagicLinkRequestView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct RequestMagicLinkRequestOwnedView(
-            ::buffa::OwnedView<RequestMagicLinkRequestView<'static>>,
-        );
-        impl RequestMagicLinkRequestOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkRequestOwnedView(::buffa::OwnedView::decode(bytes)?),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkRequestOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::RequestMagicLinkRequest,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkRequestOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`RequestMagicLinkRequestView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &RequestMagicLinkRequestView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(&self) -> super::super::RequestMagicLinkRequest {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Field 1: `email`
-            #[must_use]
-            pub fn email(&self) -> &'_ str {
-                self.0.reborrow().email
-            }
-            /// Optional redirect after consumption.
-            ///
-            /// Field 2: `redirect_url`
-            #[must_use]
-            pub fn redirect_url(&self) -> ::core::option::Option<&'_ str> {
-                self.0.reborrow().redirect_url
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<RequestMagicLinkRequestView<'static>>,
-        > for RequestMagicLinkRequestOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<RequestMagicLinkRequestView<'static>>,
-            ) -> Self {
-                RequestMagicLinkRequestOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<RequestMagicLinkRequestOwnedView>
-        for ::buffa::OwnedView<RequestMagicLinkRequestView<'static>> {
-            fn from(wrapper: RequestMagicLinkRequestOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<RequestMagicLinkRequestView<'static>>,
-        > for RequestMagicLinkRequestOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<RequestMagicLinkRequestView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::RequestMagicLinkRequest {
-            type View<'a> = RequestMagicLinkRequestView<'a>;
-            type ViewHandle = RequestMagicLinkRequestOwnedView;
-        }
-        impl ::serde::Serialize for RequestMagicLinkRequestOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct RequestMagicLinkResponseView<'a> {
-            /// Challenge metadata; actual link sent via email.
-            ///
-            /// Field 1: `challenge`
-            pub challenge: ::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'a>,
-            >,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for RequestMagicLinkResponseView<'a> {
-            type Owned = super::super::RequestMagicLinkResponse;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.challenge.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.challenge = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::VerificationChallengeView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::RequestMagicLinkResponse,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::RequestMagicLinkResponse,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::RequestMagicLinkResponse {
-                    challenge: match self.challenge.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::VerificationChallenge,
-                                ::buffa::Inline<super::super::VerificationChallenge>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for RequestMagicLinkResponseView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if self.challenge.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.challenge.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                __cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if self.challenge.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        1u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.challenge.write_to(__cache, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for RequestMagicLinkResponseView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                {
-                    if let ::core::option::Option::Some(__v) = self.challenge.as_option()
-                    {
-                        __map.serialize_entry("challenge", __v)?;
-                    }
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for RequestMagicLinkResponseView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "RequestMagicLinkResponse";
-            const FULL_NAME: &'static str = "oryon.identity.v1.RequestMagicLinkResponse";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.RequestMagicLinkResponse";
-        }
-        ::buffa::impl_default_view_instance!(RequestMagicLinkResponseView);
-        ::buffa::impl_view_reborrow!(RequestMagicLinkResponseView);
-        /** Self-contained, `'static` owned view of a `RequestMagicLinkResponse` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`RequestMagicLinkResponseView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`RequestMagicLinkResponseView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct RequestMagicLinkResponseOwnedView(
-            ::buffa::OwnedView<RequestMagicLinkResponseView<'static>>,
-        );
-        impl RequestMagicLinkResponseOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkResponseOwnedView(::buffa::OwnedView::decode(bytes)?),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkResponseOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::RequestMagicLinkResponse,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    RequestMagicLinkResponseOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`RequestMagicLinkResponseView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &RequestMagicLinkResponseView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(&self) -> super::super::RequestMagicLinkResponse {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Challenge metadata; actual link sent via email.
-            ///
-            /// Field 1: `challenge`
-            #[must_use]
-            pub fn challenge(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'_>,
-            > {
-                &self.0.reborrow().challenge
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<RequestMagicLinkResponseView<'static>>,
-        > for RequestMagicLinkResponseOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<RequestMagicLinkResponseView<'static>>,
-            ) -> Self {
-                RequestMagicLinkResponseOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<RequestMagicLinkResponseOwnedView>
-        for ::buffa::OwnedView<RequestMagicLinkResponseView<'static>> {
-            fn from(wrapper: RequestMagicLinkResponseOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<RequestMagicLinkResponseView<'static>>,
-        > for RequestMagicLinkResponseOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<RequestMagicLinkResponseView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::RequestMagicLinkResponse {
-            type View<'a> = RequestMagicLinkResponseView<'a>;
-            type ViewHandle = RequestMagicLinkResponseOwnedView;
-        }
-        impl ::serde::Serialize for RequestMagicLinkResponseOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct ConsumeMagicLinkRequestView<'a> {
-            /// Token extracted from magic link URL query param.
-            ///
-            /// Field 1: `token`
-            pub token: &'a str,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for ConsumeMagicLinkRequestView<'a> {
-            type Owned = super::super::ConsumeMagicLinkRequest;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.token = ::buffa::types::borrow_str(&mut cur)?;
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::ConsumeMagicLinkRequest,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::ConsumeMagicLinkRequest,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::ConsumeMagicLinkRequest {
-                    token: self.token.to_string(),
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for ConsumeMagicLinkRequestView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if !self.token.is_empty() {
-                    size
-                        += 1u64 + ::buffa::types::string_encoded_len(&self.token) as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                _cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if !self.token.is_empty() {
-                    ::buffa::types::put_string_field(1u32, &self.token, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for ConsumeMagicLinkRequestView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.token) {
-                    __map.serialize_entry("token", self.token)?;
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for ConsumeMagicLinkRequestView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "ConsumeMagicLinkRequest";
-            const FULL_NAME: &'static str = "oryon.identity.v1.ConsumeMagicLinkRequest";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkRequest";
-        }
-        ::buffa::impl_default_view_instance!(ConsumeMagicLinkRequestView);
-        ::buffa::impl_view_reborrow!(ConsumeMagicLinkRequestView);
-        /** Self-contained, `'static` owned view of a `ConsumeMagicLinkRequest` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`ConsumeMagicLinkRequestView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`ConsumeMagicLinkRequestView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct ConsumeMagicLinkRequestOwnedView(
-            ::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>>,
-        );
-        impl ConsumeMagicLinkRequestOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkRequestOwnedView(::buffa::OwnedView::decode(bytes)?),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkRequestOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::ConsumeMagicLinkRequest,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkRequestOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`ConsumeMagicLinkRequestView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &ConsumeMagicLinkRequestView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(&self) -> super::super::ConsumeMagicLinkRequest {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Token extracted from magic link URL query param.
-            ///
-            /// Field 1: `token`
-            #[must_use]
-            pub fn token(&self) -> &'_ str {
-                self.0.reborrow().token
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>>,
-        > for ConsumeMagicLinkRequestOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>>,
-            ) -> Self {
-                ConsumeMagicLinkRequestOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<ConsumeMagicLinkRequestOwnedView>
-        for ::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>> {
-            fn from(wrapper: ConsumeMagicLinkRequestOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>>,
-        > for ConsumeMagicLinkRequestOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<ConsumeMagicLinkRequestView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::ConsumeMagicLinkRequest {
-            type View<'a> = ConsumeMagicLinkRequestView<'a>;
-            type ViewHandle = ConsumeMagicLinkRequestOwnedView;
-        }
-        impl ::serde::Serialize for ConsumeMagicLinkRequestOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct ConsumeMagicLinkResponseView<'a> {
-            /// Field 1: `token`
-            pub token: ::buffa::MessageFieldView<
-                super::super::__buffa::view::TokenView<'a>,
-            >,
-            /// Field 2: `session`
-            pub session: ::buffa::MessageFieldView<
-                super::super::__buffa::view::SessionView<'a>,
-            >,
-            /// Field 3: `user`
-            pub user: ::buffa::MessageFieldView<
-                super::super::__buffa::view::UserView<'a>,
-            >,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for ConsumeMagicLinkResponseView<'a> {
-            type Owned = super::super::ConsumeMagicLinkResponse;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.token.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.token = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::TokenView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    2u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.session.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.session = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::SessionView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    3u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.user.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.user = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::UserView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::ConsumeMagicLinkResponse,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::ConsumeMagicLinkResponse,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::ConsumeMagicLinkResponse {
-                    token: match self.token.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::Token,
-                                ::buffa::Inline<super::super::Token>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    session: match self.session.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::Session,
-                                ::buffa::Inline<super::super::Session>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    user: match self.user.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::User,
-                                ::buffa::Inline<super::super::User>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for ConsumeMagicLinkResponseView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if self.token.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.token.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.session.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.session.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.user.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.user.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                __cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if self.token.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        1u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.token.write_to(__cache, buf);
-                }
-                if self.session.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        2u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.session.write_to(__cache, buf);
-                }
-                if self.user.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        3u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.user.write_to(__cache, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for ConsumeMagicLinkResponseView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                {
-                    if let ::core::option::Option::Some(__v) = self.token.as_option() {
-                        __map.serialize_entry("token", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.session.as_option() {
-                        __map.serialize_entry("session", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.user.as_option() {
-                        __map.serialize_entry("user", __v)?;
-                    }
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for ConsumeMagicLinkResponseView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "ConsumeMagicLinkResponse";
-            const FULL_NAME: &'static str = "oryon.identity.v1.ConsumeMagicLinkResponse";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ConsumeMagicLinkResponse";
-        }
-        ::buffa::impl_default_view_instance!(ConsumeMagicLinkResponseView);
-        ::buffa::impl_view_reborrow!(ConsumeMagicLinkResponseView);
-        /** Self-contained, `'static` owned view of a `ConsumeMagicLinkResponse` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`ConsumeMagicLinkResponseView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`ConsumeMagicLinkResponseView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct ConsumeMagicLinkResponseOwnedView(
-            ::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>>,
-        );
-        impl ConsumeMagicLinkResponseOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkResponseOwnedView(::buffa::OwnedView::decode(bytes)?),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkResponseOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::ConsumeMagicLinkResponse,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ConsumeMagicLinkResponseOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`ConsumeMagicLinkResponseView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &ConsumeMagicLinkResponseView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(&self) -> super::super::ConsumeMagicLinkResponse {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Field 1: `token`
-            #[must_use]
-            pub fn token(
-                &self,
-            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::TokenView<'_>> {
-                &self.0.reborrow().token
-            }
-            /// Field 2: `session`
-            #[must_use]
-            pub fn session(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::SessionView<'_>,
-            > {
-                &self.0.reborrow().session
-            }
-            /// Field 3: `user`
-            #[must_use]
-            pub fn user(
-                &self,
-            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::UserView<'_>> {
-                &self.0.reborrow().user
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>>,
-        > for ConsumeMagicLinkResponseOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>>,
-            ) -> Self {
-                ConsumeMagicLinkResponseOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<ConsumeMagicLinkResponseOwnedView>
-        for ::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>> {
-            fn from(wrapper: ConsumeMagicLinkResponseOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>>,
-        > for ConsumeMagicLinkResponseOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<ConsumeMagicLinkResponseView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::ConsumeMagicLinkResponse {
-            type View<'a> = ConsumeMagicLinkResponseView<'a>;
-            type ViewHandle = ConsumeMagicLinkResponseOwnedView;
-        }
-        impl ::serde::Serialize for ConsumeMagicLinkResponseOwnedView {
             fn serialize<__S: ::serde::Serializer>(
                 &self,
                 __s: __S,
@@ -47173,7 +43431,6 @@ pub mod __buffa {
         reg.register_json_any(super::__TOKEN_JSON_ANY);
         reg.register_json_any(super::__AUTH_FLOW_JSON_ANY);
         reg.register_json_any(super::__VERIFICATION_CHALLENGE_JSON_ANY);
-        reg.register_json_any(super::__SECURITY_EVENT_JSON_ANY);
         reg.register_json_any(super::__REGISTRATION_REQUEST_JSON_ANY);
         reg.register_json_any(super::__REGISTRATION_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__LOGIN_REQUEST_JSON_ANY);
@@ -47192,10 +43449,6 @@ pub mod __buffa {
         reg.register_json_any(super::__REQUEST_EMAIL_VERIFICATION_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__VERIFY_EMAIL_REQUEST_JSON_ANY);
         reg.register_json_any(super::__VERIFY_EMAIL_RESPONSE_JSON_ANY);
-        reg.register_json_any(super::__REQUEST_MAGIC_LINK_REQUEST_JSON_ANY);
-        reg.register_json_any(super::__REQUEST_MAGIC_LINK_RESPONSE_JSON_ANY);
-        reg.register_json_any(super::__CONSUME_MAGIC_LINK_REQUEST_JSON_ANY);
-        reg.register_json_any(super::__CONSUME_MAGIC_LINK_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__BEGIN_PASSKEY_REGISTRATION_REQUEST_JSON_ANY);
         reg.register_json_any(super::__BEGIN_PASSKEY_REGISTRATION_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__FINISH_PASSKEY_REGISTRATION_REQUEST_JSON_ANY);
@@ -47399,10 +43652,6 @@ pub use self::__buffa::view::VerificationChallengeView;
 #[doc(inline)]
 pub use self::__buffa::view::VerificationChallengeOwnedView;
 #[doc(inline)]
-pub use self::__buffa::view::SecurityEventView;
-#[doc(inline)]
-pub use self::__buffa::view::SecurityEventOwnedView;
-#[doc(inline)]
 pub use self::__buffa::view::RegistrationRequestView;
 #[doc(inline)]
 pub use self::__buffa::view::RegistrationRequestOwnedView;
@@ -47474,22 +43723,6 @@ pub use self::__buffa::view::VerifyEmailRequestOwnedView;
 pub use self::__buffa::view::VerifyEmailResponseView;
 #[doc(inline)]
 pub use self::__buffa::view::VerifyEmailResponseOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::RequestMagicLinkRequestView;
-#[doc(inline)]
-pub use self::__buffa::view::RequestMagicLinkRequestOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::RequestMagicLinkResponseView;
-#[doc(inline)]
-pub use self::__buffa::view::RequestMagicLinkResponseOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::ConsumeMagicLinkRequestView;
-#[doc(inline)]
-pub use self::__buffa::view::ConsumeMagicLinkRequestOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::ConsumeMagicLinkResponseView;
-#[doc(inline)]
-pub use self::__buffa::view::ConsumeMagicLinkResponseOwnedView;
 #[doc(inline)]
 pub use self::__buffa::view::BeginPasskeyRegistrationRequestView;
 #[doc(inline)]

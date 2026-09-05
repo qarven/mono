@@ -28,8 +28,6 @@ const (
 	AuthenticationService_ConfirmPasswordReset_FullMethodName      = "/oryon.identity.v1.AuthenticationService/ConfirmPasswordReset"
 	AuthenticationService_RequestEmailVerification_FullMethodName  = "/oryon.identity.v1.AuthenticationService/RequestEmailVerification"
 	AuthenticationService_VerifyEmail_FullMethodName               = "/oryon.identity.v1.AuthenticationService/VerifyEmail"
-	AuthenticationService_RequestMagicLink_FullMethodName          = "/oryon.identity.v1.AuthenticationService/RequestMagicLink"
-	AuthenticationService_ConsumeMagicLink_FullMethodName          = "/oryon.identity.v1.AuthenticationService/ConsumeMagicLink"
 	AuthenticationService_BeginPasskeyRegistration_FullMethodName  = "/oryon.identity.v1.AuthenticationService/BeginPasskeyRegistration"
 	AuthenticationService_FinishPasskeyRegistration_FullMethodName = "/oryon.identity.v1.AuthenticationService/FinishPasskeyRegistration"
 	AuthenticationService_BeginPasskeyLogin_FullMethodName         = "/oryon.identity.v1.AuthenticationService/BeginPasskeyLogin"
@@ -49,8 +47,6 @@ type AuthenticationServiceClient interface {
 	ConfirmPasswordReset(ctx context.Context, in *ConfirmPasswordResetRequest, opts ...grpc.CallOption) (*ConfirmPasswordResetResponse, error)
 	RequestEmailVerification(ctx context.Context, in *RequestEmailVerificationRequest, opts ...grpc.CallOption) (*RequestEmailVerificationResponse, error)
 	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*VerifyEmailResponse, error)
-	RequestMagicLink(ctx context.Context, in *RequestMagicLinkRequest, opts ...grpc.CallOption) (*RequestMagicLinkResponse, error)
-	ConsumeMagicLink(ctx context.Context, in *ConsumeMagicLinkRequest, opts ...grpc.CallOption) (*ConsumeMagicLinkResponse, error)
 	BeginPasskeyRegistration(ctx context.Context, in *BeginPasskeyRegistrationRequest, opts ...grpc.CallOption) (*BeginPasskeyRegistrationResponse, error)
 	FinishPasskeyRegistration(ctx context.Context, in *FinishPasskeyRegistrationRequest, opts ...grpc.CallOption) (*FinishPasskeyRegistrationResponse, error)
 	BeginPasskeyLogin(ctx context.Context, in *BeginPasskeyLoginRequest, opts ...grpc.CallOption) (*BeginPasskeyLoginResponse, error)
@@ -155,26 +151,6 @@ func (c *authenticationServiceClient) VerifyEmail(ctx context.Context, in *Verif
 	return out, nil
 }
 
-func (c *authenticationServiceClient) RequestMagicLink(ctx context.Context, in *RequestMagicLinkRequest, opts ...grpc.CallOption) (*RequestMagicLinkResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(RequestMagicLinkResponse)
-	err := c.cc.Invoke(ctx, AuthenticationService_RequestMagicLink_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationServiceClient) ConsumeMagicLink(ctx context.Context, in *ConsumeMagicLinkRequest, opts ...grpc.CallOption) (*ConsumeMagicLinkResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ConsumeMagicLinkResponse)
-	err := c.cc.Invoke(ctx, AuthenticationService_ConsumeMagicLink_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authenticationServiceClient) BeginPasskeyRegistration(ctx context.Context, in *BeginPasskeyRegistrationRequest, opts ...grpc.CallOption) (*BeginPasskeyRegistrationResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BeginPasskeyRegistrationResponse)
@@ -228,8 +204,6 @@ type AuthenticationServiceServer interface {
 	ConfirmPasswordReset(context.Context, *ConfirmPasswordResetRequest) (*ConfirmPasswordResetResponse, error)
 	RequestEmailVerification(context.Context, *RequestEmailVerificationRequest) (*RequestEmailVerificationResponse, error)
 	VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error)
-	RequestMagicLink(context.Context, *RequestMagicLinkRequest) (*RequestMagicLinkResponse, error)
-	ConsumeMagicLink(context.Context, *ConsumeMagicLinkRequest) (*ConsumeMagicLinkResponse, error)
 	BeginPasskeyRegistration(context.Context, *BeginPasskeyRegistrationRequest) (*BeginPasskeyRegistrationResponse, error)
 	FinishPasskeyRegistration(context.Context, *FinishPasskeyRegistrationRequest) (*FinishPasskeyRegistrationResponse, error)
 	BeginPasskeyLogin(context.Context, *BeginPasskeyLoginRequest) (*BeginPasskeyLoginResponse, error)
@@ -270,12 +244,6 @@ func (UnimplementedAuthenticationServiceServer) RequestEmailVerification(context
 }
 func (UnimplementedAuthenticationServiceServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*VerifyEmailResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method VerifyEmail not implemented")
-}
-func (UnimplementedAuthenticationServiceServer) RequestMagicLink(context.Context, *RequestMagicLinkRequest) (*RequestMagicLinkResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method RequestMagicLink not implemented")
-}
-func (UnimplementedAuthenticationServiceServer) ConsumeMagicLink(context.Context, *ConsumeMagicLinkRequest) (*ConsumeMagicLinkResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ConsumeMagicLink not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) BeginPasskeyRegistration(context.Context, *BeginPasskeyRegistrationRequest) (*BeginPasskeyRegistrationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method BeginPasskeyRegistration not implemented")
@@ -472,42 +440,6 @@ func _AuthenticationService_VerifyEmail_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthenticationService_RequestMagicLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RequestMagicLinkRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServiceServer).RequestMagicLink(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuthenticationService_RequestMagicLink_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).RequestMagicLink(ctx, req.(*RequestMagicLinkRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AuthenticationService_ConsumeMagicLink_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConsumeMagicLinkRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServiceServer).ConsumeMagicLink(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuthenticationService_ConsumeMagicLink_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).ConsumeMagicLink(ctx, req.(*ConsumeMagicLinkRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _AuthenticationService_BeginPasskeyRegistration_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(BeginPasskeyRegistrationRequest)
 	if err := dec(in); err != nil {
@@ -622,14 +554,6 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyEmail",
 			Handler:    _AuthenticationService_VerifyEmail_Handler,
-		},
-		{
-			MethodName: "RequestMagicLink",
-			Handler:    _AuthenticationService_RequestMagicLink_Handler,
-		},
-		{
-			MethodName: "ConsumeMagicLink",
-			Handler:    _AuthenticationService_ConsumeMagicLink_Handler,
 		},
 		{
 			MethodName: "BeginPasskeyRegistration",

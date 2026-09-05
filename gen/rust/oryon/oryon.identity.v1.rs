@@ -3940,30 +3940,6 @@ pub type OwnedVerifyEmailRequestView = ::buffa::view::OwnedView<
 pub type OwnedVerifyEmailResponseView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::VerifyEmailResponseView<'static>,
 >;
-///Shorthand for `OwnedView<RequestMagicLinkRequestView<'static>>`.
-pub type OwnedRequestMagicLinkRequestView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkRequestView<
-        'static,
-    >,
->;
-///Shorthand for `OwnedView<RequestMagicLinkResponseView<'static>>`.
-pub type OwnedRequestMagicLinkResponseView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkResponseView<
-        'static,
-    >,
->;
-///Shorthand for `OwnedView<ConsumeMagicLinkRequestView<'static>>`.
-pub type OwnedConsumeMagicLinkRequestView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkRequestView<
-        'static,
-    >,
->;
-///Shorthand for `OwnedView<ConsumeMagicLinkResponseView<'static>>`.
-pub type OwnedConsumeMagicLinkResponseView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkResponseView<
-        'static,
-    >,
->;
 ///Shorthand for `OwnedView<BeginPasskeyRegistrationRequestView<'static>>`.
 pub type OwnedBeginPasskeyRegistrationRequestView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::BeginPasskeyRegistrationRequestView<
@@ -4342,78 +4318,6 @@ for ::buffa::view::OwnedView<
         )
     }
 }
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::RequestMagicLinkResponse>
-for crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkResponseView<'_> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self, codec)
-    }
-}
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::RequestMagicLinkResponse>
-for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkResponseView<
-        'static,
-    >,
-> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
-    }
-    /// An `OwnedView` still holds the buffer it was decoded from, so
-    /// its large fields can be handed to the response body by
-    /// reference count instead of copied. The bare view impl above
-    /// cannot do this: it has borrows but no buffer to name.
-    fn encode_segments(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body_segments(
-            self.reborrow(),
-            self.bytes(),
-            codec,
-        )
-    }
-}
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::ConsumeMagicLinkResponse>
-for crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkResponseView<'_> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self, codec)
-    }
-}
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::ConsumeMagicLinkResponse>
-for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkResponseView<
-        'static,
-    >,
-> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
-    }
-    /// An `OwnedView` still holds the buffer it was decoded from, so
-    /// its large fields can be handed to the response body by
-    /// reference count instead of copied. The bare view impl above
-    /// cannot do this: it has borrows but no buffer to name.
-    fn encode_segments(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body_segments(
-            self.reborrow(),
-            self.bytes(),
-            codec,
-        )
-    }
-}
 impl ::connectrpc::Encodable<
     crate::proto::oryon::identity::v1::BeginPasskeyRegistrationResponse,
 >
@@ -4633,18 +4537,6 @@ pub const AUTHENTICATION_SERVICE_REQUEST_EMAIL_VERIFICATION_SPEC: ::connectrpc::
 /// Static [`Spec`](::connectrpc::Spec) for the `VerifyEmail` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
 pub const AUTHENTICATION_SERVICE_VERIFY_EMAIL_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
         "/oryon.identity.v1.AuthenticationService/VerifyEmail",
-        ::connectrpc::StreamType::Unary,
-    )
-    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `RequestMagicLink` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_REQUEST_MAGIC_LINK_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/RequestMagicLink",
-        ::connectrpc::StreamType::Unary,
-    )
-    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `ConsumeMagicLink` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_CONSUME_MAGIC_LINK_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/ConsumeMagicLink",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -4927,52 +4819,6 @@ pub trait AuthenticationService: Send + Sync + 'static {
         Output = ::connectrpc::ServiceResult<
             impl ::connectrpc::Encodable<
                 crate::proto::oryon::identity::v1::VerifyEmailResponse,
-            > + Send + use<'a, Self>,
-        >,
-    > + Send;
-    /// Handle the RequestMagicLink RPC.
-    ///
-    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
-    ///
-    /// `request` is borrowed from the request body and is valid for the
-    /// duration of the call; message fields are read directly on it
-    /// (zero-copy). The response cannot borrow from `request` — use
-    /// `.to_owned_message()` (or copy the specific fields) for anything
-    /// returned, stored, or moved into `tokio::spawn`.
-    fn request_magic_link<'a>(
-        &'a self,
-        ctx: ::connectrpc::RequestContext,
-        request: ::connectrpc::ServiceRequest<
-            '_,
-            crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-        >,
-    ) -> impl ::std::future::Future<
-        Output = ::connectrpc::ServiceResult<
-            impl ::connectrpc::Encodable<
-                crate::proto::oryon::identity::v1::RequestMagicLinkResponse,
-            > + Send + use<'a, Self>,
-        >,
-    > + Send;
-    /// Handle the ConsumeMagicLink RPC.
-    ///
-    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
-    ///
-    /// `request` is borrowed from the request body and is valid for the
-    /// duration of the call; message fields are read directly on it
-    /// (zero-copy). The response cannot borrow from `request` — use
-    /// `.to_owned_message()` (or copy the specific fields) for anything
-    /// returned, stored, or moved into `tokio::spawn`.
-    fn consume_magic_link<'a>(
-        &'a self,
-        ctx: ::connectrpc::RequestContext,
-        request: ::connectrpc::ServiceRequest<
-            '_,
-            crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-        >,
-    ) -> impl ::std::future::Future<
-        Output = ::connectrpc::ServiceResult<
-            impl ::connectrpc::Encodable<
-                crate::proto::oryon::identity::v1::ConsumeMagicLinkResponse,
             > + Send + use<'a, Self>,
         >,
     > + Send;
@@ -5363,64 +5209,6 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
             .with_spec(AUTHENTICATION_SERVICE_VERIFY_EMAIL_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
-                "RequestMagicLink",
-                {
-                    let svc = ::std::sync::Arc::clone(&self);
-                    ::connectrpc::view_handler_fn(move |
-                        ctx,
-                        req: ::buffa::view::OwnedView<
-                            crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkRequestView<
-                                'static,
-                            >,
-                        >,
-                        format|
-                    {
-                        let svc = ::std::sync::Arc::clone(&svc);
-                        async move {
-                            let sreq = ::connectrpc::ServiceRequest::<
-                                crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-                            >::from_parts(req.reborrow(), req.bytes());
-                            svc.request_magic_link(ctx, sreq)
-                                .await?
-                                .encode::<
-                                    crate::proto::oryon::identity::v1::RequestMagicLinkResponse,
-                                >(format)
-                        }
-                    })
-                },
-            )
-            .with_spec(AUTHENTICATION_SERVICE_REQUEST_MAGIC_LINK_SPEC)
-            .route_view(
-                AUTHENTICATION_SERVICE_SERVICE_NAME,
-                "ConsumeMagicLink",
-                {
-                    let svc = ::std::sync::Arc::clone(&self);
-                    ::connectrpc::view_handler_fn(move |
-                        ctx,
-                        req: ::buffa::view::OwnedView<
-                            crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkRequestView<
-                                'static,
-                            >,
-                        >,
-                        format|
-                    {
-                        let svc = ::std::sync::Arc::clone(&svc);
-                        async move {
-                            let sreq = ::connectrpc::ServiceRequest::<
-                                crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-                            >::from_parts(req.reborrow(), req.bytes());
-                            svc.consume_magic_link(ctx, sreq)
-                                .await?
-                                .encode::<
-                                    crate::proto::oryon::identity::v1::ConsumeMagicLinkResponse,
-                                >(format)
-                        }
-                    })
-                },
-            )
-            .with_spec(AUTHENTICATION_SERVICE_CONSUME_MAGIC_LINK_SPEC)
-            .route_view(
-                AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "BeginPasskeyRegistration",
                 {
                     let svc = ::std::sync::Arc::clone(&self);
@@ -5646,18 +5434,6 @@ for AuthenticationServiceServer<T> {
                 Some(
                     ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
                         .with_spec(AUTHENTICATION_SERVICE_VERIFY_EMAIL_SPEC),
-                )
-            }
-            "RequestMagicLink" => {
-                Some(
-                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
-                        .with_spec(AUTHENTICATION_SERVICE_REQUEST_MAGIC_LINK_SPEC),
-                )
-            }
-            "ConsumeMagicLink" => {
-                Some(
-                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
-                        .with_spec(AUTHENTICATION_SERVICE_CONSUME_MAGIC_LINK_SPEC),
                 )
             }
             "BeginPasskeyRegistration" => {
@@ -5899,50 +5675,6 @@ for AuthenticationServiceServer<T> {
                         .await?
                         .encode::<
                             crate::proto::oryon::identity::v1::VerifyEmailResponse,
-                        >(format)
-                })
-            }
-            "RequestMagicLink" => {
-                let svc = ::std::sync::Arc::clone(&self.inner);
-                Box::pin(async move {
-                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
-                        crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-                    >(request.encoded()?, format)?;
-                    let req: crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkRequestView<
-                        '_,
-                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
-                        &body,
-                        ctx.decode_options(),
-                    )?;
-                    let req = ::connectrpc::ServiceRequest::<
-                        crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-                    >::from_parts(&req, &body);
-                    svc.request_magic_link(ctx, req)
-                        .await?
-                        .encode::<
-                            crate::proto::oryon::identity::v1::RequestMagicLinkResponse,
-                        >(format)
-                })
-            }
-            "ConsumeMagicLink" => {
-                let svc = ::std::sync::Arc::clone(&self.inner);
-                Box::pin(async move {
-                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
-                        crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-                    >(request.encoded()?, format)?;
-                    let req: crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkRequestView<
-                        '_,
-                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
-                        &body,
-                        ctx.decode_options(),
-                    )?;
-                    let req = ::connectrpc::ServiceRequest::<
-                        crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-                    >::from_parts(&req, &body);
-                    svc.consume_magic_link(ctx, req)
-                        .await?
-                        .encode::<
-                            crate::proto::oryon::identity::v1::ConsumeMagicLinkResponse,
                         >(format)
                 })
             }
@@ -6561,96 +6293,6 @@ where
                 &self.transport,
                 &self.config,
                 AUTHENTICATION_SERVICE_VERIFY_EMAIL_SPEC
-                    .with_origin(::connectrpc::SpecOrigin::Client),
-                request,
-                options,
-            )
-            .await
-    }
-    /// Call the RequestMagicLink RPC. Sends a request to /oryon.identity.v1.AuthenticationService/RequestMagicLink.
-    pub async fn request_magic_link(
-        &self,
-        request: crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        self.request_magic_link_with_options(
-                request,
-                ::connectrpc::client::CallOptions::default(),
-            )
-            .await
-    }
-    /// Call the RequestMagicLink RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
-    pub async fn request_magic_link_with_options(
-        &self,
-        request: crate::proto::oryon::identity::v1::RequestMagicLinkRequest,
-        options: ::connectrpc::client::CallOptions,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::RequestMagicLinkResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        ::connectrpc::client::call_unary(
-                &self.transport,
-                &self.config,
-                AUTHENTICATION_SERVICE_REQUEST_MAGIC_LINK_SPEC
-                    .with_origin(::connectrpc::SpecOrigin::Client),
-                request,
-                options,
-            )
-            .await
-    }
-    /// Call the ConsumeMagicLink RPC. Sends a request to /oryon.identity.v1.AuthenticationService/ConsumeMagicLink.
-    pub async fn consume_magic_link(
-        &self,
-        request: crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        self.consume_magic_link_with_options(
-                request,
-                ::connectrpc::client::CallOptions::default(),
-            )
-            .await
-    }
-    /// Call the ConsumeMagicLink RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
-    pub async fn consume_magic_link_with_options(
-        &self,
-        request: crate::proto::oryon::identity::v1::ConsumeMagicLinkRequest,
-        options: ::connectrpc::client::CallOptions,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::ConsumeMagicLinkResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        ::connectrpc::client::call_unary(
-                &self.transport,
-                &self.config,
-                AUTHENTICATION_SERVICE_CONSUME_MAGIC_LINK_SPEC
                     .with_origin(::connectrpc::SpecOrigin::Client),
                 request,
                 options,

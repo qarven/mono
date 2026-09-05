@@ -60,12 +60,6 @@ const (
 	// AuthenticationServiceVerifyEmailProcedure is the fully-qualified name of the
 	// AuthenticationService's VerifyEmail RPC.
 	AuthenticationServiceVerifyEmailProcedure = "/oryon.identity.v1.AuthenticationService/VerifyEmail"
-	// AuthenticationServiceRequestMagicLinkProcedure is the fully-qualified name of the
-	// AuthenticationService's RequestMagicLink RPC.
-	AuthenticationServiceRequestMagicLinkProcedure = "/oryon.identity.v1.AuthenticationService/RequestMagicLink"
-	// AuthenticationServiceConsumeMagicLinkProcedure is the fully-qualified name of the
-	// AuthenticationService's ConsumeMagicLink RPC.
-	AuthenticationServiceConsumeMagicLinkProcedure = "/oryon.identity.v1.AuthenticationService/ConsumeMagicLink"
 	// AuthenticationServiceBeginPasskeyRegistrationProcedure is the fully-qualified name of the
 	// AuthenticationService's BeginPasskeyRegistration RPC.
 	AuthenticationServiceBeginPasskeyRegistrationProcedure = "/oryon.identity.v1.AuthenticationService/BeginPasskeyRegistration"
@@ -91,8 +85,6 @@ type AuthenticationServiceClient interface {
 	ConfirmPasswordReset(context.Context, *connect.Request[v1.ConfirmPasswordResetRequest]) (*connect.Response[v1.ConfirmPasswordResetResponse], error)
 	RequestEmailVerification(context.Context, *connect.Request[v1.RequestEmailVerificationRequest]) (*connect.Response[v1.RequestEmailVerificationResponse], error)
 	VerifyEmail(context.Context, *connect.Request[v1.VerifyEmailRequest]) (*connect.Response[v1.VerifyEmailResponse], error)
-	RequestMagicLink(context.Context, *connect.Request[v1.RequestMagicLinkRequest]) (*connect.Response[v1.RequestMagicLinkResponse], error)
-	ConsumeMagicLink(context.Context, *connect.Request[v1.ConsumeMagicLinkRequest]) (*connect.Response[v1.ConsumeMagicLinkResponse], error)
 	BeginPasskeyRegistration(context.Context, *connect.Request[v1.BeginPasskeyRegistrationRequest]) (*connect.Response[v1.BeginPasskeyRegistrationResponse], error)
 	FinishPasskeyRegistration(context.Context, *connect.Request[v1.FinishPasskeyRegistrationRequest]) (*connect.Response[v1.FinishPasskeyRegistrationResponse], error)
 	BeginPasskeyLogin(context.Context, *connect.Request[v1.BeginPasskeyLoginRequest]) (*connect.Response[v1.BeginPasskeyLoginResponse], error)
@@ -164,18 +156,6 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			connect.WithSchema(authenticationServiceMethods.ByName("VerifyEmail")),
 			connect.WithClientOptions(opts...),
 		),
-		requestMagicLink: connect.NewClient[v1.RequestMagicLinkRequest, v1.RequestMagicLinkResponse](
-			httpClient,
-			baseURL+AuthenticationServiceRequestMagicLinkProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("RequestMagicLink")),
-			connect.WithClientOptions(opts...),
-		),
-		consumeMagicLink: connect.NewClient[v1.ConsumeMagicLinkRequest, v1.ConsumeMagicLinkResponse](
-			httpClient,
-			baseURL+AuthenticationServiceConsumeMagicLinkProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("ConsumeMagicLink")),
-			connect.WithClientOptions(opts...),
-		),
 		beginPasskeyRegistration: connect.NewClient[v1.BeginPasskeyRegistrationRequest, v1.BeginPasskeyRegistrationResponse](
 			httpClient,
 			baseURL+AuthenticationServiceBeginPasskeyRegistrationProcedure,
@@ -214,8 +194,6 @@ type authenticationServiceClient struct {
 	confirmPasswordReset      *connect.Client[v1.ConfirmPasswordResetRequest, v1.ConfirmPasswordResetResponse]
 	requestEmailVerification  *connect.Client[v1.RequestEmailVerificationRequest, v1.RequestEmailVerificationResponse]
 	verifyEmail               *connect.Client[v1.VerifyEmailRequest, v1.VerifyEmailResponse]
-	requestMagicLink          *connect.Client[v1.RequestMagicLinkRequest, v1.RequestMagicLinkResponse]
-	consumeMagicLink          *connect.Client[v1.ConsumeMagicLinkRequest, v1.ConsumeMagicLinkResponse]
 	beginPasskeyRegistration  *connect.Client[v1.BeginPasskeyRegistrationRequest, v1.BeginPasskeyRegistrationResponse]
 	finishPasskeyRegistration *connect.Client[v1.FinishPasskeyRegistrationRequest, v1.FinishPasskeyRegistrationResponse]
 	beginPasskeyLogin         *connect.Client[v1.BeginPasskeyLoginRequest, v1.BeginPasskeyLoginResponse]
@@ -267,16 +245,6 @@ func (c *authenticationServiceClient) VerifyEmail(ctx context.Context, req *conn
 	return c.verifyEmail.CallUnary(ctx, req)
 }
 
-// RequestMagicLink calls oryon.identity.v1.AuthenticationService.RequestMagicLink.
-func (c *authenticationServiceClient) RequestMagicLink(ctx context.Context, req *connect.Request[v1.RequestMagicLinkRequest]) (*connect.Response[v1.RequestMagicLinkResponse], error) {
-	return c.requestMagicLink.CallUnary(ctx, req)
-}
-
-// ConsumeMagicLink calls oryon.identity.v1.AuthenticationService.ConsumeMagicLink.
-func (c *authenticationServiceClient) ConsumeMagicLink(ctx context.Context, req *connect.Request[v1.ConsumeMagicLinkRequest]) (*connect.Response[v1.ConsumeMagicLinkResponse], error) {
-	return c.consumeMagicLink.CallUnary(ctx, req)
-}
-
 // BeginPasskeyRegistration calls oryon.identity.v1.AuthenticationService.BeginPasskeyRegistration.
 func (c *authenticationServiceClient) BeginPasskeyRegistration(ctx context.Context, req *connect.Request[v1.BeginPasskeyRegistrationRequest]) (*connect.Response[v1.BeginPasskeyRegistrationResponse], error) {
 	return c.beginPasskeyRegistration.CallUnary(ctx, req)
@@ -310,8 +278,6 @@ type AuthenticationServiceHandler interface {
 	ConfirmPasswordReset(context.Context, *connect.Request[v1.ConfirmPasswordResetRequest]) (*connect.Response[v1.ConfirmPasswordResetResponse], error)
 	RequestEmailVerification(context.Context, *connect.Request[v1.RequestEmailVerificationRequest]) (*connect.Response[v1.RequestEmailVerificationResponse], error)
 	VerifyEmail(context.Context, *connect.Request[v1.VerifyEmailRequest]) (*connect.Response[v1.VerifyEmailResponse], error)
-	RequestMagicLink(context.Context, *connect.Request[v1.RequestMagicLinkRequest]) (*connect.Response[v1.RequestMagicLinkResponse], error)
-	ConsumeMagicLink(context.Context, *connect.Request[v1.ConsumeMagicLinkRequest]) (*connect.Response[v1.ConsumeMagicLinkResponse], error)
 	BeginPasskeyRegistration(context.Context, *connect.Request[v1.BeginPasskeyRegistrationRequest]) (*connect.Response[v1.BeginPasskeyRegistrationResponse], error)
 	FinishPasskeyRegistration(context.Context, *connect.Request[v1.FinishPasskeyRegistrationRequest]) (*connect.Response[v1.FinishPasskeyRegistrationResponse], error)
 	BeginPasskeyLogin(context.Context, *connect.Request[v1.BeginPasskeyLoginRequest]) (*connect.Response[v1.BeginPasskeyLoginResponse], error)
@@ -379,18 +345,6 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		connect.WithSchema(authenticationServiceMethods.ByName("VerifyEmail")),
 		connect.WithHandlerOptions(opts...),
 	)
-	authenticationServiceRequestMagicLinkHandler := connect.NewUnaryHandler(
-		AuthenticationServiceRequestMagicLinkProcedure,
-		svc.RequestMagicLink,
-		connect.WithSchema(authenticationServiceMethods.ByName("RequestMagicLink")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceConsumeMagicLinkHandler := connect.NewUnaryHandler(
-		AuthenticationServiceConsumeMagicLinkProcedure,
-		svc.ConsumeMagicLink,
-		connect.WithSchema(authenticationServiceMethods.ByName("ConsumeMagicLink")),
-		connect.WithHandlerOptions(opts...),
-	)
 	authenticationServiceBeginPasskeyRegistrationHandler := connect.NewUnaryHandler(
 		AuthenticationServiceBeginPasskeyRegistrationProcedure,
 		svc.BeginPasskeyRegistration,
@@ -435,10 +389,6 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 			authenticationServiceRequestEmailVerificationHandler.ServeHTTP(w, r)
 		case AuthenticationServiceVerifyEmailProcedure:
 			authenticationServiceVerifyEmailHandler.ServeHTTP(w, r)
-		case AuthenticationServiceRequestMagicLinkProcedure:
-			authenticationServiceRequestMagicLinkHandler.ServeHTTP(w, r)
-		case AuthenticationServiceConsumeMagicLinkProcedure:
-			authenticationServiceConsumeMagicLinkHandler.ServeHTTP(w, r)
 		case AuthenticationServiceBeginPasskeyRegistrationProcedure:
 			authenticationServiceBeginPasskeyRegistrationHandler.ServeHTTP(w, r)
 		case AuthenticationServiceFinishPasskeyRegistrationProcedure:
@@ -490,14 +440,6 @@ func (UnimplementedAuthenticationServiceHandler) RequestEmailVerification(contex
 
 func (UnimplementedAuthenticationServiceHandler) VerifyEmail(context.Context, *connect.Request[v1.VerifyEmailRequest]) (*connect.Response[v1.VerifyEmailResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.VerifyEmail is not implemented"))
-}
-
-func (UnimplementedAuthenticationServiceHandler) RequestMagicLink(context.Context, *connect.Request[v1.RequestMagicLinkRequest]) (*connect.Response[v1.RequestMagicLinkResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.RequestMagicLink is not implemented"))
-}
-
-func (UnimplementedAuthenticationServiceHandler) ConsumeMagicLink(context.Context, *connect.Request[v1.ConsumeMagicLinkRequest]) (*connect.Response[v1.ConsumeMagicLinkResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.ConsumeMagicLink is not implemented"))
 }
 
 func (UnimplementedAuthenticationServiceHandler) BeginPasskeyRegistration(context.Context, *connect.Request[v1.BeginPasskeyRegistrationRequest]) (*connect.Response[v1.BeginPasskeyRegistrationResponse], error) {
