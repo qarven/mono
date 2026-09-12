@@ -17,6 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: bufbuild/buf-action@v1
+        with:
+          version: 1.72.0
       - run: make gen
       - name: Check generated code is up to date
         run: git diff --exit-code
@@ -27,9 +29,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: bufbuild/buf-action@v1
+        with:
+          version: 1.72.0
       - uses: actions/setup-go@v7
         with:
-          go-version: "1.26"
+          go-version: "1.27"
       - uses: dtolnay/rust-toolchain@stable
       - run: make gen
       - run: go build ./gen/go/...
@@ -42,6 +46,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: bufbuild/buf-action@v1
+        with:
+          version: 1.72.0
       - uses: actions/setup-node@v7
         with:
           node-version: 24
