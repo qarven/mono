@@ -2,39 +2,31 @@
 // @generated from file oryon/identity/v1/authentication.proto (package oryon.identity.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "../../../buf/validate/validate_pb";
 import type { Timestamp } from "../../../google/protobuf/timestamp_pb";
 import { file_google_protobuf_timestamp } from "../../../google/protobuf/timestamp_pb";
-import type { MfaFactorType, Passkey } from "./mfa_pb";
-import { file_oryon_identity_v1_mfa } from "./mfa_pb";
-import type { Session } from "./session_pb";
-import { file_oryon_identity_v1_session } from "./session_pb";
-import type { User, UserEmail } from "./user_pb";
-import { file_oryon_identity_v1_user } from "./user_pb";
+import type { AuthFlowState, AuthFlowType, MfaFactorType, UserStatus, VerificationPurpose } from "./enum_pb";
+import { file_oryon_identity_v1_enum } from "./enum_pb";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file oryon/identity/v1/authentication.proto.
  */
 export const file_oryon_identity_v1_authentication: GenFile = /*@__PURE__*/
-  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEingEKBVRva2VuEh0KDGFjY2Vzc190b2tlbhgBIAEoCUIHukgEcgIQARIeCg1yZWZyZXNoX3Rva2VuGAIgASgJQge6SARyAhABEhIKCnRva2VuX3R5cGUYAyABKAkSEgoKZXhwaXJlc19pbhgEIAEoAxIuCgpleHBpcmVzX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKwAQoIQXV0aEZsb3cSCgoCaWQYASABKAMSMgoJZmxvd190eXBlGAIgASgOMh8ub3J5b24uaWRlbnRpdHkudjEuQXV0aEZsb3dUeXBlEjQKCmZsb3dfc3RhdGUYAyABKA4yIC5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvd1N0YXRlEi4KCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIrMDChVWZXJpZmljYXRpb25DaGFsbGVuZ2USCgoCaWQYASABKAMSFAoHdXNlcl9pZBgCIAEoA0gAiAEBEhQKB2Zsb3dfaWQYAyABKANIAYgBARISCgppZGVudGlmaWVyGAQgASgJEjcKB3B1cnBvc2UYBSABKA4yJi5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25QdXJwb3NlEhAKCGF0dGVtcHRzGAYgASgFEhQKDG1heF9hdHRlbXB0cxgHIAEoBRIgCgppcF9hZGRyZXNzGAggASgJQge6SARyAnABSAKIAQESLgoKZXhwaXJlc19hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASNAoLY29uc3VtZWRfYXQYCiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAOIAQESLgoKY3JlYXRlZF9hdBgLIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCCgoIX3VzZXJfaWRCCgoIX2Zsb3dfaWRCDQoLX2lwX2FkZHJlc3NCDgoMX2NvbnN1bWVkX2F0IpcCChNSZWdpc3RyYXRpb25SZXF1ZXN0EhsKBWVtYWlsGAEgASgJQge6SARyAmABSACIAQESHAoIcGFzc3dvcmQYAiABKAlCCrpIB3IFEAgYgAESFQoEbmFtZRgDIAEoCUIHukgEcgIQARIsCgVwaG9uZRgEIAEoCUIYukgVchMyEV5cK1sxLTldXGR7MSwxNH0kSAGIAQE6bLpIaRpnCh5yZWdpc3RyYXRpb24uaWRlbnRpZmllcl9vbmVfb2YSIW9uZSBvZiBlbWFpbCBvciBwaG9uZSBpcyByZXF1aXJlZBoiaGFzKHRoaXMuZW1haWwpIHx8IGhhcyh0aGlzLnBob25lKUIICgZfZW1haWxCCAoGX3Bob25lIpUBChRSZWdpc3RyYXRpb25SZXNwb25zZRIlCgR1c2VyGAEgASgLMhcub3J5b24uaWRlbnRpdHkudjEuVXNlchIdChV2ZXJpZmljYXRpb25fcmVxdWlyZWQYAiABKAgSLgoEZmxvdxgDIAEoCzIbLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93SACIAQFCBwoFX2Zsb3ciegoMTG9naW5SZXF1ZXN0EhsKCmlkZW50aWZpZXIYASABKAlCB7pIBHICEAESHgoIcGFzc3dvcmQYAiABKAlCB7pIBHICEAFIAIgBARIUCgdmbG93X2lkGAMgASgJSAGIAQFCCwoJX3Bhc3N3b3JkQgoKCF9mbG93X2lkIt0CCg1Mb2dpblJlc3BvbnNlEiwKBXRva2VuGAEgASgLMhgub3J5b24uaWRlbnRpdHkudjEuVG9rZW5IAIgBARIwCgdzZXNzaW9uGAIgASgLMhoub3J5b24uaWRlbnRpdHkudjEuU2Vzc2lvbkgBiAEBEioKBHVzZXIYAyABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VySAKIAQESLgoEZmxvdxgEIAEoCzIbLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93SAOIAQESFAoMbWZhX3JlcXVpcmVkGAUgASgIEj8KFWF2YWlsYWJsZV9tZmFfbWV0aG9kcxgGIAMoDjIgLm9yeW9uLmlkZW50aXR5LnYxLk1mYUZhY3RvclR5cGUSEQoJbmV4dF9zdGVwGAcgASgJQggKBl90b2tlbkIKCghfc2Vzc2lvbkIHCgVfdXNlckIHCgVfZmxvdyKiAQoSQ29tcGxldGVNZmFSZXF1ZXN0EhgKB2Zsb3dfaWQYASABKAlCB7pIBHICEAESFQoEY29kZRgCIAEoCUIHukgEcgIQARI1CgtmYWN0b3JfdHlwZRgDIAEoDjIgLm9yeW9uLmlkZW50aXR5LnYxLk1mYUZhY3RvclR5cGUSFgoJZmFjdG9yX2lkGAQgASgDSACIAQFCDAoKX2ZhY3Rvcl9pZCKSAQoTQ29tcGxldGVNZmFSZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuEisKB3Nlc3Npb24YAiABKAsyGi5vcnlvbi5pZGVudGl0eS52MS5TZXNzaW9uEiUKBHVzZXIYAyABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyIjUKE1JlZnJlc2hUb2tlblJlcXVlc3QSHgoNcmVmcmVzaF90b2tlbhgBIAEoCUIHukgEcgIQASJsChRSZWZyZXNoVG9rZW5SZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuEisKB3Nlc3Npb24YAiABKAsyGi5vcnlvbi5pZGVudGl0eS52MS5TZXNzaW9uIlwKFUNoYW5nZVBhc3N3b3JkUmVxdWVzdBIhChBjdXJyZW50X3Bhc3N3b3JkGAEgASgJQge6SARyAhABEiAKDG5ld19wYXNzd29yZBgCIAEoCUIKukgHcgUQCBiAASIYChZDaGFuZ2VQYXNzd29yZFJlc3BvbnNlIjUKG1JlcXVlc3RQYXNzd29yZFJlc2V0UmVxdWVzdBIWCgVlbWFpbBgBIAEoCUIHukgEcgJgASJQChxSZXF1ZXN0UGFzc3dvcmRSZXNldFJlc3BvbnNlEhwKD3ZlcmlmaWNhdGlvbl9pZBgBIAEoCUgAiAEBQhIKEF92ZXJpZmljYXRpb25faWQicwobQ29uZmlybVBhc3N3b3JkUmVzZXRSZXF1ZXN0EhYKBXRva2VuGAEgASgJQge6SARyAhABEhEKBGNvZGUYAiABKAlIAIgBARIgCgxuZXdfcGFzc3dvcmQYAyABKAlCCrpIB3IFEAgYgAFCBwoFX2NvZGUiVgocQ29uZmlybVBhc3N3b3JkUmVzZXRSZXNwb25zZRIsCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuSACIAQFCCAoGX3Rva2VuImwKH1JlcXVlc3RFbWFpbFZlcmlmaWNhdGlvblJlcXVlc3QSGwoFZW1haWwYASABKAlCB7pIBHICYAFIAIgBARIVCghlbWFpbF9pZBgCIAEoA0gBiAEBQggKBl9lbWFpbEILCglfZW1haWxfaWQiXwogUmVxdWVzdEVtYWlsVmVyaWZpY2F0aW9uUmVzcG9uc2USOwoJY2hhbGxlbmdlGAEgASgLMigub3J5b24uaWRlbnRpdHkudjEuVmVyaWZpY2F0aW9uQ2hhbGxlbmdlIqEBChJWZXJpZnlFbWFpbFJlcXVlc3QSFgoFdG9rZW4YASABKAlCB7pIBHICEAESEQoEY29kZRgCIAEoCUgAiAEBEhwKD3ZlcmlmaWNhdGlvbl9pZBgDIAEoCUgBiAEBEhsKBWVtYWlsGAQgASgJQge6SARyAmABSAKIAQFCBwoFX2NvZGVCEgoQX3ZlcmlmaWNhdGlvbl9pZEIICgZfZW1haWwiVAoTVmVyaWZ5RW1haWxSZXNwb25zZRIrCgVlbWFpbBgBIAEoCzIcLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJFbWFpbBIQCgh2ZXJpZmllZBgCIAEoCCJaCh9CZWdpblBhc3NrZXlSZWdpc3RyYXRpb25SZXF1ZXN0EhUKBG5hbWUYASABKAlCB7pIBHICEAESFAoHZmxvd19pZBgCIAEoCUgAiAEBQgoKCF9mbG93X2lkIoYBCiBCZWdpblBhc3NrZXlSZWdpc3RyYXRpb25SZXNwb25zZRImChVjcmVhdGlvbl9vcHRpb25zX2pzb24YASABKAlCB7pIBHICEAESDwoHZmxvd19pZBgCIAEoCRIpCgRmbG93GAMgASgLMhsub3J5b24uaWRlbnRpdHkudjEuQXV0aEZsb3ciaAogRmluaXNoUGFzc2tleVJlZ2lzdHJhdGlvblJlcXVlc3QSGAoHZmxvd19pZBgBIAEoCUIHukgEcgIQARIqChlhdHRlc3RhdGlvbl9yZXNwb25zZV9qc29uGAIgASgJQge6SARyAhABIlAKIUZpbmlzaFBhc3NrZXlSZWdpc3RyYXRpb25SZXNwb25zZRIrCgdwYXNza2V5GAEgASgLMhoub3J5b24uaWRlbnRpdHkudjEuUGFzc2tleSJjChhCZWdpblBhc3NrZXlMb2dpblJlcXVlc3QSGwoFZW1haWwYASABKAlCB7pIBHICYAFIAIgBARIUCgdmbG93X2lkGAIgASgJSAGIAQFCCAoGX2VtYWlsQgoKCF9mbG93X2lkIn4KGUJlZ2luUGFzc2tleUxvZ2luUmVzcG9uc2USJQoUcmVxdWVzdF9vcHRpb25zX2pzb24YASABKAlCB7pIBHICEAESDwoHZmxvd19pZBgCIAEoCRIpCgRmbG93GAMgASgLMhsub3J5b24uaWRlbnRpdHkudjEuQXV0aEZsb3ciXwoZRmluaXNoUGFzc2tleUxvZ2luUmVxdWVzdBIYCgdmbG93X2lkGAEgASgJQge6SARyAhABEigKF2Fzc2VydGlvbl9yZXNwb25zZV9qc29uGAIgASgJQge6SARyAhABIpkBChpGaW5pc2hQYXNza2V5TG9naW5SZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuEisKB3Nlc3Npb24YAiABKAsyGi5vcnlvbi5pZGVudGl0eS52MS5TZXNzaW9uEiUKBHVzZXIYAyABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyKqYBCgxBdXRoRmxvd1R5cGUSHgoaQVVUSF9GTE9XX1RZUEVfVU5TUEVDSUZJRUQQABIfChtBVVRIX0ZMT1dfVFlQRV9SRUdJU1RSQVRJT04QARIYChRBVVRIX0ZMT1dfVFlQRV9MT0dJThACEhsKF0FVVEhfRkxPV19UWVBFX1JFQ09WRVJZEAMSHgoaQVVUSF9GTE9XX1RZUEVfU1RFUF9VUF9NRkEQBCqEAgoNQXV0aEZsb3dTdGF0ZRIfChtBVVRIX0ZMT1dfU1RBVEVfVU5TUEVDSUZJRUQQABImCiJBVVRIX0ZMT1dfU1RBVEVfUEVORElOR19JREVOVElGSUVSEAESJAogQVVUSF9GTE9XX1NUQVRFX1BFTkRJTkdfUEFTU1dPUkQQAhIfChtBVVRIX0ZMT1dfU1RBVEVfUEVORElOR19NRkEQAxIoCiRBVVRIX0ZMT1dfU1RBVEVfUEVORElOR19WRVJJRklDQVRJT04QBBIdChlBVVRIX0ZMT1dfU1RBVEVfQ09NUExFVEVEEAUSGgoWQVVUSF9GTE9XX1NUQVRFX0ZBSUxFRBAGKukBChNWZXJpZmljYXRpb25QdXJwb3NlEiQKIFZFUklGSUNBVElPTl9QVVJQT1NFX1VOU1BFQ0lGSUVEEAASKwonVkVSSUZJQ0FUSU9OX1BVUlBPU0VfRU1BSUxfVkVSSUZJQ0FUSU9OEAESKwonVkVSSUZJQ0FUSU9OX1BVUlBPU0VfUEhPTkVfVkVSSUZJQ0FUSU9OEAISJwojVkVSSUZJQ0FUSU9OX1BVUlBPU0VfUEFTU1dPUkRfUkVTRVQQAxIpCiVWRVJJRklDQVRJT05fUFVSUE9TRV9NRkFfVkVSSUZJQ0FUSU9OEAQysgsKFUF1dGhlbnRpY2F0aW9uU2VydmljZRJfCgxSZWdpc3RyYXRpb24SJi5vcnlvbi5pZGVudGl0eS52MS5SZWdpc3RyYXRpb25SZXF1ZXN0Gicub3J5b24uaWRlbnRpdHkudjEuUmVnaXN0cmF0aW9uUmVzcG9uc2USSgoFTG9naW4SHy5vcnlvbi5pZGVudGl0eS52MS5Mb2dpblJlcXVlc3QaIC5vcnlvbi5pZGVudGl0eS52MS5Mb2dpblJlc3BvbnNlElwKC0NvbXBsZXRlTWZhEiUub3J5b24uaWRlbnRpdHkudjEuQ29tcGxldGVNZmFSZXF1ZXN0GiYub3J5b24uaWRlbnRpdHkudjEuQ29tcGxldGVNZmFSZXNwb25zZRJfCgxSZWZyZXNoVG9rZW4SJi5vcnlvbi5pZGVudGl0eS52MS5SZWZyZXNoVG9rZW5SZXF1ZXN0Gicub3J5b24uaWRlbnRpdHkudjEuUmVmcmVzaFRva2VuUmVzcG9uc2USZQoOQ2hhbmdlUGFzc3dvcmQSKC5vcnlvbi5pZGVudGl0eS52MS5DaGFuZ2VQYXNzd29yZFJlcXVlc3QaKS5vcnlvbi5pZGVudGl0eS52MS5DaGFuZ2VQYXNzd29yZFJlc3BvbnNlEncKFFJlcXVlc3RQYXNzd29yZFJlc2V0Ei4ub3J5b24uaWRlbnRpdHkudjEuUmVxdWVzdFBhc3N3b3JkUmVzZXRSZXF1ZXN0Gi8ub3J5b24uaWRlbnRpdHkudjEuUmVxdWVzdFBhc3N3b3JkUmVzZXRSZXNwb25zZRJ3ChRDb25maXJtUGFzc3dvcmRSZXNldBIuLm9yeW9uLmlkZW50aXR5LnYxLkNvbmZpcm1QYXNzd29yZFJlc2V0UmVxdWVzdBovLm9yeW9uLmlkZW50aXR5LnYxLkNvbmZpcm1QYXNzd29yZFJlc2V0UmVzcG9uc2USgwEKGFJlcXVlc3RFbWFpbFZlcmlmaWNhdGlvbhIyLm9yeW9uLmlkZW50aXR5LnYxLlJlcXVlc3RFbWFpbFZlcmlmaWNhdGlvblJlcXVlc3QaMy5vcnlvbi5pZGVudGl0eS52MS5SZXF1ZXN0RW1haWxWZXJpZmljYXRpb25SZXNwb25zZRJcCgtWZXJpZnlFbWFpbBIlLm9yeW9uLmlkZW50aXR5LnYxLlZlcmlmeUVtYWlsUmVxdWVzdBomLm9yeW9uLmlkZW50aXR5LnYxLlZlcmlmeUVtYWlsUmVzcG9uc2USgwEKGEJlZ2luUGFzc2tleVJlZ2lzdHJhdGlvbhIyLm9yeW9uLmlkZW50aXR5LnYxLkJlZ2luUGFzc2tleVJlZ2lzdHJhdGlvblJlcXVlc3QaMy5vcnlvbi5pZGVudGl0eS52MS5CZWdpblBhc3NrZXlSZWdpc3RyYXRpb25SZXNwb25zZRKGAQoZRmluaXNoUGFzc2tleVJlZ2lzdHJhdGlvbhIzLm9yeW9uLmlkZW50aXR5LnYxLkZpbmlzaFBhc3NrZXlSZWdpc3RyYXRpb25SZXF1ZXN0GjQub3J5b24uaWRlbnRpdHkudjEuRmluaXNoUGFzc2tleVJlZ2lzdHJhdGlvblJlc3BvbnNlEm4KEUJlZ2luUGFzc2tleUxvZ2luEisub3J5b24uaWRlbnRpdHkudjEuQmVnaW5QYXNza2V5TG9naW5SZXF1ZXN0Giwub3J5b24uaWRlbnRpdHkudjEuQmVnaW5QYXNza2V5TG9naW5SZXNwb25zZRJxChJGaW5pc2hQYXNza2V5TG9naW4SLC5vcnlvbi5pZGVudGl0eS52MS5GaW5pc2hQYXNza2V5TG9naW5SZXF1ZXN0Gi0ub3J5b24uaWRlbnRpdHkudjEuRmluaXNoUGFzc2tleUxvZ2luUmVzcG9uc2VCzAEKFWNvbS5vcnlvbi5pZGVudGl0eS52MUITQXV0aGVudGljYXRpb25Qcm90b1ABWjhnaXRodWIuY29tL3FhcnZlbi9tb25vL2dlbi9nby9vcnlvbi9pZGVudGl0eS92MTtpZGVudGl0eaICA09JWKoCEU9yeW9uLklkZW50aXR5LlYxygIRT3J5b25cSWRlbnRpdHlcVjHiAh1PcnlvblxJZGVudGl0eVxWMVxHUEJNZXRhZGF0YeoCE09yeW9uOjpJZGVudGl0eTo6VjFiBnByb3RvMw", [file_buf_validate_validate, file_google_protobuf_timestamp, file_oryon_identity_v1_mfa, file_oryon_identity_v1_session, file_oryon_identity_v1_user]);
+  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEiXAoFVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhUKDXJlZnJlc2hfdG9rZW4YAiABKAkSEgoKdG9rZW5fdHlwZRgDIAEoCRISCgpleHBpcmVzX2luGAQgASgDIrABCghBdXRoRmxvdxIKCgJpZBgBIAEoAxIyCglmbG93X3R5cGUYAiABKA4yHy5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvd1R5cGUSNAoKZmxvd19zdGF0ZRgDIAEoDjIgLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93U3RhdGUSLgoKZXhwaXJlc19hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAioAEKFVZlcmlmaWNhdGlvbkNoYWxsZW5nZRIKCgJpZBgBIAEoAxISCgppZGVudGlmaWVyGAIgASgJEjcKB3B1cnBvc2UYAyABKA4yJi5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25QdXJwb3NlEi4KCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIvsBCgRVc2VyEgoKAmlkGAEgASgDEi0KBnN0YXR1cxgCIAEoDjIdLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJTdGF0dXMSDAoEbmFtZRgDIAEoCRIVCgh1c2VybmFtZRgEIAEoCUgAiAEBEhcKCmF2YXRhcl91cmwYBSABKAlIAYgBARIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEILCglfdXNlcm5hbWVCDQoLX2F2YXRhcl91cmwiwQEKCVVzZXJFbWFpbBIKCgJpZBgBIAEoAxIPCgd1c2VyX2lkGAIgASgDEg0KBWVtYWlsGAMgASgJEhIKCmlzX3ByaW1hcnkYBCABKAgSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASNAoLdmVyaWZpZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQFCDgoMX3ZlcmlmaWVkX2F0IpcCChNSZWdpc3RyYXRpb25SZXF1ZXN0EhsKBWVtYWlsGAEgASgJQge6SARyAmABSACIAQESLAoFcGhvbmUYAiABKAlCGLpIFXITMhFeXCtbMS05XVxkezEsMTR9JEgBiAEBEhwKCHBhc3N3b3JkGAMgASgJQgq6SAdyBRAIGIABEhUKBG5hbWUYBCABKAlCB7pIBHICEAM6bLpIaRpnCh5yZWdpc3RyYXRpb24uaWRlbnRpZmllcl9vbmVfb2YSIW9uZSBvZiBlbWFpbCBvciBwaG9uZSBpcyByZXF1aXJlZBoiaGFzKHRoaXMuZW1haWwpIHx8IGhhcyh0aGlzLnBob25lKUIICgZfZW1haWxCCAoGX3Bob25lIkEKFFJlZ2lzdHJhdGlvblJlc3BvbnNlEikKBGZsb3cYASABKAsyGy5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvdyJGCgxMb2dpblJlcXVlc3QSGwoKaWRlbnRpZmllchgBIAEoCUIHukgEcgIQAxIZCghwYXNzd29yZBgCIAEoCUIHukgEcgIQAyKMAgoNTG9naW5SZXNwb25zZRIsCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuSACIAQESKgoEdXNlchgCIAEoCzIXLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJIAYgBARIuCgRmbG93GAMgASgLMhsub3J5b24uaWRlbnRpdHkudjEuQXV0aEZsb3dIAogBARIUCgxtZmFfcmVxdWlyZWQYBCABKAgSPwoVYXZhaWxhYmxlX21mYV9tZXRob2RzGAUgAygOMiAub3J5b24uaWRlbnRpdHkudjEuTWZhRmFjdG9yVHlwZUIICgZfdG9rZW5CBwoFX3VzZXJCBwoFX2Zsb3ciNQoTUmVmcmVzaFRva2VuUmVxdWVzdBIeCg1yZWZyZXNoX3Rva2VuGAEgASgJQge6SARyAhABIj8KFFJlZnJlc2hUb2tlblJlc3BvbnNlEicKBXRva2VuGAEgASgLMhgub3J5b24uaWRlbnRpdHkudjEuVG9rZW4iegoSQ29tcGxldGVNZmFSZXF1ZXN0EhcKB2Zsb3dfaWQYASABKANCBrpIA8gBARIUCgRjb2RlGAIgASgJQga6SAPIAQESNQoLZmFjdG9yX3R5cGUYAyABKA4yIC5vcnlvbi5pZGVudGl0eS52MS5NZmFGYWN0b3JUeXBlIoIBChNDb21wbGV0ZU1mYVJlc3BvbnNlEiwKBXRva2VuGAEgASgLMhgub3J5b24uaWRlbnRpdHkudjEuVG9rZW5IAIgBARIqCgR1c2VyGAIgASgLMhcub3J5b24uaWRlbnRpdHkudjEuVXNlckgBiAEBQggKBl90b2tlbkIHCgVfdXNlciJnCh9SZXF1ZXN0RW1haWxWZXJpZmljYXRpb25SZXF1ZXN0EhYKBWVtYWlsGAEgASgJQge6SARyAmABEhoKDXVzZXJfZW1haWxfaWQYAiABKANIAIgBAUIQCg5fdXNlcl9lbWFpbF9pZCJfCiBSZXF1ZXN0RW1haWxWZXJpZmljYXRpb25SZXNwb25zZRI7CgljaGFsbGVuZ2UYASABKAsyKC5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25DaGFsbGVuZ2UiOwoSVmVyaWZ5RW1haWxSZXF1ZXN0EhcKD3ZlcmlmaWNhdGlvbl9pZBgBIAEoAxIMCgRjb2RlGAIgASgJIkcKE1ZlcmlmeUVtYWlsUmVzcG9uc2USMAoKdXNlcl9lbWFpbBgBIAEoCzIcLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJFbWFpbDLnBAoVQXV0aGVudGljYXRpb25TZXJ2aWNlEl8KDFJlZ2lzdHJhdGlvbhImLm9yeW9uLmlkZW50aXR5LnYxLlJlZ2lzdHJhdGlvblJlcXVlc3QaJy5vcnlvbi5pZGVudGl0eS52MS5SZWdpc3RyYXRpb25SZXNwb25zZRJKCgVMb2dpbhIfLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVxdWVzdBogLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVzcG9uc2USXwoMUmVmcmVzaFRva2VuEiYub3J5b24uaWRlbnRpdHkudjEuUmVmcmVzaFRva2VuUmVxdWVzdBonLm9yeW9uLmlkZW50aXR5LnYxLlJlZnJlc2hUb2tlblJlc3BvbnNlElwKC0NvbXBsZXRlTWZhEiUub3J5b24uaWRlbnRpdHkudjEuQ29tcGxldGVNZmFSZXF1ZXN0GiYub3J5b24uaWRlbnRpdHkudjEuQ29tcGxldGVNZmFSZXNwb25zZRKDAQoYUmVxdWVzdEVtYWlsVmVyaWZpY2F0aW9uEjIub3J5b24uaWRlbnRpdHkudjEuUmVxdWVzdEVtYWlsVmVyaWZpY2F0aW9uUmVxdWVzdBozLm9yeW9uLmlkZW50aXR5LnYxLlJlcXVlc3RFbWFpbFZlcmlmaWNhdGlvblJlc3BvbnNlElwKC1ZlcmlmeUVtYWlsEiUub3J5b24uaWRlbnRpdHkudjEuVmVyaWZ5RW1haWxSZXF1ZXN0GiYub3J5b24uaWRlbnRpdHkudjEuVmVyaWZ5RW1haWxSZXNwb25zZULMAQoVY29tLm9yeW9uLmlkZW50aXR5LnYxQhNBdXRoZW50aWNhdGlvblByb3RvUAFaOGdpdGh1Yi5jb20vcWFydmVuL21vbm8vZ2VuL2dvL29yeW9uL2lkZW50aXR5L3YxO2lkZW50aXR5ogIDT0lYqgIRT3J5b24uSWRlbnRpdHkuVjHKAhFPcnlvblxJZGVudGl0eVxWMeICHU9yeW9uXElkZW50aXR5XFYxXEdQQk1ldGFkYXRh6gITT3J5b246OklkZW50aXR5OjpWMWIGcHJvdG8z", [file_buf_validate_validate, file_google_protobuf_timestamp, file_oryon_identity_v1_enum]);
 
 /**
  * @generated from message oryon.identity.v1.Token
  */
 export type Token = Message<"oryon.identity.v1.Token"> & {
   /**
-   * Opaque access token (JWT or opaque); client sends as Authorization: Bearer.
-   *
    * @generated from field: string access_token = 1;
    */
   accessToken: string;
 
   /**
-   * Opaque refresh token used to rotate sessions.
-   *
    * @generated from field: string refresh_token = 2;
    */
   refreshToken: string;
@@ -45,16 +37,9 @@ export type Token = Message<"oryon.identity.v1.Token"> & {
   tokenType: string;
 
   /**
-   * Seconds until access_token expires.
-   *
    * @generated from field: int64 expires_in = 4;
    */
   expiresIn: bigint;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp expires_at = 5;
-   */
-  expiresAt?: Timestamp | undefined;
 };
 
 /**
@@ -106,54 +91,19 @@ export type VerificationChallenge = Message<"oryon.identity.v1.VerificationChall
   id: bigint;
 
   /**
-   * @generated from field: optional int64 user_id = 2;
-   */
-  userId?: bigint | undefined;
-
-  /**
-   * @generated from field: optional int64 flow_id = 3;
-   */
-  flowId?: bigint | undefined;
-
-  /**
-   * @generated from field: string identifier = 4;
+   * @generated from field: string identifier = 2;
    */
   identifier: string;
 
   /**
-   * @generated from field: oryon.identity.v1.VerificationPurpose purpose = 5;
+   * @generated from field: oryon.identity.v1.VerificationPurpose purpose = 3;
    */
   purpose: VerificationPurpose;
 
   /**
-   * @generated from field: int32 attempts = 6;
-   */
-  attempts: number;
-
-  /**
-   * @generated from field: int32 max_attempts = 7;
-   */
-  maxAttempts: number;
-
-  /**
-   * @generated from field: optional string ip_address = 8;
-   */
-  ipAddress?: string | undefined;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp expires_at = 9;
+   * @generated from field: google.protobuf.Timestamp expires_at = 4;
    */
   expiresAt?: Timestamp | undefined;
-
-  /**
-   * @generated from field: optional google.protobuf.Timestamp consumed_at = 10;
-   */
-  consumedAt?: Timestamp | undefined;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp created_at = 11;
-   */
-  createdAt?: Timestamp | undefined;
 };
 
 /**
@@ -162,6 +112,95 @@ export type VerificationChallenge = Message<"oryon.identity.v1.VerificationChall
  */
 export const VerificationChallengeSchema: GenMessage<VerificationChallenge> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 2);
+
+/**
+ * @generated from message oryon.identity.v1.User
+ */
+export type User = Message<"oryon.identity.v1.User"> & {
+  /**
+   * @generated from field: int64 id = 1;
+   */
+  id: bigint;
+
+  /**
+   * @generated from field: oryon.identity.v1.UserStatus status = 2;
+   */
+  status: UserStatus;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string username = 4;
+   */
+  username?: string | undefined;
+
+  /**
+   * @generated from field: optional string avatar_url = 5;
+   */
+  avatarUrl?: string | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 6;
+   */
+  createdAt?: Timestamp | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 7;
+   */
+  updatedAt?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message oryon.identity.v1.User.
+ * Use `create(UserSchema)` to create a new message.
+ */
+export const UserSchema: GenMessage<User> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 3);
+
+/**
+ * @generated from message oryon.identity.v1.UserEmail
+ */
+export type UserEmail = Message<"oryon.identity.v1.UserEmail"> & {
+  /**
+   * @generated from field: int64 id = 1;
+   */
+  id: bigint;
+
+  /**
+   * @generated from field: int64 user_id = 2;
+   */
+  userId: bigint;
+
+  /**
+   * @generated from field: string email = 3;
+   */
+  email: string;
+
+  /**
+   * @generated from field: bool is_primary = 4;
+   */
+  isPrimary: boolean;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 5;
+   */
+  createdAt?: Timestamp | undefined;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp verified_at = 6;
+   */
+  verifiedAt?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message oryon.identity.v1.UserEmail.
+ * Use `create(UserEmailSchema)` to create a new message.
+ */
+export const UserEmailSchema: GenMessage<UserEmail> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 4);
 
 /**
  * @generated from message oryon.identity.v1.RegistrationRequest
@@ -173,19 +212,19 @@ export type RegistrationRequest = Message<"oryon.identity.v1.RegistrationRequest
   email?: string | undefined;
 
   /**
-   * @generated from field: string password = 2;
+   * @generated from field: optional string phone = 2;
+   */
+  phone?: string | undefined;
+
+  /**
+   * @generated from field: string password = 3;
    */
   password: string;
 
   /**
-   * @generated from field: string name = 3;
+   * @generated from field: string name = 4;
    */
   name: string;
-
-  /**
-   * @generated from field: optional string phone = 4;
-   */
-  phone?: string | undefined;
 };
 
 /**
@@ -193,24 +232,14 @@ export type RegistrationRequest = Message<"oryon.identity.v1.RegistrationRequest
  * Use `create(RegistrationRequestSchema)` to create a new message.
  */
 export const RegistrationRequestSchema: GenMessage<RegistrationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 3);
+  messageDesc(file_oryon_identity_v1_authentication, 5);
 
 /**
  * @generated from message oryon.identity.v1.RegistrationResponse
  */
 export type RegistrationResponse = Message<"oryon.identity.v1.RegistrationResponse"> & {
   /**
-   * @generated from field: oryon.identity.v1.User user = 1;
-   */
-  user?: User | undefined;
-
-  /**
-   * @generated from field: bool verification_required = 2;
-   */
-  verificationRequired: boolean;
-
-  /**
-   * @generated from field: optional oryon.identity.v1.AuthFlow flow = 3;
+   * @generated from field: oryon.identity.v1.AuthFlow flow = 1;
    */
   flow?: AuthFlow | undefined;
 };
@@ -220,7 +249,7 @@ export type RegistrationResponse = Message<"oryon.identity.v1.RegistrationRespon
  * Use `create(RegistrationResponseSchema)` to create a new message.
  */
 export const RegistrationResponseSchema: GenMessage<RegistrationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 4);
+  messageDesc(file_oryon_identity_v1_authentication, 6);
 
 /**
  * @generated from message oryon.identity.v1.LoginRequest
@@ -234,19 +263,9 @@ export type LoginRequest = Message<"oryon.identity.v1.LoginRequest"> & {
   identifier: string;
 
   /**
-   * Password not required when initiating passkey via flow,
-   * but required for password-based login.
-   *
-   * @generated from field: optional string password = 2;
+   * @generated from field: string password = 2;
    */
-  password?: string | undefined;
-
-  /**
-   * Optional pre-created flow_id to resume a multi-step flow.
-   *
-   * @generated from field: optional string flow_id = 3;
-   */
-  flowId?: string | undefined;
+  password: string;
 };
 
 /**
@@ -254,52 +273,36 @@ export type LoginRequest = Message<"oryon.identity.v1.LoginRequest"> & {
  * Use `create(LoginRequestSchema)` to create a new message.
  */
 export const LoginRequestSchema: GenMessage<LoginRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 5);
+  messageDesc(file_oryon_identity_v1_authentication, 7);
 
 /**
  * @generated from message oryon.identity.v1.LoginResponse
  */
 export type LoginResponse = Message<"oryon.identity.v1.LoginResponse"> & {
   /**
-   * Present when authentication completes immediately (no MFA/verification).
-   *
    * @generated from field: optional oryon.identity.v1.Token token = 1;
    */
   token?: Token | undefined;
 
   /**
-   * @generated from field: optional oryon.identity.v1.Session session = 2;
-   */
-  session?: Session | undefined;
-
-  /**
-   * @generated from field: optional oryon.identity.v1.User user = 3;
+   * @generated from field: optional oryon.identity.v1.User user = 2;
    */
   user?: User | undefined;
 
   /**
-   * Present when additional step is required (MFA, verification, etc.).
-   *
-   * @generated from field: optional oryon.identity.v1.AuthFlow flow = 4;
+   * @generated from field: optional oryon.identity.v1.AuthFlow flow = 3;
    */
   flow?: AuthFlow | undefined;
 
   /**
-   * @generated from field: bool mfa_required = 5;
+   * @generated from field: bool mfa_required = 4;
    */
   mfaRequired: boolean;
 
   /**
-   * @generated from field: repeated oryon.identity.v1.MfaFactorType available_mfa_methods = 6;
+   * @generated from field: repeated oryon.identity.v1.MfaFactorType available_mfa_methods = 5;
    */
   availableMfaMethods: MfaFactorType[];
-
-  /**
-   * Human-readable next step hint: "mfa", "verification", "completed".
-   *
-   * @generated from field: string next_step = 7;
-   */
-  nextStep: string;
 };
 
 /**
@@ -307,69 +310,6 @@ export type LoginResponse = Message<"oryon.identity.v1.LoginResponse"> & {
  * Use `create(LoginResponseSchema)` to create a new message.
  */
 export const LoginResponseSchema: GenMessage<LoginResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 6);
-
-/**
- * @generated from message oryon.identity.v1.CompleteMfaRequest
- */
-export type CompleteMfaRequest = Message<"oryon.identity.v1.CompleteMfaRequest"> & {
-  /**
-   * @generated from field: string flow_id = 1;
-   */
-  flowId: string;
-
-  /**
-   * OTP code, TOTP, backup code, or SMS code depending on selected factor.
-   *
-   * @generated from field: string code = 2;
-   */
-  code: string;
-
-  /**
-   * @generated from field: oryon.identity.v1.MfaFactorType factor_type = 3;
-   */
-  factorType: MfaFactorType;
-
-  /**
-   * Optional factor_id when user has multiple factors of same type.
-   *
-   * @generated from field: optional int64 factor_id = 4;
-   */
-  factorId?: bigint | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.CompleteMfaRequest.
- * Use `create(CompleteMfaRequestSchema)` to create a new message.
- */
-export const CompleteMfaRequestSchema: GenMessage<CompleteMfaRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 7);
-
-/**
- * @generated from message oryon.identity.v1.CompleteMfaResponse
- */
-export type CompleteMfaResponse = Message<"oryon.identity.v1.CompleteMfaResponse"> & {
-  /**
-   * @generated from field: oryon.identity.v1.Token token = 1;
-   */
-  token?: Token | undefined;
-
-  /**
-   * @generated from field: oryon.identity.v1.Session session = 2;
-   */
-  session?: Session | undefined;
-
-  /**
-   * @generated from field: oryon.identity.v1.User user = 3;
-   */
-  user?: User | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.CompleteMfaResponse.
- * Use `create(CompleteMfaResponseSchema)` to create a new message.
- */
-export const CompleteMfaResponseSchema: GenMessage<CompleteMfaResponse> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 8);
 
 /**
@@ -397,11 +337,6 @@ export type RefreshTokenResponse = Message<"oryon.identity.v1.RefreshTokenRespon
    * @generated from field: oryon.identity.v1.Token token = 1;
    */
   token?: Token | undefined;
-
-  /**
-   * @generated from field: oryon.identity.v1.Session session = 2;
-   */
-  session?: Session | undefined;
 };
 
 /**
@@ -412,142 +347,67 @@ export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@_
   messageDesc(file_oryon_identity_v1_authentication, 10);
 
 /**
- * @generated from message oryon.identity.v1.ChangePasswordRequest
+ * @generated from message oryon.identity.v1.CompleteMfaRequest
  */
-export type ChangePasswordRequest = Message<"oryon.identity.v1.ChangePasswordRequest"> & {
+export type CompleteMfaRequest = Message<"oryon.identity.v1.CompleteMfaRequest"> & {
   /**
-   * @generated from field: string current_password = 1;
+   * @generated from field: int64 flow_id = 1;
    */
-  currentPassword: string;
+  flowId: bigint;
 
   /**
-   * @generated from field: string new_password = 2;
+   * @generated from field: string code = 2;
    */
-  newPassword: string;
+  code: string;
+
+  /**
+   * @generated from field: oryon.identity.v1.MfaFactorType factor_type = 3;
+   */
+  factorType: MfaFactorType;
 };
 
 /**
- * Describes the message oryon.identity.v1.ChangePasswordRequest.
- * Use `create(ChangePasswordRequestSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.CompleteMfaRequest.
+ * Use `create(CompleteMfaRequestSchema)` to create a new message.
  */
-export const ChangePasswordRequestSchema: GenMessage<ChangePasswordRequest> = /*@__PURE__*/
+export const CompleteMfaRequestSchema: GenMessage<CompleteMfaRequest> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 11);
 
 /**
- * @generated from message oryon.identity.v1.ChangePasswordResponse
+ * @generated from message oryon.identity.v1.CompleteMfaResponse
  */
-export type ChangePasswordResponse = Message<"oryon.identity.v1.ChangePasswordResponse"> & {
-};
-
-/**
- * Describes the message oryon.identity.v1.ChangePasswordResponse.
- * Use `create(ChangePasswordResponseSchema)` to create a new message.
- */
-export const ChangePasswordResponseSchema: GenMessage<ChangePasswordResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 12);
-
-/**
- * @generated from message oryon.identity.v1.RequestPasswordResetRequest
- */
-export type RequestPasswordResetRequest = Message<"oryon.identity.v1.RequestPasswordResetRequest"> & {
+export type CompleteMfaResponse = Message<"oryon.identity.v1.CompleteMfaResponse"> & {
   /**
-   * @generated from field: string email = 1;
-   */
-  email: string;
-};
-
-/**
- * Describes the message oryon.identity.v1.RequestPasswordResetRequest.
- * Use `create(RequestPasswordResetRequestSchema)` to create a new message.
- */
-export const RequestPasswordResetRequestSchema: GenMessage<RequestPasswordResetRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 13);
-
-/**
- * @generated from message oryon.identity.v1.RequestPasswordResetResponse
- */
-export type RequestPasswordResetResponse = Message<"oryon.identity.v1.RequestPasswordResetResponse"> & {
-  /**
-   * Always empty to avoid account enumeration; challenge created if email exists.
-   * Identifier for polling/debugging (only returned in dev mode or via email link).
-   *
-   * @generated from field: optional string verification_id = 1;
-   */
-  verificationId?: string | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.RequestPasswordResetResponse.
- * Use `create(RequestPasswordResetResponseSchema)` to create a new message.
- */
-export const RequestPasswordResetResponseSchema: GenMessage<RequestPasswordResetResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 14);
-
-/**
- * @generated from message oryon.identity.v1.ConfirmPasswordResetRequest
- */
-export type ConfirmPasswordResetRequest = Message<"oryon.identity.v1.ConfirmPasswordResetRequest"> & {
-  /**
-   * verification_id or raw token from reset email / challenge.
-   *
-   * @generated from field: string token = 1;
-   */
-  token: string;
-
-  /**
-   * Alternatively code + verification_id may be used for OTP flows.
-   *
-   * @generated from field: optional string code = 2;
-   */
-  code?: string | undefined;
-
-  /**
-   * @generated from field: string new_password = 3;
-   */
-  newPassword: string;
-};
-
-/**
- * Describes the message oryon.identity.v1.ConfirmPasswordResetRequest.
- * Use `create(ConfirmPasswordResetRequestSchema)` to create a new message.
- */
-export const ConfirmPasswordResetRequestSchema: GenMessage<ConfirmPasswordResetRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 15);
-
-/**
- * @generated from message oryon.identity.v1.ConfirmPasswordResetResponse
- */
-export type ConfirmPasswordResetResponse = Message<"oryon.identity.v1.ConfirmPasswordResetResponse"> & {
-  /**
-   * Optionally auto-login after reset; token present if configured to do so.
-   *
    * @generated from field: optional oryon.identity.v1.Token token = 1;
    */
   token?: Token | undefined;
+
+  /**
+   * @generated from field: optional oryon.identity.v1.User user = 2;
+   */
+  user?: User | undefined;
 };
 
 /**
- * Describes the message oryon.identity.v1.ConfirmPasswordResetResponse.
- * Use `create(ConfirmPasswordResetResponseSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.CompleteMfaResponse.
+ * Use `create(CompleteMfaResponseSchema)` to create a new message.
  */
-export const ConfirmPasswordResetResponseSchema: GenMessage<ConfirmPasswordResetResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 16);
+export const CompleteMfaResponseSchema: GenMessage<CompleteMfaResponse> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 12);
 
 /**
  * @generated from message oryon.identity.v1.RequestEmailVerificationRequest
  */
 export type RequestEmailVerificationRequest = Message<"oryon.identity.v1.RequestEmailVerificationRequest"> & {
   /**
-   * If empty, uses primary email of current user (authenticated).
-   *
-   * @generated from field: optional string email = 1;
+   * @generated from field: string email = 1;
    */
-  email?: string | undefined;
+  email: string;
 
   /**
-   * @generated from field: optional int64 email_id = 2;
+   * @generated from field: optional int64 user_email_id = 2;
    */
-  emailId?: bigint | undefined;
+  userEmailId?: bigint | undefined;
 };
 
 /**
@@ -555,7 +415,7 @@ export type RequestEmailVerificationRequest = Message<"oryon.identity.v1.Request
  * Use `create(RequestEmailVerificationRequestSchema)` to create a new message.
  */
 export const RequestEmailVerificationRequestSchema: GenMessage<RequestEmailVerificationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 17);
+  messageDesc(file_oryon_identity_v1_authentication, 13);
 
 /**
  * @generated from message oryon.identity.v1.RequestEmailVerificationResponse
@@ -572,33 +432,21 @@ export type RequestEmailVerificationResponse = Message<"oryon.identity.v1.Reques
  * Use `create(RequestEmailVerificationResponseSchema)` to create a new message.
  */
 export const RequestEmailVerificationResponseSchema: GenMessage<RequestEmailVerificationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 18);
+  messageDesc(file_oryon_identity_v1_authentication, 14);
 
 /**
  * @generated from message oryon.identity.v1.VerifyEmailRequest
  */
 export type VerifyEmailRequest = Message<"oryon.identity.v1.VerifyEmailRequest"> & {
   /**
-   * token from verification link or code from OTP.
-   *
-   * @generated from field: string token = 1;
+   * @generated from field: int64 verification_id = 1;
    */
-  token: string;
+  verificationId: bigint;
 
   /**
-   * @generated from field: optional string code = 2;
+   * @generated from field: string code = 2;
    */
-  code?: string | undefined;
-
-  /**
-   * @generated from field: optional string verification_id = 3;
-   */
-  verificationId?: string | undefined;
-
-  /**
-   * @generated from field: optional string email = 4;
-   */
-  email?: string | undefined;
+  code: string;
 };
 
 /**
@@ -606,21 +454,16 @@ export type VerifyEmailRequest = Message<"oryon.identity.v1.VerifyEmailRequest">
  * Use `create(VerifyEmailRequestSchema)` to create a new message.
  */
 export const VerifyEmailRequestSchema: GenMessage<VerifyEmailRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 19);
+  messageDesc(file_oryon_identity_v1_authentication, 15);
 
 /**
  * @generated from message oryon.identity.v1.VerifyEmailResponse
  */
 export type VerifyEmailResponse = Message<"oryon.identity.v1.VerifyEmailResponse"> & {
   /**
-   * @generated from field: oryon.identity.v1.UserEmail email = 1;
+   * @generated from field: oryon.identity.v1.UserEmail user_email = 1;
    */
-  email?: UserEmail | undefined;
-
-  /**
-   * @generated from field: bool verified = 2;
-   */
-  verified: boolean;
+  userEmail?: UserEmail | undefined;
 };
 
 /**
@@ -628,327 +471,7 @@ export type VerifyEmailResponse = Message<"oryon.identity.v1.VerifyEmailResponse
  * Use `create(VerifyEmailResponseSchema)` to create a new message.
  */
 export const VerifyEmailResponseSchema: GenMessage<VerifyEmailResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 20);
-
-/**
- * @generated from message oryon.identity.v1.BeginPasskeyRegistrationRequest
- */
-export type BeginPasskeyRegistrationRequest = Message<"oryon.identity.v1.BeginPasskeyRegistrationRequest"> & {
-  /**
-   * Friendly name for the passkey, e.g., "MacBook Touch ID".
-   *
-   * @generated from field: string name = 1;
-   */
-  name: string;
-
-  /**
-   * Optional flow_id for step-up flows.
-   *
-   * @generated from field: optional string flow_id = 2;
-   */
-  flowId?: string | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.BeginPasskeyRegistrationRequest.
- * Use `create(BeginPasskeyRegistrationRequestSchema)` to create a new message.
- */
-export const BeginPasskeyRegistrationRequestSchema: GenMessage<BeginPasskeyRegistrationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 21);
-
-/**
- * @generated from message oryon.identity.v1.BeginPasskeyRegistrationResponse
- */
-export type BeginPasskeyRegistrationResponse = Message<"oryon.identity.v1.BeginPasskeyRegistrationResponse"> & {
-  /**
-   * JSON-serialized PublicKeyCredentialCreationOptions (to pass to navigator.credentials.create).
-   *
-   * @generated from field: string creation_options_json = 1;
-   */
-  creationOptionsJson: string;
-
-  /**
-   * Flow/flow_id to complete registration; maps to auth_flows or passkey creation session.
-   *
-   * @generated from field: string flow_id = 2;
-   */
-  flowId: string;
-
-  /**
-   * @generated from field: oryon.identity.v1.AuthFlow flow = 3;
-   */
-  flow?: AuthFlow | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.BeginPasskeyRegistrationResponse.
- * Use `create(BeginPasskeyRegistrationResponseSchema)` to create a new message.
- */
-export const BeginPasskeyRegistrationResponseSchema: GenMessage<BeginPasskeyRegistrationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 22);
-
-/**
- * @generated from message oryon.identity.v1.FinishPasskeyRegistrationRequest
- */
-export type FinishPasskeyRegistrationRequest = Message<"oryon.identity.v1.FinishPasskeyRegistrationRequest"> & {
-  /**
-   * @generated from field: string flow_id = 1;
-   */
-  flowId: string;
-
-  /**
-   * JSON-serialized AuthenticatorAttestationResponse from WebAuthn.
-   *
-   * @generated from field: string attestation_response_json = 2;
-   */
-  attestationResponseJson: string;
-};
-
-/**
- * Describes the message oryon.identity.v1.FinishPasskeyRegistrationRequest.
- * Use `create(FinishPasskeyRegistrationRequestSchema)` to create a new message.
- */
-export const FinishPasskeyRegistrationRequestSchema: GenMessage<FinishPasskeyRegistrationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 23);
-
-/**
- * @generated from message oryon.identity.v1.FinishPasskeyRegistrationResponse
- */
-export type FinishPasskeyRegistrationResponse = Message<"oryon.identity.v1.FinishPasskeyRegistrationResponse"> & {
-  /**
-   * @generated from field: oryon.identity.v1.Passkey passkey = 1;
-   */
-  passkey?: Passkey | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.FinishPasskeyRegistrationResponse.
- * Use `create(FinishPasskeyRegistrationResponseSchema)` to create a new message.
- */
-export const FinishPasskeyRegistrationResponseSchema: GenMessage<FinishPasskeyRegistrationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 24);
-
-/**
- * @generated from message oryon.identity.v1.BeginPasskeyLoginRequest
- */
-export type BeginPasskeyLoginRequest = Message<"oryon.identity.v1.BeginPasskeyLoginRequest"> & {
-  /**
-   * Optional email hint; when omitted uses discoverable (resident) credentials.
-   *
-   * @generated from field: optional string email = 1;
-   */
-  email?: string | undefined;
-
-  /**
-   * @generated from field: optional string flow_id = 2;
-   */
-  flowId?: string | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.BeginPasskeyLoginRequest.
- * Use `create(BeginPasskeyLoginRequestSchema)` to create a new message.
- */
-export const BeginPasskeyLoginRequestSchema: GenMessage<BeginPasskeyLoginRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 25);
-
-/**
- * @generated from message oryon.identity.v1.BeginPasskeyLoginResponse
- */
-export type BeginPasskeyLoginResponse = Message<"oryon.identity.v1.BeginPasskeyLoginResponse"> & {
-  /**
-   * JSON-serialized PublicKeyCredentialRequestOptions.
-   *
-   * @generated from field: string request_options_json = 1;
-   */
-  requestOptionsJson: string;
-
-  /**
-   * @generated from field: string flow_id = 2;
-   */
-  flowId: string;
-
-  /**
-   * @generated from field: oryon.identity.v1.AuthFlow flow = 3;
-   */
-  flow?: AuthFlow | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.BeginPasskeyLoginResponse.
- * Use `create(BeginPasskeyLoginResponseSchema)` to create a new message.
- */
-export const BeginPasskeyLoginResponseSchema: GenMessage<BeginPasskeyLoginResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 26);
-
-/**
- * @generated from message oryon.identity.v1.FinishPasskeyLoginRequest
- */
-export type FinishPasskeyLoginRequest = Message<"oryon.identity.v1.FinishPasskeyLoginRequest"> & {
-  /**
-   * @generated from field: string flow_id = 1;
-   */
-  flowId: string;
-
-  /**
-   * JSON-serialized AuthenticatorAssertionResponse.
-   *
-   * @generated from field: string assertion_response_json = 2;
-   */
-  assertionResponseJson: string;
-};
-
-/**
- * Describes the message oryon.identity.v1.FinishPasskeyLoginRequest.
- * Use `create(FinishPasskeyLoginRequestSchema)` to create a new message.
- */
-export const FinishPasskeyLoginRequestSchema: GenMessage<FinishPasskeyLoginRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 27);
-
-/**
- * @generated from message oryon.identity.v1.FinishPasskeyLoginResponse
- */
-export type FinishPasskeyLoginResponse = Message<"oryon.identity.v1.FinishPasskeyLoginResponse"> & {
-  /**
-   * @generated from field: oryon.identity.v1.Token token = 1;
-   */
-  token?: Token | undefined;
-
-  /**
-   * @generated from field: oryon.identity.v1.Session session = 2;
-   */
-  session?: Session | undefined;
-
-  /**
-   * @generated from field: oryon.identity.v1.User user = 3;
-   */
-  user?: User | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.FinishPasskeyLoginResponse.
- * Use `create(FinishPasskeyLoginResponseSchema)` to create a new message.
- */
-export const FinishPasskeyLoginResponseSchema: GenMessage<FinishPasskeyLoginResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 28);
-
-/**
- * @generated from enum oryon.identity.v1.AuthFlowType
- */
-export enum AuthFlowType {
-  /**
-   * @generated from enum value: AUTH_FLOW_TYPE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_TYPE_REGISTRATION = 1;
-   */
-  REGISTRATION = 1,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_TYPE_LOGIN = 2;
-   */
-  LOGIN = 2,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_TYPE_RECOVERY = 3;
-   */
-  RECOVERY = 3,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_TYPE_STEP_UP_MFA = 4;
-   */
-  STEP_UP_MFA = 4,
-}
-
-/**
- * Describes the enum oryon.identity.v1.AuthFlowType.
- */
-export const AuthFlowTypeSchema: GenEnum<AuthFlowType> = /*@__PURE__*/
-  enumDesc(file_oryon_identity_v1_authentication, 0);
-
-/**
- * @generated from enum oryon.identity.v1.AuthFlowState
- */
-export enum AuthFlowState {
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_PENDING_IDENTIFIER = 1;
-   */
-  PENDING_IDENTIFIER = 1,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_PENDING_PASSWORD = 2;
-   */
-  PENDING_PASSWORD = 2,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_PENDING_MFA = 3;
-   */
-  PENDING_MFA = 3,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_PENDING_VERIFICATION = 4;
-   */
-  PENDING_VERIFICATION = 4,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_COMPLETED = 5;
-   */
-  COMPLETED = 5,
-
-  /**
-   * @generated from enum value: AUTH_FLOW_STATE_FAILED = 6;
-   */
-  FAILED = 6,
-}
-
-/**
- * Describes the enum oryon.identity.v1.AuthFlowState.
- */
-export const AuthFlowStateSchema: GenEnum<AuthFlowState> = /*@__PURE__*/
-  enumDesc(file_oryon_identity_v1_authentication, 1);
-
-/**
- * @generated from enum oryon.identity.v1.VerificationPurpose
- */
-export enum VerificationPurpose {
-  /**
-   * @generated from enum value: VERIFICATION_PURPOSE_UNSPECIFIED = 0;
-   */
-  UNSPECIFIED = 0,
-
-  /**
-   * @generated from enum value: VERIFICATION_PURPOSE_EMAIL_VERIFICATION = 1;
-   */
-  EMAIL_VERIFICATION = 1,
-
-  /**
-   * @generated from enum value: VERIFICATION_PURPOSE_PHONE_VERIFICATION = 2;
-   */
-  PHONE_VERIFICATION = 2,
-
-  /**
-   * @generated from enum value: VERIFICATION_PURPOSE_PASSWORD_RESET = 3;
-   */
-  PASSWORD_RESET = 3,
-
-  /**
-   * @generated from enum value: VERIFICATION_PURPOSE_MFA_VERIFICATION = 4;
-   */
-  MFA_VERIFICATION = 4,
-}
-
-/**
- * Describes the enum oryon.identity.v1.VerificationPurpose.
- */
-export const VerificationPurposeSchema: GenEnum<VerificationPurpose> = /*@__PURE__*/
-  enumDesc(file_oryon_identity_v1_authentication, 2);
+  messageDesc(file_oryon_identity_v1_authentication, 16);
 
 /**
  * @generated from service oryon.identity.v1.AuthenticationService
@@ -971,14 +494,6 @@ export const AuthenticationService: GenService<{
     output: typeof LoginResponseSchema;
   },
   /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.CompleteMfa
-   */
-  completeMfa: {
-    methodKind: "unary";
-    input: typeof CompleteMfaRequestSchema;
-    output: typeof CompleteMfaResponseSchema;
-  },
-  /**
    * @generated from rpc oryon.identity.v1.AuthenticationService.RefreshToken
    */
   refreshToken: {
@@ -987,28 +502,12 @@ export const AuthenticationService: GenService<{
     output: typeof RefreshTokenResponseSchema;
   },
   /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.ChangePassword
+   * @generated from rpc oryon.identity.v1.AuthenticationService.CompleteMfa
    */
-  changePassword: {
+  completeMfa: {
     methodKind: "unary";
-    input: typeof ChangePasswordRequestSchema;
-    output: typeof ChangePasswordResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.RequestPasswordReset
-   */
-  requestPasswordReset: {
-    methodKind: "unary";
-    input: typeof RequestPasswordResetRequestSchema;
-    output: typeof RequestPasswordResetResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.ConfirmPasswordReset
-   */
-  confirmPasswordReset: {
-    methodKind: "unary";
-    input: typeof ConfirmPasswordResetRequestSchema;
-    output: typeof ConfirmPasswordResetResponseSchema;
+    input: typeof CompleteMfaRequestSchema;
+    output: typeof CompleteMfaResponseSchema;
   },
   /**
    * @generated from rpc oryon.identity.v1.AuthenticationService.RequestEmailVerification
@@ -1025,38 +524,6 @@ export const AuthenticationService: GenService<{
     methodKind: "unary";
     input: typeof VerifyEmailRequestSchema;
     output: typeof VerifyEmailResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.BeginPasskeyRegistration
-   */
-  beginPasskeyRegistration: {
-    methodKind: "unary";
-    input: typeof BeginPasskeyRegistrationRequestSchema;
-    output: typeof BeginPasskeyRegistrationResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.FinishPasskeyRegistration
-   */
-  finishPasskeyRegistration: {
-    methodKind: "unary";
-    input: typeof FinishPasskeyRegistrationRequestSchema;
-    output: typeof FinishPasskeyRegistrationResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.BeginPasskeyLogin
-   */
-  beginPasskeyLogin: {
-    methodKind: "unary";
-    input: typeof BeginPasskeyLoginRequestSchema;
-    output: typeof BeginPasskeyLoginResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.FinishPasskeyLogin
-   */
-  finishPasskeyLogin: {
-    methodKind: "unary";
-    input: typeof FinishPasskeyLoginRequestSchema;
-    output: typeof FinishPasskeyLoginResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_oryon_identity_v1_authentication, 0);
