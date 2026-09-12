@@ -4,9 +4,6 @@ package oryon.identity.v1;
 
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
-import "oryon/identity/v1/mfa.proto";
-import "oryon/identity/v1/session.proto";
-import "oryon/identity/v1/user.proto";
 
 // ========
 // services
@@ -15,20 +12,7 @@ import "oryon/identity/v1/user.proto";
 service AuthenticationService {
   rpc Registration(RegistrationRequest) returns (RegistrationResponse);
   rpc Login(LoginRequest) returns (LoginResponse);
-  rpc CompleteMfa(CompleteMfaRequest) returns (CompleteMfaResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-
-  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
-  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (RequestPasswordResetResponse);
-  rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
-
-  rpc RequestEmailVerification(RequestEmailVerificationRequest) returns (RequestEmailVerificationResponse);
-  rpc VerifyEmail(VerifyEmailRequest) returns (VerifyEmailResponse);
-
-  rpc BeginPasskeyRegistration(BeginPasskeyRegistrationRequest) returns (BeginPasskeyRegistrationResponse);
-  rpc FinishPasskeyRegistration(FinishPasskeyRegistrationRequest) returns (FinishPasskeyRegistrationResponse);
-  rpc BeginPasskeyLogin(BeginPasskeyLoginRequest) returns (BeginPasskeyLoginResponse);
-  rpc FinishPasskeyLogin(FinishPasskeyLoginRequest) returns (FinishPasskeyLoginResponse);
 }
 
 // =====
@@ -53,12 +37,22 @@ enum AuthFlowState {
   AUTH_FLOW_STATE_FAILED = 6;
 }
 
-enum VerificationPurpose {
-  VERIFICATION_PURPOSE_UNSPECIFIED = 0;
-  VERIFICATION_PURPOSE_EMAIL_VERIFICATION = 1;
-  VERIFICATION_PURPOSE_PHONE_VERIFICATION = 2;
-  VERIFICATION_PURPOSE_PASSWORD_RESET = 3;
-  VERIFICATION_PURPOSE_MFA_VERIFICATION = 4;
+enum MfaFactorType {
+  MFA_FACTOR_TYPE_UNSPECIFIED = 0;
+  MFA_FACTOR_TYPE_TOTP = 1;
+  MFA_FACTOR_TYPE_SMS = 2;
+  MFA_FACTOR_TYPE_EMAIL = 3;
+  MFA_FACTOR_TYPE_WEBAUTHN = 4;
+  MFA_FACTOR_TYPE_BACKUP_CODE = 5;
+}
+
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_INACTIVE = 2;
+  USER_STATUS_LOCKED = 3;
+  USER_STATUS_SUSPENDED = 4;
+  USER_STATUS_DELETED = 5;
 }
 
 // ======
@@ -66,14 +60,10 @@ enum VerificationPurpose {
 // ======
 
 message Token {
-  // Opaque access token (JWT or opaque); client sends as Authorization: Bearer.
-  string access_token = 1 [(buf.validate.field).string.min_len = 1];
-  // Opaque refresh token used to rotate sessions.
-  string refresh_token = 2 [(buf.validate.field).string.min_len = 1];
+  string access_token = 1;
+  string refresh_token = 2;
   string token_type = 3;
-  // Seconds until access_token expires.
   int64 expires_in = 4;
-  google.protobuf.Timestamp expires_at = 5;
 }
 
 message AuthFlow {
@@ -83,18 +73,27 @@ message AuthFlow {
   google.protobuf.Timestamp expires_at = 4;
 }
 
-message VerificationChallenge {
+message User {
   int64 id = 1;
-  optional int64 user_id = 2;
-  optional int64 flow_id = 3;
-  string identifier = 4;
-  VerificationPurpose purpose = 5;
-  int32 attempts = 6;
-  int32 max_attempts = 7;
-  optional string ip_address = 8 [(buf.validate.field).string.ip = true];
-  google.protobuf.Timestamp expires_at = 9;
-  optional google.protobuf.Timestamp consumed_at = 10;
-  google.protobuf.Timestamp created_at = 11;
+  UserStatus status = 2;
+  string name = 3;
+  optional string username = 4;
+  optional string avatar_url = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message Session {
+  int64 id = 1;
+  int64 user_id = 2;
+  google.protobuf.Timestamp created_at = 3;
+  google.protobuf.Timestamp expires_at = 4;
+  optional google.protobuf.Timestamp last_seen_at = 5;
+  optional google.protobuf.Timestamp revoked_at = 6;
+  optional string ip_address = 7;
+  optional string user_agent = 8;
+  optional google.protobuf.Timestamp mfa_verified_at = 9;
+  bool is_current = 10;
 }
 
 // ==============
@@ -109,56 +108,31 @@ message RegistrationRequest {
   };
 
   optional string email = 1 [(buf.validate.field).string.email = true];
-  string password = 2 [
+  optional string phone = 2 [(buf.validate.field).string.pattern = "^\\+[1-9]\\d{1,14}$"];
+  string password = 3 [
     (buf.validate.field).string.min_len = 8,
     (buf.validate.field).string.max_len = 128
   ];
-  string name = 3 [(buf.validate.field).string.min_len = 1];
-  optional string phone = 4 [(buf.validate.field).string.pattern = "^\\+[1-9]\\d{1,14}$"];
+  string name = 4 [(buf.validate.field).string.min_len = 3];
 }
 
 message RegistrationResponse {
-  User user = 1;
-  bool verification_required = 2;
-  optional AuthFlow flow = 3;
+  AuthFlow flow = 1;
 }
 
 message LoginRequest {
   // Email, phone (+E.164), or username identifier.
-  string identifier = 1 [(buf.validate.field).string.min_len = 1];
-  // Password not required when initiating passkey via flow,
-  // but required for password-based login.
-  optional string password = 2 [(buf.validate.field).string.min_len = 1];
-  // Optional pre-created flow_id to resume a multi-step flow.
-  optional string flow_id = 3;
+  string identifier = 1 [(buf.validate.field).string.min_len = 3];
+  string password = 2 [(buf.validate.field).string.min_len = 3];
 }
 
 message LoginResponse {
-  // Present when authentication completes immediately (no MFA/verification).
   optional Token token = 1;
-  optional Session session = 2;
-  optional User user = 3;
-  // Present when additional step is required (MFA, verification, etc.).
+  optional User user = 2;
+  optional Session session = 3;
   optional AuthFlow flow = 4;
   bool mfa_required = 5;
   repeated MfaFactorType available_mfa_methods = 6;
-  // Human-readable next step hint: "mfa", "verification", "completed".
-  string next_step = 7;
-}
-
-message CompleteMfaRequest {
-  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
-  // OTP code, TOTP, backup code, or SMS code depending on selected factor.
-  string code = 2 [(buf.validate.field).string.min_len = 1];
-  MfaFactorType factor_type = 3;
-  // Optional factor_id when user has multiple factors of same type.
-  optional int64 factor_id = 4;
-}
-
-message CompleteMfaResponse {
-  Token token = 1;
-  Session session = 2;
-  User user = 3;
 }
 
 message RefreshTokenRequest {
@@ -167,114 +141,4 @@ message RefreshTokenRequest {
 
 message RefreshTokenResponse {
   Token token = 1;
-  Session session = 2;
-}
-
-message ChangePasswordRequest {
-  string current_password = 1 [(buf.validate.field).string.min_len = 1];
-  string new_password = 2 [
-    (buf.validate.field).string.min_len = 8,
-    (buf.validate.field).string.max_len = 128
-  ];
-}
-
-message ChangePasswordResponse {}
-
-message RequestPasswordResetRequest {
-  string email = 1 [(buf.validate.field).string.email = true];
-}
-
-message RequestPasswordResetResponse {
-  // Always empty to avoid account enumeration; challenge created if email exists.
-  // Identifier for polling/debugging (only returned in dev mode or via email link).
-  optional string verification_id = 1;
-}
-
-message ConfirmPasswordResetRequest {
-  // verification_id or raw token from reset email / challenge.
-  string token = 1 [(buf.validate.field).string.min_len = 1];
-  // Alternatively code + verification_id may be used for OTP flows.
-  optional string code = 2;
-  string new_password = 3 [
-    (buf.validate.field).string.min_len = 8,
-    (buf.validate.field).string.max_len = 128
-  ];
-}
-
-message ConfirmPasswordResetResponse {
-  // Optionally auto-login after reset; token present if configured to do so.
-  optional Token token = 1;
-}
-
-message RequestEmailVerificationRequest {
-  // If empty, uses primary email of current user (authenticated).
-  optional string email = 1 [(buf.validate.field).string.email = true];
-  optional int64 email_id = 2;
-}
-
-message RequestEmailVerificationResponse {
-  VerificationChallenge challenge = 1;
-}
-
-message VerifyEmailRequest {
-  // token from verification link or code from OTP.
-  string token = 1 [(buf.validate.field).string.min_len = 1];
-  optional string code = 2;
-  optional string verification_id = 3;
-  optional string email = 4 [(buf.validate.field).string.email = true];
-}
-
-message VerifyEmailResponse {
-  UserEmail email = 1;
-  bool verified = 2;
-}
-
-message BeginPasskeyRegistrationRequest {
-  // Friendly name for the passkey, e.g., "MacBook Touch ID".
-  string name = 1 [(buf.validate.field).string.min_len = 1];
-  // Optional flow_id for step-up flows.
-  optional string flow_id = 2;
-}
-
-message BeginPasskeyRegistrationResponse {
-  // JSON-serialized PublicKeyCredentialCreationOptions (to pass to navigator.credentials.create).
-  string creation_options_json = 1 [(buf.validate.field).string.min_len = 1];
-  // Flow/flow_id to complete registration; maps to auth_flows or passkey creation session.
-  string flow_id = 2;
-  AuthFlow flow = 3;
-}
-
-message FinishPasskeyRegistrationRequest {
-  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
-  // JSON-serialized AuthenticatorAttestationResponse from WebAuthn.
-  string attestation_response_json = 2 [(buf.validate.field).string.min_len = 1];
-}
-
-message FinishPasskeyRegistrationResponse {
-  Passkey passkey = 1;
-}
-
-message BeginPasskeyLoginRequest {
-  // Optional email hint; when omitted uses discoverable (resident) credentials.
-  optional string email = 1 [(buf.validate.field).string.email = true];
-  optional string flow_id = 2;
-}
-
-message BeginPasskeyLoginResponse {
-  // JSON-serialized PublicKeyCredentialRequestOptions.
-  string request_options_json = 1 [(buf.validate.field).string.min_len = 1];
-  string flow_id = 2;
-  AuthFlow flow = 3;
-}
-
-message FinishPasskeyLoginRequest {
-  string flow_id = 1 [(buf.validate.field).string.min_len = 1];
-  // JSON-serialized AuthenticatorAssertionResponse.
-  string assertion_response_json = 2 [(buf.validate.field).string.min_len = 1];
-}
-
-message FinishPasskeyLoginResponse {
-  Token token = 1;
-  Session session = 2;
-  User user = 3;
 }

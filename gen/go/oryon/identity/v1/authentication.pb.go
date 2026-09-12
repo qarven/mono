@@ -139,71 +139,128 @@ func (AuthFlowState) EnumDescriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{1}
 }
 
-type VerificationPurpose int32
+type MfaFactorType int32
 
 const (
-	VerificationPurpose_VERIFICATION_PURPOSE_UNSPECIFIED        VerificationPurpose = 0
-	VerificationPurpose_VERIFICATION_PURPOSE_EMAIL_VERIFICATION VerificationPurpose = 1
-	VerificationPurpose_VERIFICATION_PURPOSE_PHONE_VERIFICATION VerificationPurpose = 2
-	VerificationPurpose_VERIFICATION_PURPOSE_PASSWORD_RESET     VerificationPurpose = 3
-	VerificationPurpose_VERIFICATION_PURPOSE_MFA_VERIFICATION   VerificationPurpose = 4
+	MfaFactorType_MFA_FACTOR_TYPE_UNSPECIFIED MfaFactorType = 0
+	MfaFactorType_MFA_FACTOR_TYPE_TOTP        MfaFactorType = 1
+	MfaFactorType_MFA_FACTOR_TYPE_SMS         MfaFactorType = 2
+	MfaFactorType_MFA_FACTOR_TYPE_EMAIL       MfaFactorType = 3
+	MfaFactorType_MFA_FACTOR_TYPE_WEBAUTHN    MfaFactorType = 4
+	MfaFactorType_MFA_FACTOR_TYPE_BACKUP_CODE MfaFactorType = 5
 )
 
-// Enum value maps for VerificationPurpose.
+// Enum value maps for MfaFactorType.
 var (
-	VerificationPurpose_name = map[int32]string{
-		0: "VERIFICATION_PURPOSE_UNSPECIFIED",
-		1: "VERIFICATION_PURPOSE_EMAIL_VERIFICATION",
-		2: "VERIFICATION_PURPOSE_PHONE_VERIFICATION",
-		3: "VERIFICATION_PURPOSE_PASSWORD_RESET",
-		4: "VERIFICATION_PURPOSE_MFA_VERIFICATION",
+	MfaFactorType_name = map[int32]string{
+		0: "MFA_FACTOR_TYPE_UNSPECIFIED",
+		1: "MFA_FACTOR_TYPE_TOTP",
+		2: "MFA_FACTOR_TYPE_SMS",
+		3: "MFA_FACTOR_TYPE_EMAIL",
+		4: "MFA_FACTOR_TYPE_WEBAUTHN",
+		5: "MFA_FACTOR_TYPE_BACKUP_CODE",
 	}
-	VerificationPurpose_value = map[string]int32{
-		"VERIFICATION_PURPOSE_UNSPECIFIED":        0,
-		"VERIFICATION_PURPOSE_EMAIL_VERIFICATION": 1,
-		"VERIFICATION_PURPOSE_PHONE_VERIFICATION": 2,
-		"VERIFICATION_PURPOSE_PASSWORD_RESET":     3,
-		"VERIFICATION_PURPOSE_MFA_VERIFICATION":   4,
+	MfaFactorType_value = map[string]int32{
+		"MFA_FACTOR_TYPE_UNSPECIFIED": 0,
+		"MFA_FACTOR_TYPE_TOTP":        1,
+		"MFA_FACTOR_TYPE_SMS":         2,
+		"MFA_FACTOR_TYPE_EMAIL":       3,
+		"MFA_FACTOR_TYPE_WEBAUTHN":    4,
+		"MFA_FACTOR_TYPE_BACKUP_CODE": 5,
 	}
 )
 
-func (x VerificationPurpose) Enum() *VerificationPurpose {
-	p := new(VerificationPurpose)
+func (x MfaFactorType) Enum() *MfaFactorType {
+	p := new(MfaFactorType)
 	*p = x
 	return p
 }
 
-func (x VerificationPurpose) String() string {
+func (x MfaFactorType) String() string {
 	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
 }
 
-func (VerificationPurpose) Descriptor() protoreflect.EnumDescriptor {
+func (MfaFactorType) Descriptor() protoreflect.EnumDescriptor {
 	return file_oryon_identity_v1_authentication_proto_enumTypes[2].Descriptor()
 }
 
-func (VerificationPurpose) Type() protoreflect.EnumType {
+func (MfaFactorType) Type() protoreflect.EnumType {
 	return &file_oryon_identity_v1_authentication_proto_enumTypes[2]
 }
 
-func (x VerificationPurpose) Number() protoreflect.EnumNumber {
+func (x MfaFactorType) Number() protoreflect.EnumNumber {
 	return protoreflect.EnumNumber(x)
 }
 
-// Deprecated: Use VerificationPurpose.Descriptor instead.
-func (VerificationPurpose) EnumDescriptor() ([]byte, []int) {
+// Deprecated: Use MfaFactorType.Descriptor instead.
+func (MfaFactorType) EnumDescriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{2}
 }
 
+type UserStatus int32
+
+const (
+	UserStatus_USER_STATUS_UNSPECIFIED UserStatus = 0
+	UserStatus_USER_STATUS_ACTIVE      UserStatus = 1
+	UserStatus_USER_STATUS_INACTIVE    UserStatus = 2
+	UserStatus_USER_STATUS_LOCKED      UserStatus = 3
+	UserStatus_USER_STATUS_SUSPENDED   UserStatus = 4
+	UserStatus_USER_STATUS_DELETED     UserStatus = 5
+)
+
+// Enum value maps for UserStatus.
+var (
+	UserStatus_name = map[int32]string{
+		0: "USER_STATUS_UNSPECIFIED",
+		1: "USER_STATUS_ACTIVE",
+		2: "USER_STATUS_INACTIVE",
+		3: "USER_STATUS_LOCKED",
+		4: "USER_STATUS_SUSPENDED",
+		5: "USER_STATUS_DELETED",
+	}
+	UserStatus_value = map[string]int32{
+		"USER_STATUS_UNSPECIFIED": 0,
+		"USER_STATUS_ACTIVE":      1,
+		"USER_STATUS_INACTIVE":    2,
+		"USER_STATUS_LOCKED":      3,
+		"USER_STATUS_SUSPENDED":   4,
+		"USER_STATUS_DELETED":     5,
+	}
+)
+
+func (x UserStatus) Enum() *UserStatus {
+	p := new(UserStatus)
+	*p = x
+	return p
+}
+
+func (x UserStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_oryon_identity_v1_authentication_proto_enumTypes[3].Descriptor()
+}
+
+func (UserStatus) Type() protoreflect.EnumType {
+	return &file_oryon_identity_v1_authentication_proto_enumTypes[3]
+}
+
+func (x UserStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserStatus.Descriptor instead.
+func (UserStatus) EnumDescriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{3}
+}
+
 type Token struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Opaque access token (JWT or opaque); client sends as Authorization: Bearer.
-	AccessToken string `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	// Opaque refresh token used to rotate sessions.
-	RefreshToken string `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
-	TokenType    string `protobuf:"bytes,3,opt,name=token_type,json=tokenType,proto3" json:"token_type,omitempty"`
-	// Seconds until access_token expires.
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken   string                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	TokenType     string                 `protobuf:"bytes,3,opt,name=token_type,json=tokenType,proto3" json:"token_type,omitempty"`
 	ExpiresIn     int64                  `protobuf:"varint,4,opt,name=expires_in,json=expiresIn,proto3" json:"expires_in,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -264,13 +321,6 @@ func (x *Token) GetExpiresIn() int64 {
 		return x.ExpiresIn
 	}
 	return 0
-}
-
-func (x *Token) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
-	}
-	return nil
 }
 
 type AuthFlow struct {
@@ -341,37 +391,33 @@ func (x *AuthFlow) GetExpiresAt() *timestamppb.Timestamp {
 	return nil
 }
 
-type VerificationChallenge struct {
+type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        *int64                 `protobuf:"varint,2,opt,name=user_id,json=userId,proto3,oneof" json:"user_id,omitempty"`
-	FlowId        *int64                 `protobuf:"varint,3,opt,name=flow_id,json=flowId,proto3,oneof" json:"flow_id,omitempty"`
-	Identifier    string                 `protobuf:"bytes,4,opt,name=identifier,proto3" json:"identifier,omitempty"`
-	Purpose       VerificationPurpose    `protobuf:"varint,5,opt,name=purpose,proto3,enum=oryon.identity.v1.VerificationPurpose" json:"purpose,omitempty"`
-	Attempts      int32                  `protobuf:"varint,6,opt,name=attempts,proto3" json:"attempts,omitempty"`
-	MaxAttempts   int32                  `protobuf:"varint,7,opt,name=max_attempts,json=maxAttempts,proto3" json:"max_attempts,omitempty"`
-	IpAddress     *string                `protobuf:"bytes,8,opt,name=ip_address,json=ipAddress,proto3,oneof" json:"ip_address,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	ConsumedAt    *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=consumed_at,json=consumedAt,proto3,oneof" json:"consumed_at,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	Status        UserStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=oryon.identity.v1.UserStatus" json:"status,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Username      *string                `protobuf:"bytes,4,opt,name=username,proto3,oneof" json:"username,omitempty"`
+	AvatarUrl     *string                `protobuf:"bytes,5,opt,name=avatar_url,json=avatarUrl,proto3,oneof" json:"avatar_url,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *VerificationChallenge) Reset() {
-	*x = VerificationChallenge{}
+func (x *User) Reset() {
+	*x = User{}
 	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *VerificationChallenge) String() string {
+func (x *User) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*VerificationChallenge) ProtoMessage() {}
+func (*User) ProtoMessage() {}
 
-func (x *VerificationChallenge) ProtoReflect() protoreflect.Message {
+func (x *User) ProtoReflect() protoreflect.Message {
 	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -383,101 +429,189 @@ func (x *VerificationChallenge) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use VerificationChallenge.ProtoReflect.Descriptor instead.
-func (*VerificationChallenge) Descriptor() ([]byte, []int) {
+// Deprecated: Use User.ProtoReflect.Descriptor instead.
+func (*User) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *VerificationChallenge) GetId() int64 {
+func (x *User) GetId() int64 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-func (x *VerificationChallenge) GetUserId() int64 {
-	if x != nil && x.UserId != nil {
-		return *x.UserId
-	}
-	return 0
-}
-
-func (x *VerificationChallenge) GetFlowId() int64 {
-	if x != nil && x.FlowId != nil {
-		return *x.FlowId
-	}
-	return 0
-}
-
-func (x *VerificationChallenge) GetIdentifier() string {
+func (x *User) GetStatus() UserStatus {
 	if x != nil {
-		return x.Identifier
+		return x.Status
+	}
+	return UserStatus_USER_STATUS_UNSPECIFIED
+}
+
+func (x *User) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
 
-func (x *VerificationChallenge) GetPurpose() VerificationPurpose {
-	if x != nil {
-		return x.Purpose
-	}
-	return VerificationPurpose_VERIFICATION_PURPOSE_UNSPECIFIED
-}
-
-func (x *VerificationChallenge) GetAttempts() int32 {
-	if x != nil {
-		return x.Attempts
-	}
-	return 0
-}
-
-func (x *VerificationChallenge) GetMaxAttempts() int32 {
-	if x != nil {
-		return x.MaxAttempts
-	}
-	return 0
-}
-
-func (x *VerificationChallenge) GetIpAddress() string {
-	if x != nil && x.IpAddress != nil {
-		return *x.IpAddress
+func (x *User) GetUsername() string {
+	if x != nil && x.Username != nil {
+		return *x.Username
 	}
 	return ""
 }
 
-func (x *VerificationChallenge) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
+func (x *User) GetAvatarUrl() string {
+	if x != nil && x.AvatarUrl != nil {
+		return *x.AvatarUrl
 	}
-	return nil
+	return ""
 }
 
-func (x *VerificationChallenge) GetConsumedAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ConsumedAt
-	}
-	return nil
-}
-
-func (x *VerificationChallenge) GetCreatedAt() *timestamppb.Timestamp {
+func (x *User) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
 	return nil
 }
 
+func (x *User) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type Session struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        int64                  `protobuf:"varint,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
+	LastSeenAt    *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_seen_at,json=lastSeenAt,proto3,oneof" json:"last_seen_at,omitempty"`
+	RevokedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=revoked_at,json=revokedAt,proto3,oneof" json:"revoked_at,omitempty"`
+	IpAddress     *string                `protobuf:"bytes,7,opt,name=ip_address,json=ipAddress,proto3,oneof" json:"ip_address,omitempty"`
+	UserAgent     *string                `protobuf:"bytes,8,opt,name=user_agent,json=userAgent,proto3,oneof" json:"user_agent,omitempty"`
+	MfaVerifiedAt *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=mfa_verified_at,json=mfaVerifiedAt,proto3,oneof" json:"mfa_verified_at,omitempty"`
+	IsCurrent     bool                   `protobuf:"varint,10,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Session) Reset() {
+	*x = Session{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Session) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Session) ProtoMessage() {}
+
+func (x *Session) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Session.ProtoReflect.Descriptor instead.
+func (*Session) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Session) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Session) GetUserId() int64 {
+	if x != nil {
+		return x.UserId
+	}
+	return 0
+}
+
+func (x *Session) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *Session) GetExpiresAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpiresAt
+	}
+	return nil
+}
+
+func (x *Session) GetLastSeenAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastSeenAt
+	}
+	return nil
+}
+
+func (x *Session) GetRevokedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.RevokedAt
+	}
+	return nil
+}
+
+func (x *Session) GetIpAddress() string {
+	if x != nil && x.IpAddress != nil {
+		return *x.IpAddress
+	}
+	return ""
+}
+
+func (x *Session) GetUserAgent() string {
+	if x != nil && x.UserAgent != nil {
+		return *x.UserAgent
+	}
+	return ""
+}
+
+func (x *Session) GetMfaVerifiedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.MfaVerifiedAt
+	}
+	return nil
+}
+
+func (x *Session) GetIsCurrent() bool {
+	if x != nil {
+		return x.IsCurrent
+	}
+	return false
+}
+
 type RegistrationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         *string                `protobuf:"bytes,1,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Phone         *string                `protobuf:"bytes,4,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	Phone         *string                `protobuf:"bytes,2,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	Name          string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RegistrationRequest) Reset() {
 	*x = RegistrationRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -489,7 +623,7 @@ func (x *RegistrationRequest) String() string {
 func (*RegistrationRequest) ProtoMessage() {}
 
 func (x *RegistrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[3]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -502,12 +636,19 @@ func (x *RegistrationRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegistrationRequest.ProtoReflect.Descriptor instead.
 func (*RegistrationRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{3}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RegistrationRequest) GetEmail() string {
 	if x != nil && x.Email != nil {
 		return *x.Email
+	}
+	return ""
+}
+
+func (x *RegistrationRequest) GetPhone() string {
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
 }
@@ -526,25 +667,16 @@ func (x *RegistrationRequest) GetName() string {
 	return ""
 }
 
-func (x *RegistrationRequest) GetPhone() string {
-	if x != nil && x.Phone != nil {
-		return *x.Phone
-	}
-	return ""
-}
-
 type RegistrationResponse struct {
-	state                protoimpl.MessageState `protogen:"open.v1"`
-	User                 *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
-	VerificationRequired bool                   `protobuf:"varint,2,opt,name=verification_required,json=verificationRequired,proto3" json:"verification_required,omitempty"`
-	Flow                 *AuthFlow              `protobuf:"bytes,3,opt,name=flow,proto3,oneof" json:"flow,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Flow          *AuthFlow              `protobuf:"bytes,1,opt,name=flow,proto3" json:"flow,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RegistrationResponse) Reset() {
 	*x = RegistrationResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -556,7 +688,7 @@ func (x *RegistrationResponse) String() string {
 func (*RegistrationResponse) ProtoMessage() {}
 
 func (x *RegistrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[4]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -569,21 +701,7 @@ func (x *RegistrationResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegistrationResponse.ProtoReflect.Descriptor instead.
 func (*RegistrationResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *RegistrationResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
-func (x *RegistrationResponse) GetVerificationRequired() bool {
-	if x != nil {
-		return x.VerificationRequired
-	}
-	return false
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *RegistrationResponse) GetFlow() *AuthFlow {
@@ -596,19 +714,15 @@ func (x *RegistrationResponse) GetFlow() *AuthFlow {
 type LoginRequest struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Email, phone (+E.164), or username identifier.
-	Identifier string `protobuf:"bytes,1,opt,name=identifier,proto3" json:"identifier,omitempty"`
-	// Password not required when initiating passkey via flow,
-	// but required for password-based login.
-	Password *string `protobuf:"bytes,2,opt,name=password,proto3,oneof" json:"password,omitempty"`
-	// Optional pre-created flow_id to resume a multi-step flow.
-	FlowId        *string `protobuf:"bytes,3,opt,name=flow_id,json=flowId,proto3,oneof" json:"flow_id,omitempty"`
+	Identifier    string `protobuf:"bytes,1,opt,name=identifier,proto3" json:"identifier,omitempty"`
+	Password      string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -620,7 +734,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[5]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -633,7 +747,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{5}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *LoginRequest) GetIdentifier() string {
@@ -644,38 +758,27 @@ func (x *LoginRequest) GetIdentifier() string {
 }
 
 func (x *LoginRequest) GetPassword() string {
-	if x != nil && x.Password != nil {
-		return *x.Password
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetFlowId() string {
-	if x != nil && x.FlowId != nil {
-		return *x.FlowId
+	if x != nil {
+		return x.Password
 	}
 	return ""
 }
 
 type LoginResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Present when authentication completes immediately (no MFA/verification).
-	Token   *Token   `protobuf:"bytes,1,opt,name=token,proto3,oneof" json:"token,omitempty"`
-	Session *Session `protobuf:"bytes,2,opt,name=session,proto3,oneof" json:"session,omitempty"`
-	User    *User    `protobuf:"bytes,3,opt,name=user,proto3,oneof" json:"user,omitempty"`
-	// Present when additional step is required (MFA, verification, etc.).
-	Flow                *AuthFlow       `protobuf:"bytes,4,opt,name=flow,proto3,oneof" json:"flow,omitempty"`
-	MfaRequired         bool            `protobuf:"varint,5,opt,name=mfa_required,json=mfaRequired,proto3" json:"mfa_required,omitempty"`
-	AvailableMfaMethods []MfaFactorType `protobuf:"varint,6,rep,packed,name=available_mfa_methods,json=availableMfaMethods,proto3,enum=oryon.identity.v1.MfaFactorType" json:"available_mfa_methods,omitempty"`
-	// Human-readable next step hint: "mfa", "verification", "completed".
-	NextStep      string `protobuf:"bytes,7,opt,name=next_step,json=nextStep,proto3" json:"next_step,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Token               *Token                 `protobuf:"bytes,1,opt,name=token,proto3,oneof" json:"token,omitempty"`
+	User                *User                  `protobuf:"bytes,2,opt,name=user,proto3,oneof" json:"user,omitempty"`
+	Session             *Session               `protobuf:"bytes,3,opt,name=session,proto3,oneof" json:"session,omitempty"`
+	Flow                *AuthFlow              `protobuf:"bytes,4,opt,name=flow,proto3,oneof" json:"flow,omitempty"`
+	MfaRequired         bool                   `protobuf:"varint,5,opt,name=mfa_required,json=mfaRequired,proto3" json:"mfa_required,omitempty"`
+	AvailableMfaMethods []MfaFactorType        `protobuf:"varint,6,rep,packed,name=available_mfa_methods,json=availableMfaMethods,proto3,enum=oryon.identity.v1.MfaFactorType" json:"available_mfa_methods,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
 }
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -687,7 +790,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[6]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -700,7 +803,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{6}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *LoginResponse) GetToken() *Token {
@@ -710,16 +813,16 @@ func (x *LoginResponse) GetToken() *Token {
 	return nil
 }
 
-func (x *LoginResponse) GetSession() *Session {
+func (x *LoginResponse) GetUser() *User {
 	if x != nil {
-		return x.Session
+		return x.User
 	}
 	return nil
 }
 
-func (x *LoginResponse) GetUser() *User {
+func (x *LoginResponse) GetSession() *Session {
 	if x != nil {
-		return x.User
+		return x.Session
 	}
 	return nil
 }
@@ -745,143 +848,6 @@ func (x *LoginResponse) GetAvailableMfaMethods() []MfaFactorType {
 	return nil
 }
 
-func (x *LoginResponse) GetNextStep() string {
-	if x != nil {
-		return x.NextStep
-	}
-	return ""
-}
-
-type CompleteMfaRequest struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	FlowId string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	// OTP code, TOTP, backup code, or SMS code depending on selected factor.
-	Code       string        `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
-	FactorType MfaFactorType `protobuf:"varint,3,opt,name=factor_type,json=factorType,proto3,enum=oryon.identity.v1.MfaFactorType" json:"factor_type,omitempty"`
-	// Optional factor_id when user has multiple factors of same type.
-	FactorId      *int64 `protobuf:"varint,4,opt,name=factor_id,json=factorId,proto3,oneof" json:"factor_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CompleteMfaRequest) Reset() {
-	*x = CompleteMfaRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CompleteMfaRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CompleteMfaRequest) ProtoMessage() {}
-
-func (x *CompleteMfaRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[7]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CompleteMfaRequest.ProtoReflect.Descriptor instead.
-func (*CompleteMfaRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *CompleteMfaRequest) GetFlowId() string {
-	if x != nil {
-		return x.FlowId
-	}
-	return ""
-}
-
-func (x *CompleteMfaRequest) GetCode() string {
-	if x != nil {
-		return x.Code
-	}
-	return ""
-}
-
-func (x *CompleteMfaRequest) GetFactorType() MfaFactorType {
-	if x != nil {
-		return x.FactorType
-	}
-	return MfaFactorType_MFA_FACTOR_TYPE_UNSPECIFIED
-}
-
-func (x *CompleteMfaRequest) GetFactorId() int64 {
-	if x != nil && x.FactorId != nil {
-		return *x.FactorId
-	}
-	return 0
-}
-
-type CompleteMfaResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         *Token                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	Session       *Session               `protobuf:"bytes,2,opt,name=session,proto3" json:"session,omitempty"`
-	User          *User                  `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CompleteMfaResponse) Reset() {
-	*x = CompleteMfaResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CompleteMfaResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CompleteMfaResponse) ProtoMessage() {}
-
-func (x *CompleteMfaResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CompleteMfaResponse.ProtoReflect.Descriptor instead.
-func (*CompleteMfaResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *CompleteMfaResponse) GetToken() *Token {
-	if x != nil {
-		return x.Token
-	}
-	return nil
-}
-
-func (x *CompleteMfaResponse) GetSession() *Session {
-	if x != nil {
-		return x.Session
-	}
-	return nil
-}
-
-func (x *CompleteMfaResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
 type RefreshTokenRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RefreshToken  string                 `protobuf:"bytes,1,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
@@ -891,7 +857,7 @@ type RefreshTokenRequest struct {
 
 func (x *RefreshTokenRequest) Reset() {
 	*x = RefreshTokenRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[9]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -903,7 +869,7 @@ func (x *RefreshTokenRequest) String() string {
 func (*RefreshTokenRequest) ProtoMessage() {}
 
 func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[9]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -916,7 +882,7 @@ func (x *RefreshTokenRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenRequest.ProtoReflect.Descriptor instead.
 func (*RefreshTokenRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{9}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RefreshTokenRequest) GetRefreshToken() string {
@@ -929,14 +895,13 @@ func (x *RefreshTokenRequest) GetRefreshToken() string {
 type RefreshTokenResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Token         *Token                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	Session       *Session               `protobuf:"bytes,2,opt,name=session,proto3" json:"session,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *RefreshTokenResponse) Reset() {
 	*x = RefreshTokenResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[10]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -948,7 +913,7 @@ func (x *RefreshTokenResponse) String() string {
 func (*RefreshTokenResponse) ProtoMessage() {}
 
 func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[10]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -961,7 +926,7 @@ func (x *RefreshTokenResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RefreshTokenResponse.ProtoReflect.Descriptor instead.
 func (*RefreshTokenResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{10}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *RefreshTokenResponse) GetToken() *Token {
@@ -971,1123 +936,94 @@ func (x *RefreshTokenResponse) GetToken() *Token {
 	return nil
 }
 
-func (x *RefreshTokenResponse) GetSession() *Session {
-	if x != nil {
-		return x.Session
-	}
-	return nil
-}
-
-type ChangePasswordRequest struct {
-	state           protoimpl.MessageState `protogen:"open.v1"`
-	CurrentPassword string                 `protobuf:"bytes,1,opt,name=current_password,json=currentPassword,proto3" json:"current_password,omitempty"`
-	NewPassword     string                 `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
-}
-
-func (x *ChangePasswordRequest) Reset() {
-	*x = ChangePasswordRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ChangePasswordRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ChangePasswordRequest) ProtoMessage() {}
-
-func (x *ChangePasswordRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChangePasswordRequest.ProtoReflect.Descriptor instead.
-func (*ChangePasswordRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *ChangePasswordRequest) GetCurrentPassword() string {
-	if x != nil {
-		return x.CurrentPassword
-	}
-	return ""
-}
-
-func (x *ChangePasswordRequest) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
-}
-
-type ChangePasswordResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ChangePasswordResponse) Reset() {
-	*x = ChangePasswordResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ChangePasswordResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ChangePasswordResponse) ProtoMessage() {}
-
-func (x *ChangePasswordResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ChangePasswordResponse.ProtoReflect.Descriptor instead.
-func (*ChangePasswordResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{12}
-}
-
-type RequestPasswordResetRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RequestPasswordResetRequest) Reset() {
-	*x = RequestPasswordResetRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RequestPasswordResetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RequestPasswordResetRequest) ProtoMessage() {}
-
-func (x *RequestPasswordResetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestPasswordResetRequest.ProtoReflect.Descriptor instead.
-func (*RequestPasswordResetRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *RequestPasswordResetRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-type RequestPasswordResetResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Always empty to avoid account enumeration; challenge created if email exists.
-	// Identifier for polling/debugging (only returned in dev mode or via email link).
-	VerificationId *string `protobuf:"bytes,1,opt,name=verification_id,json=verificationId,proto3,oneof" json:"verification_id,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *RequestPasswordResetResponse) Reset() {
-	*x = RequestPasswordResetResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RequestPasswordResetResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RequestPasswordResetResponse) ProtoMessage() {}
-
-func (x *RequestPasswordResetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestPasswordResetResponse.ProtoReflect.Descriptor instead.
-func (*RequestPasswordResetResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *RequestPasswordResetResponse) GetVerificationId() string {
-	if x != nil && x.VerificationId != nil {
-		return *x.VerificationId
-	}
-	return ""
-}
-
-type ConfirmPasswordResetRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// verification_id or raw token from reset email / challenge.
-	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	// Alternatively code + verification_id may be used for OTP flows.
-	Code          *string `protobuf:"bytes,2,opt,name=code,proto3,oneof" json:"code,omitempty"`
-	NewPassword   string  `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ConfirmPasswordResetRequest) Reset() {
-	*x = ConfirmPasswordResetRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConfirmPasswordResetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConfirmPasswordResetRequest) ProtoMessage() {}
-
-func (x *ConfirmPasswordResetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConfirmPasswordResetRequest.ProtoReflect.Descriptor instead.
-func (*ConfirmPasswordResetRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *ConfirmPasswordResetRequest) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *ConfirmPasswordResetRequest) GetCode() string {
-	if x != nil && x.Code != nil {
-		return *x.Code
-	}
-	return ""
-}
-
-func (x *ConfirmPasswordResetRequest) GetNewPassword() string {
-	if x != nil {
-		return x.NewPassword
-	}
-	return ""
-}
-
-type ConfirmPasswordResetResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Optionally auto-login after reset; token present if configured to do so.
-	Token         *Token `protobuf:"bytes,1,opt,name=token,proto3,oneof" json:"token,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ConfirmPasswordResetResponse) Reset() {
-	*x = ConfirmPasswordResetResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConfirmPasswordResetResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConfirmPasswordResetResponse) ProtoMessage() {}
-
-func (x *ConfirmPasswordResetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConfirmPasswordResetResponse.ProtoReflect.Descriptor instead.
-func (*ConfirmPasswordResetResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *ConfirmPasswordResetResponse) GetToken() *Token {
-	if x != nil {
-		return x.Token
-	}
-	return nil
-}
-
-type RequestEmailVerificationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// If empty, uses primary email of current user (authenticated).
-	Email         *string `protobuf:"bytes,1,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	EmailId       *int64  `protobuf:"varint,2,opt,name=email_id,json=emailId,proto3,oneof" json:"email_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RequestEmailVerificationRequest) Reset() {
-	*x = RequestEmailVerificationRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RequestEmailVerificationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RequestEmailVerificationRequest) ProtoMessage() {}
-
-func (x *RequestEmailVerificationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestEmailVerificationRequest.ProtoReflect.Descriptor instead.
-func (*RequestEmailVerificationRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *RequestEmailVerificationRequest) GetEmail() string {
-	if x != nil && x.Email != nil {
-		return *x.Email
-	}
-	return ""
-}
-
-func (x *RequestEmailVerificationRequest) GetEmailId() int64 {
-	if x != nil && x.EmailId != nil {
-		return *x.EmailId
-	}
-	return 0
-}
-
-type RequestEmailVerificationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Challenge     *VerificationChallenge `protobuf:"bytes,1,opt,name=challenge,proto3" json:"challenge,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *RequestEmailVerificationResponse) Reset() {
-	*x = RequestEmailVerificationResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *RequestEmailVerificationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RequestEmailVerificationResponse) ProtoMessage() {}
-
-func (x *RequestEmailVerificationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RequestEmailVerificationResponse.ProtoReflect.Descriptor instead.
-func (*RequestEmailVerificationResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *RequestEmailVerificationResponse) GetChallenge() *VerificationChallenge {
-	if x != nil {
-		return x.Challenge
-	}
-	return nil
-}
-
-type VerifyEmailRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// token from verification link or code from OTP.
-	Token          string  `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	Code           *string `protobuf:"bytes,2,opt,name=code,proto3,oneof" json:"code,omitempty"`
-	VerificationId *string `protobuf:"bytes,3,opt,name=verification_id,json=verificationId,proto3,oneof" json:"verification_id,omitempty"`
-	Email          *string `protobuf:"bytes,4,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *VerifyEmailRequest) Reset() {
-	*x = VerifyEmailRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *VerifyEmailRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*VerifyEmailRequest) ProtoMessage() {}
-
-func (x *VerifyEmailRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use VerifyEmailRequest.ProtoReflect.Descriptor instead.
-func (*VerifyEmailRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *VerifyEmailRequest) GetToken() string {
-	if x != nil {
-		return x.Token
-	}
-	return ""
-}
-
-func (x *VerifyEmailRequest) GetCode() string {
-	if x != nil && x.Code != nil {
-		return *x.Code
-	}
-	return ""
-}
-
-func (x *VerifyEmailRequest) GetVerificationId() string {
-	if x != nil && x.VerificationId != nil {
-		return *x.VerificationId
-	}
-	return ""
-}
-
-func (x *VerifyEmailRequest) GetEmail() string {
-	if x != nil && x.Email != nil {
-		return *x.Email
-	}
-	return ""
-}
-
-type VerifyEmailResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Email         *UserEmail             `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Verified      bool                   `protobuf:"varint,2,opt,name=verified,proto3" json:"verified,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *VerifyEmailResponse) Reset() {
-	*x = VerifyEmailResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *VerifyEmailResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*VerifyEmailResponse) ProtoMessage() {}
-
-func (x *VerifyEmailResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use VerifyEmailResponse.ProtoReflect.Descriptor instead.
-func (*VerifyEmailResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *VerifyEmailResponse) GetEmail() *UserEmail {
-	if x != nil {
-		return x.Email
-	}
-	return nil
-}
-
-func (x *VerifyEmailResponse) GetVerified() bool {
-	if x != nil {
-		return x.Verified
-	}
-	return false
-}
-
-type BeginPasskeyRegistrationRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Friendly name for the passkey, e.g., "MacBook Touch ID".
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	// Optional flow_id for step-up flows.
-	FlowId        *string `protobuf:"bytes,2,opt,name=flow_id,json=flowId,proto3,oneof" json:"flow_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *BeginPasskeyRegistrationRequest) Reset() {
-	*x = BeginPasskeyRegistrationRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BeginPasskeyRegistrationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BeginPasskeyRegistrationRequest) ProtoMessage() {}
-
-func (x *BeginPasskeyRegistrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BeginPasskeyRegistrationRequest.ProtoReflect.Descriptor instead.
-func (*BeginPasskeyRegistrationRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *BeginPasskeyRegistrationRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *BeginPasskeyRegistrationRequest) GetFlowId() string {
-	if x != nil && x.FlowId != nil {
-		return *x.FlowId
-	}
-	return ""
-}
-
-type BeginPasskeyRegistrationResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// JSON-serialized PublicKeyCredentialCreationOptions (to pass to navigator.credentials.create).
-	CreationOptionsJson string `protobuf:"bytes,1,opt,name=creation_options_json,json=creationOptionsJson,proto3" json:"creation_options_json,omitempty"`
-	// Flow/flow_id to complete registration; maps to auth_flows or passkey creation session.
-	FlowId        string    `protobuf:"bytes,2,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	Flow          *AuthFlow `protobuf:"bytes,3,opt,name=flow,proto3" json:"flow,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *BeginPasskeyRegistrationResponse) Reset() {
-	*x = BeginPasskeyRegistrationResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BeginPasskeyRegistrationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BeginPasskeyRegistrationResponse) ProtoMessage() {}
-
-func (x *BeginPasskeyRegistrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BeginPasskeyRegistrationResponse.ProtoReflect.Descriptor instead.
-func (*BeginPasskeyRegistrationResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *BeginPasskeyRegistrationResponse) GetCreationOptionsJson() string {
-	if x != nil {
-		return x.CreationOptionsJson
-	}
-	return ""
-}
-
-func (x *BeginPasskeyRegistrationResponse) GetFlowId() string {
-	if x != nil {
-		return x.FlowId
-	}
-	return ""
-}
-
-func (x *BeginPasskeyRegistrationResponse) GetFlow() *AuthFlow {
-	if x != nil {
-		return x.Flow
-	}
-	return nil
-}
-
-type FinishPasskeyRegistrationRequest struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	FlowId string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	// JSON-serialized AuthenticatorAttestationResponse from WebAuthn.
-	AttestationResponseJson string `protobuf:"bytes,2,opt,name=attestation_response_json,json=attestationResponseJson,proto3" json:"attestation_response_json,omitempty"`
-	unknownFields           protoimpl.UnknownFields
-	sizeCache               protoimpl.SizeCache
-}
-
-func (x *FinishPasskeyRegistrationRequest) Reset() {
-	*x = FinishPasskeyRegistrationRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FinishPasskeyRegistrationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FinishPasskeyRegistrationRequest) ProtoMessage() {}
-
-func (x *FinishPasskeyRegistrationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FinishPasskeyRegistrationRequest.ProtoReflect.Descriptor instead.
-func (*FinishPasskeyRegistrationRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *FinishPasskeyRegistrationRequest) GetFlowId() string {
-	if x != nil {
-		return x.FlowId
-	}
-	return ""
-}
-
-func (x *FinishPasskeyRegistrationRequest) GetAttestationResponseJson() string {
-	if x != nil {
-		return x.AttestationResponseJson
-	}
-	return ""
-}
-
-type FinishPasskeyRegistrationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Passkey       *Passkey               `protobuf:"bytes,1,opt,name=passkey,proto3" json:"passkey,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FinishPasskeyRegistrationResponse) Reset() {
-	*x = FinishPasskeyRegistrationResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[24]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FinishPasskeyRegistrationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FinishPasskeyRegistrationResponse) ProtoMessage() {}
-
-func (x *FinishPasskeyRegistrationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[24]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FinishPasskeyRegistrationResponse.ProtoReflect.Descriptor instead.
-func (*FinishPasskeyRegistrationResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{24}
-}
-
-func (x *FinishPasskeyRegistrationResponse) GetPasskey() *Passkey {
-	if x != nil {
-		return x.Passkey
-	}
-	return nil
-}
-
-type BeginPasskeyLoginRequest struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// Optional email hint; when omitted uses discoverable (resident) credentials.
-	Email         *string `protobuf:"bytes,1,opt,name=email,proto3,oneof" json:"email,omitempty"`
-	FlowId        *string `protobuf:"bytes,2,opt,name=flow_id,json=flowId,proto3,oneof" json:"flow_id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *BeginPasskeyLoginRequest) Reset() {
-	*x = BeginPasskeyLoginRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[25]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BeginPasskeyLoginRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BeginPasskeyLoginRequest) ProtoMessage() {}
-
-func (x *BeginPasskeyLoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[25]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BeginPasskeyLoginRequest.ProtoReflect.Descriptor instead.
-func (*BeginPasskeyLoginRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{25}
-}
-
-func (x *BeginPasskeyLoginRequest) GetEmail() string {
-	if x != nil && x.Email != nil {
-		return *x.Email
-	}
-	return ""
-}
-
-func (x *BeginPasskeyLoginRequest) GetFlowId() string {
-	if x != nil && x.FlowId != nil {
-		return *x.FlowId
-	}
-	return ""
-}
-
-type BeginPasskeyLoginResponse struct {
-	state protoimpl.MessageState `protogen:"open.v1"`
-	// JSON-serialized PublicKeyCredentialRequestOptions.
-	RequestOptionsJson string    `protobuf:"bytes,1,opt,name=request_options_json,json=requestOptionsJson,proto3" json:"request_options_json,omitempty"`
-	FlowId             string    `protobuf:"bytes,2,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	Flow               *AuthFlow `protobuf:"bytes,3,opt,name=flow,proto3" json:"flow,omitempty"`
-	unknownFields      protoimpl.UnknownFields
-	sizeCache          protoimpl.SizeCache
-}
-
-func (x *BeginPasskeyLoginResponse) Reset() {
-	*x = BeginPasskeyLoginResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[26]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *BeginPasskeyLoginResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*BeginPasskeyLoginResponse) ProtoMessage() {}
-
-func (x *BeginPasskeyLoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[26]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use BeginPasskeyLoginResponse.ProtoReflect.Descriptor instead.
-func (*BeginPasskeyLoginResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{26}
-}
-
-func (x *BeginPasskeyLoginResponse) GetRequestOptionsJson() string {
-	if x != nil {
-		return x.RequestOptionsJson
-	}
-	return ""
-}
-
-func (x *BeginPasskeyLoginResponse) GetFlowId() string {
-	if x != nil {
-		return x.FlowId
-	}
-	return ""
-}
-
-func (x *BeginPasskeyLoginResponse) GetFlow() *AuthFlow {
-	if x != nil {
-		return x.Flow
-	}
-	return nil
-}
-
-type FinishPasskeyLoginRequest struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	FlowId string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
-	// JSON-serialized AuthenticatorAssertionResponse.
-	AssertionResponseJson string `protobuf:"bytes,2,opt,name=assertion_response_json,json=assertionResponseJson,proto3" json:"assertion_response_json,omitempty"`
-	unknownFields         protoimpl.UnknownFields
-	sizeCache             protoimpl.SizeCache
-}
-
-func (x *FinishPasskeyLoginRequest) Reset() {
-	*x = FinishPasskeyLoginRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[27]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FinishPasskeyLoginRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FinishPasskeyLoginRequest) ProtoMessage() {}
-
-func (x *FinishPasskeyLoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[27]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FinishPasskeyLoginRequest.ProtoReflect.Descriptor instead.
-func (*FinishPasskeyLoginRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{27}
-}
-
-func (x *FinishPasskeyLoginRequest) GetFlowId() string {
-	if x != nil {
-		return x.FlowId
-	}
-	return ""
-}
-
-func (x *FinishPasskeyLoginRequest) GetAssertionResponseJson() string {
-	if x != nil {
-		return x.AssertionResponseJson
-	}
-	return ""
-}
-
-type FinishPasskeyLoginResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Token         *Token                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
-	Session       *Session               `protobuf:"bytes,2,opt,name=session,proto3" json:"session,omitempty"`
-	User          *User                  `protobuf:"bytes,3,opt,name=user,proto3" json:"user,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *FinishPasskeyLoginResponse) Reset() {
-	*x = FinishPasskeyLoginResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[28]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *FinishPasskeyLoginResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FinishPasskeyLoginResponse) ProtoMessage() {}
-
-func (x *FinishPasskeyLoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[28]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FinishPasskeyLoginResponse.ProtoReflect.Descriptor instead.
-func (*FinishPasskeyLoginResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{28}
-}
-
-func (x *FinishPasskeyLoginResponse) GetToken() *Token {
-	if x != nil {
-		return x.Token
-	}
-	return nil
-}
-
-func (x *FinishPasskeyLoginResponse) GetSession() *Session {
-	if x != nil {
-		return x.Session
-	}
-	return nil
-}
-
-func (x *FinishPasskeyLoginResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
 var File_oryon_identity_v1_authentication_proto protoreflect.FileDescriptor
 
 const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\n" +
-	"&oryon/identity/v1/authentication.proto\x12\x11oryon.identity.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1boryon/identity/v1/mfa.proto\x1a\x1foryon/identity/v1/session.proto\x1a\x1coryon/identity/v1/user.proto\"\xda\x01\n" +
-	"\x05Token\x12*\n" +
-	"\faccess_token\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\vaccessToken\x12,\n" +
-	"\rrefresh_token\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\frefreshToken\x12\x1d\n" +
+	"&oryon/identity/v1/authentication.proto\x12\x11oryon.identity.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x8d\x01\n" +
+	"\x05Token\x12!\n" +
+	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\x12#\n" +
+	"\rrefresh_token\x18\x02 \x01(\tR\frefreshToken\x12\x1d\n" +
 	"\n" +
 	"token_type\x18\x03 \x01(\tR\ttokenType\x12\x1d\n" +
 	"\n" +
-	"expires_in\x18\x04 \x01(\x03R\texpiresIn\x129\n" +
-	"\n" +
-	"expires_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xd4\x01\n" +
+	"expires_in\x18\x04 \x01(\x03R\texpiresIn\"\xd4\x01\n" +
 	"\bAuthFlow\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12<\n" +
 	"\tflow_type\x18\x02 \x01(\x0e2\x1f.oryon.identity.v1.AuthFlowTypeR\bflowType\x12?\n" +
 	"\n" +
 	"flow_state\x18\x03 \x01(\x0e2 .oryon.identity.v1.AuthFlowStateR\tflowState\x129\n" +
 	"\n" +
-	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xa0\x04\n" +
-	"\x15VerificationChallenge\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1c\n" +
-	"\auser_id\x18\x02 \x01(\x03H\x00R\x06userId\x88\x01\x01\x12\x1c\n" +
-	"\aflow_id\x18\x03 \x01(\x03H\x01R\x06flowId\x88\x01\x01\x12\x1e\n" +
+	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xb8\x02\n" +
+	"\x04User\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x125\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x1d.oryon.identity.v1.UserStatusR\x06status\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1f\n" +
+	"\busername\x18\x04 \x01(\tH\x00R\busername\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"identifier\x18\x04 \x01(\tR\n" +
-	"identifier\x12@\n" +
-	"\apurpose\x18\x05 \x01(\x0e2&.oryon.identity.v1.VerificationPurposeR\apurpose\x12\x1a\n" +
-	"\battempts\x18\x06 \x01(\x05R\battempts\x12!\n" +
-	"\fmax_attempts\x18\a \x01(\x05R\vmaxAttempts\x12+\n" +
+	"avatar_url\x18\x05 \x01(\tH\x01R\tavatarUrl\x88\x01\x01\x129\n" +
 	"\n" +
-	"ip_address\x18\b \x01(\tB\a\xbaH\x04r\x02p\x01H\x02R\tipAddress\x88\x01\x01\x129\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"expires_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x12@\n" +
-	"\vconsumed_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampH\x03R\n" +
-	"consumedAt\x88\x01\x01\x129\n" +
+	"updated_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\v\n" +
+	"\t_usernameB\r\n" +
+	"\v_avatar_url\"\xad\x04\n" +
+	"\aSession\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\auser_id\x18\x02 \x01(\x03R\x06userId\x129\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB\n" +
+	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"\b_user_idB\n" +
+	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\x12A\n" +
+	"\flast_seen_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\n" +
+	"lastSeenAt\x88\x01\x01\x12>\n" +
 	"\n" +
-	"\b_flow_idB\r\n" +
-	"\v_ip_addressB\x0e\n" +
-	"\f_consumed_at\"\xb5\x02\n" +
+	"revoked_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampH\x01R\trevokedAt\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"ip_address\x18\a \x01(\tH\x02R\tipAddress\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"user_agent\x18\b \x01(\tH\x03R\tuserAgent\x88\x01\x01\x12G\n" +
+	"\x0fmfa_verified_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampH\x04R\rmfaVerifiedAt\x88\x01\x01\x12\x1d\n" +
+	"\n" +
+	"is_current\x18\n" +
+	" \x01(\bR\tisCurrentB\x0f\n" +
+	"\r_last_seen_atB\r\n" +
+	"\v_revoked_atB\r\n" +
+	"\v_ip_addressB\r\n" +
+	"\v_user_agentB\x12\n" +
+	"\x10_mfa_verified_at\"\xb5\x02\n" +
 	"\x13RegistrationRequest\x12\"\n" +
-	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02`\x01H\x00R\x05email\x88\x01\x01\x12&\n" +
-	"\bpassword\x18\x02 \x01(\tB\n" +
+	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02`\x01H\x00R\x05email\x88\x01\x01\x123\n" +
+	"\x05phone\x18\x02 \x01(\tB\x18\xbaH\x15r\x132\x11^\\+[1-9]\\d{1,14}$H\x01R\x05phone\x88\x01\x01\x12&\n" +
+	"\bpassword\x18\x03 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\b\x18\x80\x01R\bpassword\x12\x1b\n" +
-	"\x04name\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04name\x123\n" +
-	"\x05phone\x18\x04 \x01(\tB\x18\xbaH\x15r\x132\x11^\\+[1-9]\\d{1,14}$H\x01R\x05phone\x88\x01\x01:l\xbaHi\x1ag\n" +
+	"\x04name\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x10\x03R\x04name:l\xbaHi\x1ag\n" +
 	"\x1eregistration.identifier_one_of\x12!one of email or phone is required\x1a\"has(this.email) || has(this.phone)B\b\n" +
 	"\x06_emailB\b\n" +
-	"\x06_phone\"\xb7\x01\n" +
-	"\x14RegistrationResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\x123\n" +
-	"\x15verification_required\x18\x02 \x01(\bR\x14verificationRequired\x124\n" +
-	"\x04flow\x18\x03 \x01(\v2\x1b.oryon.identity.v1.AuthFlowH\x00R\x04flow\x88\x01\x01B\a\n" +
-	"\x05_flow\"\x98\x01\n" +
+	"\x06_phone\"G\n" +
+	"\x14RegistrationResponse\x12/\n" +
+	"\x04flow\x18\x01 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"\\\n" +
 	"\fLoginRequest\x12'\n" +
 	"\n" +
-	"identifier\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\n" +
-	"identifier\x12(\n" +
-	"\bpassword\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01H\x00R\bpassword\x88\x01\x01\x12\x1c\n" +
-	"\aflow_id\x18\x03 \x01(\tH\x01R\x06flowId\x88\x01\x01B\v\n" +
-	"\t_passwordB\n" +
-	"\n" +
-	"\b_flow_id\"\xa5\x03\n" +
+	"identifier\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x03R\n" +
+	"identifier\x12#\n" +
+	"\bpassword\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x03R\bpassword\"\x88\x03\n" +
 	"\rLoginResponse\x123\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenH\x00R\x05token\x88\x01\x01\x129\n" +
-	"\asession\x18\x02 \x01(\v2\x1a.oryon.identity.v1.SessionH\x01R\asession\x88\x01\x01\x120\n" +
-	"\x04user\x18\x03 \x01(\v2\x17.oryon.identity.v1.UserH\x02R\x04user\x88\x01\x01\x124\n" +
+	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenH\x00R\x05token\x88\x01\x01\x120\n" +
+	"\x04user\x18\x02 \x01(\v2\x17.oryon.identity.v1.UserH\x01R\x04user\x88\x01\x01\x129\n" +
+	"\asession\x18\x03 \x01(\v2\x1a.oryon.identity.v1.SessionH\x02R\asession\x88\x01\x01\x124\n" +
 	"\x04flow\x18\x04 \x01(\v2\x1b.oryon.identity.v1.AuthFlowH\x03R\x04flow\x88\x01\x01\x12!\n" +
 	"\fmfa_required\x18\x05 \x01(\bR\vmfaRequired\x12T\n" +
-	"\x15available_mfa_methods\x18\x06 \x03(\x0e2 .oryon.identity.v1.MfaFactorTypeR\x13availableMfaMethods\x12\x1b\n" +
-	"\tnext_step\x18\a \x01(\tR\bnextStepB\b\n" +
-	"\x06_tokenB\n" +
+	"\x15available_mfa_methods\x18\x06 \x03(\x0e2 .oryon.identity.v1.MfaFactorTypeR\x13availableMfaMethodsB\b\n" +
+	"\x06_tokenB\a\n" +
+	"\x05_userB\n" +
 	"\n" +
 	"\b_sessionB\a\n" +
-	"\x05_userB\a\n" +
-	"\x05_flow\"\xc6\x01\n" +
-	"\x12CompleteMfaRequest\x12 \n" +
-	"\aflow_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x06flowId\x12\x1b\n" +
-	"\x04code\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04code\x12A\n" +
-	"\vfactor_type\x18\x03 \x01(\x0e2 .oryon.identity.v1.MfaFactorTypeR\n" +
-	"factorType\x12 \n" +
-	"\tfactor_id\x18\x04 \x01(\x03H\x00R\bfactorId\x88\x01\x01B\f\n" +
-	"\n" +
-	"_factor_id\"\xa8\x01\n" +
-	"\x13CompleteMfaResponse\x12.\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\x124\n" +
-	"\asession\x18\x02 \x01(\v2\x1a.oryon.identity.v1.SessionR\asession\x12+\n" +
-	"\x04user\x18\x03 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"C\n" +
+	"\x05_flow\"C\n" +
 	"\x13RefreshTokenRequest\x12,\n" +
-	"\rrefresh_token\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\frefreshToken\"|\n" +
+	"\rrefresh_token\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\frefreshToken\"F\n" +
 	"\x14RefreshTokenResponse\x12.\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\x124\n" +
-	"\asession\x18\x02 \x01(\v2\x1a.oryon.identity.v1.SessionR\asession\"z\n" +
-	"\x15ChangePasswordRequest\x122\n" +
-	"\x10current_password\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x0fcurrentPassword\x12-\n" +
-	"\fnew_password\x18\x02 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\b\x18\x80\x01R\vnewPassword\"\x18\n" +
-	"\x16ChangePasswordResponse\"<\n" +
-	"\x1bRequestPasswordResetRequest\x12\x1d\n" +
-	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02`\x01R\x05email\"`\n" +
-	"\x1cRequestPasswordResetResponse\x12,\n" +
-	"\x0fverification_id\x18\x01 \x01(\tH\x00R\x0everificationId\x88\x01\x01B\x12\n" +
-	"\x10_verification_id\"\x8d\x01\n" +
-	"\x1bConfirmPasswordResetRequest\x12\x1d\n" +
-	"\x05token\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x05token\x12\x17\n" +
-	"\x04code\x18\x02 \x01(\tH\x00R\x04code\x88\x01\x01\x12-\n" +
-	"\fnew_password\x18\x03 \x01(\tB\n" +
-	"\xbaH\ar\x05\x10\b\x18\x80\x01R\vnewPasswordB\a\n" +
-	"\x05_code\"]\n" +
-	"\x1cConfirmPasswordResetResponse\x123\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenH\x00R\x05token\x88\x01\x01B\b\n" +
-	"\x06_token\"|\n" +
-	"\x1fRequestEmailVerificationRequest\x12\"\n" +
-	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02`\x01H\x00R\x05email\x88\x01\x01\x12\x1e\n" +
-	"\bemail_id\x18\x02 \x01(\x03H\x01R\aemailId\x88\x01\x01B\b\n" +
-	"\x06_emailB\v\n" +
-	"\t_email_id\"j\n" +
-	" RequestEmailVerificationResponse\x12F\n" +
-	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge\"\xc5\x01\n" +
-	"\x12VerifyEmailRequest\x12\x1d\n" +
-	"\x05token\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x05token\x12\x17\n" +
-	"\x04code\x18\x02 \x01(\tH\x00R\x04code\x88\x01\x01\x12,\n" +
-	"\x0fverification_id\x18\x03 \x01(\tH\x01R\x0everificationId\x88\x01\x01\x12\"\n" +
-	"\x05email\x18\x04 \x01(\tB\a\xbaH\x04r\x02`\x01H\x02R\x05email\x88\x01\x01B\a\n" +
-	"\x05_codeB\x12\n" +
-	"\x10_verification_idB\b\n" +
-	"\x06_email\"e\n" +
-	"\x13VerifyEmailResponse\x122\n" +
-	"\x05email\x18\x01 \x01(\v2\x1c.oryon.identity.v1.UserEmailR\x05email\x12\x1a\n" +
-	"\bverified\x18\x02 \x01(\bR\bverified\"h\n" +
-	"\x1fBeginPasskeyRegistrationRequest\x12\x1b\n" +
-	"\x04name\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04name\x12\x1c\n" +
-	"\aflow_id\x18\x02 \x01(\tH\x00R\x06flowId\x88\x01\x01B\n" +
-	"\n" +
-	"\b_flow_id\"\xa9\x01\n" +
-	" BeginPasskeyRegistrationResponse\x12;\n" +
-	"\x15creation_options_json\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x13creationOptionsJson\x12\x17\n" +
-	"\aflow_id\x18\x02 \x01(\tR\x06flowId\x12/\n" +
-	"\x04flow\x18\x03 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"\x89\x01\n" +
-	" FinishPasskeyRegistrationRequest\x12 \n" +
-	"\aflow_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x06flowId\x12C\n" +
-	"\x19attestation_response_json\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x17attestationResponseJson\"Y\n" +
-	"!FinishPasskeyRegistrationResponse\x124\n" +
-	"\apasskey\x18\x01 \x01(\v2\x1a.oryon.identity.v1.PasskeyR\apasskey\"r\n" +
-	"\x18BeginPasskeyLoginRequest\x12\"\n" +
-	"\x05email\x18\x01 \x01(\tB\a\xbaH\x04r\x02`\x01H\x00R\x05email\x88\x01\x01\x12\x1c\n" +
-	"\aflow_id\x18\x02 \x01(\tH\x01R\x06flowId\x88\x01\x01B\b\n" +
-	"\x06_emailB\n" +
-	"\n" +
-	"\b_flow_id\"\xa0\x01\n" +
-	"\x19BeginPasskeyLoginResponse\x129\n" +
-	"\x14request_options_json\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x12requestOptionsJson\x12\x17\n" +
-	"\aflow_id\x18\x02 \x01(\tR\x06flowId\x12/\n" +
-	"\x04flow\x18\x03 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"~\n" +
-	"\x19FinishPasskeyLoginRequest\x12 \n" +
-	"\aflow_id\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x06flowId\x12?\n" +
-	"\x17assertion_response_json\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x15assertionResponseJson\"\xaf\x01\n" +
-	"\x1aFinishPasskeyLoginResponse\x12.\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\x124\n" +
-	"\asession\x18\x02 \x01(\v2\x1a.oryon.identity.v1.SessionR\asession\x12+\n" +
-	"\x04user\x18\x03 \x01(\v2\x17.oryon.identity.v1.UserR\x04user*\xa6\x01\n" +
+	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token*\xa6\x01\n" +
 	"\fAuthFlowType\x12\x1e\n" +
 	"\x1aAUTH_FLOW_TYPE_UNSPECIFIED\x10\x00\x12\x1f\n" +
 	"\x1bAUTH_FLOW_TYPE_REGISTRATION\x10\x01\x12\x18\n" +
@@ -2101,27 +1037,26 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\x1bAUTH_FLOW_STATE_PENDING_MFA\x10\x03\x12(\n" +
 	"$AUTH_FLOW_STATE_PENDING_VERIFICATION\x10\x04\x12\x1d\n" +
 	"\x19AUTH_FLOW_STATE_COMPLETED\x10\x05\x12\x1a\n" +
-	"\x16AUTH_FLOW_STATE_FAILED\x10\x06*\xe9\x01\n" +
-	"\x13VerificationPurpose\x12$\n" +
-	" VERIFICATION_PURPOSE_UNSPECIFIED\x10\x00\x12+\n" +
-	"'VERIFICATION_PURPOSE_EMAIL_VERIFICATION\x10\x01\x12+\n" +
-	"'VERIFICATION_PURPOSE_PHONE_VERIFICATION\x10\x02\x12'\n" +
-	"#VERIFICATION_PURPOSE_PASSWORD_RESET\x10\x03\x12)\n" +
-	"%VERIFICATION_PURPOSE_MFA_VERIFICATION\x10\x042\xb2\v\n" +
+	"\x16AUTH_FLOW_STATE_FAILED\x10\x06*\xbd\x01\n" +
+	"\rMfaFactorType\x12\x1f\n" +
+	"\x1bMFA_FACTOR_TYPE_UNSPECIFIED\x10\x00\x12\x18\n" +
+	"\x14MFA_FACTOR_TYPE_TOTP\x10\x01\x12\x17\n" +
+	"\x13MFA_FACTOR_TYPE_SMS\x10\x02\x12\x19\n" +
+	"\x15MFA_FACTOR_TYPE_EMAIL\x10\x03\x12\x1c\n" +
+	"\x18MFA_FACTOR_TYPE_WEBAUTHN\x10\x04\x12\x1f\n" +
+	"\x1bMFA_FACTOR_TYPE_BACKUP_CODE\x10\x05*\xa7\x01\n" +
+	"\n" +
+	"UserStatus\x12\x1b\n" +
+	"\x17USER_STATUS_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12USER_STATUS_ACTIVE\x10\x01\x12\x18\n" +
+	"\x14USER_STATUS_INACTIVE\x10\x02\x12\x16\n" +
+	"\x12USER_STATUS_LOCKED\x10\x03\x12\x19\n" +
+	"\x15USER_STATUS_SUSPENDED\x10\x04\x12\x17\n" +
+	"\x13USER_STATUS_DELETED\x10\x052\xa5\x02\n" +
 	"\x15AuthenticationService\x12_\n" +
 	"\fRegistration\x12&.oryon.identity.v1.RegistrationRequest\x1a'.oryon.identity.v1.RegistrationResponse\x12J\n" +
-	"\x05Login\x12\x1f.oryon.identity.v1.LoginRequest\x1a .oryon.identity.v1.LoginResponse\x12\\\n" +
-	"\vCompleteMfa\x12%.oryon.identity.v1.CompleteMfaRequest\x1a&.oryon.identity.v1.CompleteMfaResponse\x12_\n" +
-	"\fRefreshToken\x12&.oryon.identity.v1.RefreshTokenRequest\x1a'.oryon.identity.v1.RefreshTokenResponse\x12e\n" +
-	"\x0eChangePassword\x12(.oryon.identity.v1.ChangePasswordRequest\x1a).oryon.identity.v1.ChangePasswordResponse\x12w\n" +
-	"\x14RequestPasswordReset\x12..oryon.identity.v1.RequestPasswordResetRequest\x1a/.oryon.identity.v1.RequestPasswordResetResponse\x12w\n" +
-	"\x14ConfirmPasswordReset\x12..oryon.identity.v1.ConfirmPasswordResetRequest\x1a/.oryon.identity.v1.ConfirmPasswordResetResponse\x12\x83\x01\n" +
-	"\x18RequestEmailVerification\x122.oryon.identity.v1.RequestEmailVerificationRequest\x1a3.oryon.identity.v1.RequestEmailVerificationResponse\x12\\\n" +
-	"\vVerifyEmail\x12%.oryon.identity.v1.VerifyEmailRequest\x1a&.oryon.identity.v1.VerifyEmailResponse\x12\x83\x01\n" +
-	"\x18BeginPasskeyRegistration\x122.oryon.identity.v1.BeginPasskeyRegistrationRequest\x1a3.oryon.identity.v1.BeginPasskeyRegistrationResponse\x12\x86\x01\n" +
-	"\x19FinishPasskeyRegistration\x123.oryon.identity.v1.FinishPasskeyRegistrationRequest\x1a4.oryon.identity.v1.FinishPasskeyRegistrationResponse\x12n\n" +
-	"\x11BeginPasskeyLogin\x12+.oryon.identity.v1.BeginPasskeyLoginRequest\x1a,.oryon.identity.v1.BeginPasskeyLoginResponse\x12q\n" +
-	"\x12FinishPasskeyLogin\x12,.oryon.identity.v1.FinishPasskeyLoginRequest\x1a-.oryon.identity.v1.FinishPasskeyLoginResponseB\xcc\x01\n" +
+	"\x05Login\x12\x1f.oryon.identity.v1.LoginRequest\x1a .oryon.identity.v1.LoginResponse\x12_\n" +
+	"\fRefreshToken\x12&.oryon.identity.v1.RefreshTokenRequest\x1a'.oryon.identity.v1.RefreshTokenResponseB\xcc\x01\n" +
 	"\x15com.oryon.identity.v1B\x13AuthenticationProtoP\x01Z8github.com/qarven/mono/gen/go/oryon/identity/v1;identity\xa2\x02\x03OIX\xaa\x02\x11Oryon.Identity.V1\xca\x02\x11Oryon\\Identity\\V1\xe2\x02\x1dOryon\\Identity\\V1\\GPBMetadata\xea\x02\x13Oryon::Identity::V1b\x06proto3"
 
 var (
@@ -2136,110 +1071,55 @@ func file_oryon_identity_v1_authentication_proto_rawDescGZIP() []byte {
 	return file_oryon_identity_v1_authentication_proto_rawDescData
 }
 
-var file_oryon_identity_v1_authentication_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_oryon_identity_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
+var file_oryon_identity_v1_authentication_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_oryon_identity_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_oryon_identity_v1_authentication_proto_goTypes = []any{
-	(AuthFlowType)(0),                         // 0: oryon.identity.v1.AuthFlowType
-	(AuthFlowState)(0),                        // 1: oryon.identity.v1.AuthFlowState
-	(VerificationPurpose)(0),                  // 2: oryon.identity.v1.VerificationPurpose
-	(*Token)(nil),                             // 3: oryon.identity.v1.Token
-	(*AuthFlow)(nil),                          // 4: oryon.identity.v1.AuthFlow
-	(*VerificationChallenge)(nil),             // 5: oryon.identity.v1.VerificationChallenge
-	(*RegistrationRequest)(nil),               // 6: oryon.identity.v1.RegistrationRequest
-	(*RegistrationResponse)(nil),              // 7: oryon.identity.v1.RegistrationResponse
-	(*LoginRequest)(nil),                      // 8: oryon.identity.v1.LoginRequest
-	(*LoginResponse)(nil),                     // 9: oryon.identity.v1.LoginResponse
-	(*CompleteMfaRequest)(nil),                // 10: oryon.identity.v1.CompleteMfaRequest
-	(*CompleteMfaResponse)(nil),               // 11: oryon.identity.v1.CompleteMfaResponse
-	(*RefreshTokenRequest)(nil),               // 12: oryon.identity.v1.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil),              // 13: oryon.identity.v1.RefreshTokenResponse
-	(*ChangePasswordRequest)(nil),             // 14: oryon.identity.v1.ChangePasswordRequest
-	(*ChangePasswordResponse)(nil),            // 15: oryon.identity.v1.ChangePasswordResponse
-	(*RequestPasswordResetRequest)(nil),       // 16: oryon.identity.v1.RequestPasswordResetRequest
-	(*RequestPasswordResetResponse)(nil),      // 17: oryon.identity.v1.RequestPasswordResetResponse
-	(*ConfirmPasswordResetRequest)(nil),       // 18: oryon.identity.v1.ConfirmPasswordResetRequest
-	(*ConfirmPasswordResetResponse)(nil),      // 19: oryon.identity.v1.ConfirmPasswordResetResponse
-	(*RequestEmailVerificationRequest)(nil),   // 20: oryon.identity.v1.RequestEmailVerificationRequest
-	(*RequestEmailVerificationResponse)(nil),  // 21: oryon.identity.v1.RequestEmailVerificationResponse
-	(*VerifyEmailRequest)(nil),                // 22: oryon.identity.v1.VerifyEmailRequest
-	(*VerifyEmailResponse)(nil),               // 23: oryon.identity.v1.VerifyEmailResponse
-	(*BeginPasskeyRegistrationRequest)(nil),   // 24: oryon.identity.v1.BeginPasskeyRegistrationRequest
-	(*BeginPasskeyRegistrationResponse)(nil),  // 25: oryon.identity.v1.BeginPasskeyRegistrationResponse
-	(*FinishPasskeyRegistrationRequest)(nil),  // 26: oryon.identity.v1.FinishPasskeyRegistrationRequest
-	(*FinishPasskeyRegistrationResponse)(nil), // 27: oryon.identity.v1.FinishPasskeyRegistrationResponse
-	(*BeginPasskeyLoginRequest)(nil),          // 28: oryon.identity.v1.BeginPasskeyLoginRequest
-	(*BeginPasskeyLoginResponse)(nil),         // 29: oryon.identity.v1.BeginPasskeyLoginResponse
-	(*FinishPasskeyLoginRequest)(nil),         // 30: oryon.identity.v1.FinishPasskeyLoginRequest
-	(*FinishPasskeyLoginResponse)(nil),        // 31: oryon.identity.v1.FinishPasskeyLoginResponse
-	(*timestamppb.Timestamp)(nil),             // 32: google.protobuf.Timestamp
-	(*User)(nil),                              // 33: oryon.identity.v1.User
-	(*Session)(nil),                           // 34: oryon.identity.v1.Session
-	(MfaFactorType)(0),                        // 35: oryon.identity.v1.MfaFactorType
-	(*UserEmail)(nil),                         // 36: oryon.identity.v1.UserEmail
-	(*Passkey)(nil),                           // 37: oryon.identity.v1.Passkey
+	(AuthFlowType)(0),             // 0: oryon.identity.v1.AuthFlowType
+	(AuthFlowState)(0),            // 1: oryon.identity.v1.AuthFlowState
+	(MfaFactorType)(0),            // 2: oryon.identity.v1.MfaFactorType
+	(UserStatus)(0),               // 3: oryon.identity.v1.UserStatus
+	(*Token)(nil),                 // 4: oryon.identity.v1.Token
+	(*AuthFlow)(nil),              // 5: oryon.identity.v1.AuthFlow
+	(*User)(nil),                  // 6: oryon.identity.v1.User
+	(*Session)(nil),               // 7: oryon.identity.v1.Session
+	(*RegistrationRequest)(nil),   // 8: oryon.identity.v1.RegistrationRequest
+	(*RegistrationResponse)(nil),  // 9: oryon.identity.v1.RegistrationResponse
+	(*LoginRequest)(nil),          // 10: oryon.identity.v1.LoginRequest
+	(*LoginResponse)(nil),         // 11: oryon.identity.v1.LoginResponse
+	(*RefreshTokenRequest)(nil),   // 12: oryon.identity.v1.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),  // 13: oryon.identity.v1.RefreshTokenResponse
+	(*timestamppb.Timestamp)(nil), // 14: google.protobuf.Timestamp
 }
 var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
-	32, // 0: oryon.identity.v1.Token.expires_at:type_name -> google.protobuf.Timestamp
-	0,  // 1: oryon.identity.v1.AuthFlow.flow_type:type_name -> oryon.identity.v1.AuthFlowType
-	1,  // 2: oryon.identity.v1.AuthFlow.flow_state:type_name -> oryon.identity.v1.AuthFlowState
-	32, // 3: oryon.identity.v1.AuthFlow.expires_at:type_name -> google.protobuf.Timestamp
-	2,  // 4: oryon.identity.v1.VerificationChallenge.purpose:type_name -> oryon.identity.v1.VerificationPurpose
-	32, // 5: oryon.identity.v1.VerificationChallenge.expires_at:type_name -> google.protobuf.Timestamp
-	32, // 6: oryon.identity.v1.VerificationChallenge.consumed_at:type_name -> google.protobuf.Timestamp
-	32, // 7: oryon.identity.v1.VerificationChallenge.created_at:type_name -> google.protobuf.Timestamp
-	33, // 8: oryon.identity.v1.RegistrationResponse.user:type_name -> oryon.identity.v1.User
-	4,  // 9: oryon.identity.v1.RegistrationResponse.flow:type_name -> oryon.identity.v1.AuthFlow
-	3,  // 10: oryon.identity.v1.LoginResponse.token:type_name -> oryon.identity.v1.Token
-	34, // 11: oryon.identity.v1.LoginResponse.session:type_name -> oryon.identity.v1.Session
-	33, // 12: oryon.identity.v1.LoginResponse.user:type_name -> oryon.identity.v1.User
-	4,  // 13: oryon.identity.v1.LoginResponse.flow:type_name -> oryon.identity.v1.AuthFlow
-	35, // 14: oryon.identity.v1.LoginResponse.available_mfa_methods:type_name -> oryon.identity.v1.MfaFactorType
-	35, // 15: oryon.identity.v1.CompleteMfaRequest.factor_type:type_name -> oryon.identity.v1.MfaFactorType
-	3,  // 16: oryon.identity.v1.CompleteMfaResponse.token:type_name -> oryon.identity.v1.Token
-	34, // 17: oryon.identity.v1.CompleteMfaResponse.session:type_name -> oryon.identity.v1.Session
-	33, // 18: oryon.identity.v1.CompleteMfaResponse.user:type_name -> oryon.identity.v1.User
-	3,  // 19: oryon.identity.v1.RefreshTokenResponse.token:type_name -> oryon.identity.v1.Token
-	34, // 20: oryon.identity.v1.RefreshTokenResponse.session:type_name -> oryon.identity.v1.Session
-	3,  // 21: oryon.identity.v1.ConfirmPasswordResetResponse.token:type_name -> oryon.identity.v1.Token
-	5,  // 22: oryon.identity.v1.RequestEmailVerificationResponse.challenge:type_name -> oryon.identity.v1.VerificationChallenge
-	36, // 23: oryon.identity.v1.VerifyEmailResponse.email:type_name -> oryon.identity.v1.UserEmail
-	4,  // 24: oryon.identity.v1.BeginPasskeyRegistrationResponse.flow:type_name -> oryon.identity.v1.AuthFlow
-	37, // 25: oryon.identity.v1.FinishPasskeyRegistrationResponse.passkey:type_name -> oryon.identity.v1.Passkey
-	4,  // 26: oryon.identity.v1.BeginPasskeyLoginResponse.flow:type_name -> oryon.identity.v1.AuthFlow
-	3,  // 27: oryon.identity.v1.FinishPasskeyLoginResponse.token:type_name -> oryon.identity.v1.Token
-	34, // 28: oryon.identity.v1.FinishPasskeyLoginResponse.session:type_name -> oryon.identity.v1.Session
-	33, // 29: oryon.identity.v1.FinishPasskeyLoginResponse.user:type_name -> oryon.identity.v1.User
-	6,  // 30: oryon.identity.v1.AuthenticationService.Registration:input_type -> oryon.identity.v1.RegistrationRequest
-	8,  // 31: oryon.identity.v1.AuthenticationService.Login:input_type -> oryon.identity.v1.LoginRequest
-	10, // 32: oryon.identity.v1.AuthenticationService.CompleteMfa:input_type -> oryon.identity.v1.CompleteMfaRequest
-	12, // 33: oryon.identity.v1.AuthenticationService.RefreshToken:input_type -> oryon.identity.v1.RefreshTokenRequest
-	14, // 34: oryon.identity.v1.AuthenticationService.ChangePassword:input_type -> oryon.identity.v1.ChangePasswordRequest
-	16, // 35: oryon.identity.v1.AuthenticationService.RequestPasswordReset:input_type -> oryon.identity.v1.RequestPasswordResetRequest
-	18, // 36: oryon.identity.v1.AuthenticationService.ConfirmPasswordReset:input_type -> oryon.identity.v1.ConfirmPasswordResetRequest
-	20, // 37: oryon.identity.v1.AuthenticationService.RequestEmailVerification:input_type -> oryon.identity.v1.RequestEmailVerificationRequest
-	22, // 38: oryon.identity.v1.AuthenticationService.VerifyEmail:input_type -> oryon.identity.v1.VerifyEmailRequest
-	24, // 39: oryon.identity.v1.AuthenticationService.BeginPasskeyRegistration:input_type -> oryon.identity.v1.BeginPasskeyRegistrationRequest
-	26, // 40: oryon.identity.v1.AuthenticationService.FinishPasskeyRegistration:input_type -> oryon.identity.v1.FinishPasskeyRegistrationRequest
-	28, // 41: oryon.identity.v1.AuthenticationService.BeginPasskeyLogin:input_type -> oryon.identity.v1.BeginPasskeyLoginRequest
-	30, // 42: oryon.identity.v1.AuthenticationService.FinishPasskeyLogin:input_type -> oryon.identity.v1.FinishPasskeyLoginRequest
-	7,  // 43: oryon.identity.v1.AuthenticationService.Registration:output_type -> oryon.identity.v1.RegistrationResponse
-	9,  // 44: oryon.identity.v1.AuthenticationService.Login:output_type -> oryon.identity.v1.LoginResponse
-	11, // 45: oryon.identity.v1.AuthenticationService.CompleteMfa:output_type -> oryon.identity.v1.CompleteMfaResponse
-	13, // 46: oryon.identity.v1.AuthenticationService.RefreshToken:output_type -> oryon.identity.v1.RefreshTokenResponse
-	15, // 47: oryon.identity.v1.AuthenticationService.ChangePassword:output_type -> oryon.identity.v1.ChangePasswordResponse
-	17, // 48: oryon.identity.v1.AuthenticationService.RequestPasswordReset:output_type -> oryon.identity.v1.RequestPasswordResetResponse
-	19, // 49: oryon.identity.v1.AuthenticationService.ConfirmPasswordReset:output_type -> oryon.identity.v1.ConfirmPasswordResetResponse
-	21, // 50: oryon.identity.v1.AuthenticationService.RequestEmailVerification:output_type -> oryon.identity.v1.RequestEmailVerificationResponse
-	23, // 51: oryon.identity.v1.AuthenticationService.VerifyEmail:output_type -> oryon.identity.v1.VerifyEmailResponse
-	25, // 52: oryon.identity.v1.AuthenticationService.BeginPasskeyRegistration:output_type -> oryon.identity.v1.BeginPasskeyRegistrationResponse
-	27, // 53: oryon.identity.v1.AuthenticationService.FinishPasskeyRegistration:output_type -> oryon.identity.v1.FinishPasskeyRegistrationResponse
-	29, // 54: oryon.identity.v1.AuthenticationService.BeginPasskeyLogin:output_type -> oryon.identity.v1.BeginPasskeyLoginResponse
-	31, // 55: oryon.identity.v1.AuthenticationService.FinishPasskeyLogin:output_type -> oryon.identity.v1.FinishPasskeyLoginResponse
-	43, // [43:56] is the sub-list for method output_type
-	30, // [30:43] is the sub-list for method input_type
-	30, // [30:30] is the sub-list for extension type_name
-	30, // [30:30] is the sub-list for extension extendee
-	0,  // [0:30] is the sub-list for field type_name
+	0,  // 0: oryon.identity.v1.AuthFlow.flow_type:type_name -> oryon.identity.v1.AuthFlowType
+	1,  // 1: oryon.identity.v1.AuthFlow.flow_state:type_name -> oryon.identity.v1.AuthFlowState
+	14, // 2: oryon.identity.v1.AuthFlow.expires_at:type_name -> google.protobuf.Timestamp
+	3,  // 3: oryon.identity.v1.User.status:type_name -> oryon.identity.v1.UserStatus
+	14, // 4: oryon.identity.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	14, // 5: oryon.identity.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	14, // 6: oryon.identity.v1.Session.created_at:type_name -> google.protobuf.Timestamp
+	14, // 7: oryon.identity.v1.Session.expires_at:type_name -> google.protobuf.Timestamp
+	14, // 8: oryon.identity.v1.Session.last_seen_at:type_name -> google.protobuf.Timestamp
+	14, // 9: oryon.identity.v1.Session.revoked_at:type_name -> google.protobuf.Timestamp
+	14, // 10: oryon.identity.v1.Session.mfa_verified_at:type_name -> google.protobuf.Timestamp
+	5,  // 11: oryon.identity.v1.RegistrationResponse.flow:type_name -> oryon.identity.v1.AuthFlow
+	4,  // 12: oryon.identity.v1.LoginResponse.token:type_name -> oryon.identity.v1.Token
+	6,  // 13: oryon.identity.v1.LoginResponse.user:type_name -> oryon.identity.v1.User
+	7,  // 14: oryon.identity.v1.LoginResponse.session:type_name -> oryon.identity.v1.Session
+	5,  // 15: oryon.identity.v1.LoginResponse.flow:type_name -> oryon.identity.v1.AuthFlow
+	2,  // 16: oryon.identity.v1.LoginResponse.available_mfa_methods:type_name -> oryon.identity.v1.MfaFactorType
+	4,  // 17: oryon.identity.v1.RefreshTokenResponse.token:type_name -> oryon.identity.v1.Token
+	8,  // 18: oryon.identity.v1.AuthenticationService.Registration:input_type -> oryon.identity.v1.RegistrationRequest
+	10, // 19: oryon.identity.v1.AuthenticationService.Login:input_type -> oryon.identity.v1.LoginRequest
+	12, // 20: oryon.identity.v1.AuthenticationService.RefreshToken:input_type -> oryon.identity.v1.RefreshTokenRequest
+	9,  // 21: oryon.identity.v1.AuthenticationService.Registration:output_type -> oryon.identity.v1.RegistrationResponse
+	11, // 22: oryon.identity.v1.AuthenticationService.Login:output_type -> oryon.identity.v1.LoginResponse
+	13, // 23: oryon.identity.v1.AuthenticationService.RefreshToken:output_type -> oryon.identity.v1.RefreshTokenResponse
+	21, // [21:24] is the sub-list for method output_type
+	18, // [18:21] is the sub-list for method input_type
+	18, // [18:18] is the sub-list for extension type_name
+	18, // [18:18] is the sub-list for extension extendee
+	0,  // [0:18] is the sub-list for field type_name
 }
 
 func init() { file_oryon_identity_v1_authentication_proto_init() }
@@ -2247,29 +1127,17 @@ func file_oryon_identity_v1_authentication_proto_init() {
 	if File_oryon_identity_v1_authentication_proto != nil {
 		return
 	}
-	file_oryon_identity_v1_mfa_proto_init()
-	file_oryon_identity_v1_session_proto_init()
-	file_oryon_identity_v1_user_proto_init()
 	file_oryon_identity_v1_authentication_proto_msgTypes[2].OneofWrappers = []any{}
 	file_oryon_identity_v1_authentication_proto_msgTypes[3].OneofWrappers = []any{}
 	file_oryon_identity_v1_authentication_proto_msgTypes[4].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[5].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[6].OneofWrappers = []any{}
 	file_oryon_identity_v1_authentication_proto_msgTypes[7].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[14].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[15].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[16].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[17].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[19].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[21].OneofWrappers = []any{}
-	file_oryon_identity_v1_authentication_proto_msgTypes[25].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_oryon_identity_v1_authentication_proto_rawDesc), len(file_oryon_identity_v1_authentication_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   29,
+			NumEnums:      4,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
