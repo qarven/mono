@@ -3022,7 +3022,7 @@ pub const __LOGIN_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buf
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
-pub struct LoginResponse {
+pub struct LoginSuccess {
     /// Field 1: `token`
     #[serde(
         rename = "token",
@@ -3035,60 +3035,33 @@ pub struct LoginResponse {
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
     )]
     pub user: ::buffa::MessageField<User, ::buffa::Inline<User>>,
-    /// Field 3: `flow`
-    #[serde(
-        rename = "flow",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub flow: ::buffa::MessageField<AuthFlow, ::buffa::Inline<AuthFlow>>,
-    /// Field 4: `mfa_required`
-    #[serde(
-        rename = "mfaRequired",
-        alias = "mfa_required",
-        with = "::buffa::json_helpers::proto_bool",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_false"
-    )]
-    pub mfa_required: bool,
-    /// Field 5: `available_mfa_methods`
-    #[serde(
-        rename = "availableMfaMethods",
-        alias = "available_mfa_methods",
-        with = "::buffa::json_helpers::repeated_enum",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_vec"
-    )]
-    pub available_mfa_methods: ::buffa::alloc::vec::Vec<
-        ::buffa::EnumValue<MfaFactorType>,
-    >,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
 }
-impl ::core::fmt::Debug for LoginResponse {
+impl ::core::fmt::Debug for LoginSuccess {
     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("LoginResponse")
+        f.debug_struct("LoginSuccess")
             .field("token", &self.token)
             .field("user", &self.user)
-            .field("flow", &self.flow)
-            .field("mfa_required", &self.mfa_required)
-            .field("available_mfa_methods", &self.available_mfa_methods)
             .finish()
     }
 }
-impl LoginResponse {
+impl LoginSuccess {
     /// Protobuf type URL for this message, for use with `Any::pack` and
     /// `Any::unpack_if`.
     ///
     /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginResponse";
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginSuccess";
 }
-::buffa::impl_default_instance!(LoginResponse);
-impl ::buffa::MessageName for LoginResponse {
+::buffa::impl_default_instance!(LoginSuccess);
+impl ::buffa::MessageName for LoginSuccess {
     const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "LoginResponse";
-    const FULL_NAME: &'static str = "oryon.identity.v1.LoginResponse";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginResponse";
+    const NAME: &'static str = "LoginSuccess";
+    const FULL_NAME: &'static str = "oryon.identity.v1.LoginSuccess";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginSuccess";
 }
-impl ::buffa::Message for LoginResponse {
+impl ::buffa::Message for LoginSuccess {
     /// Returns the total encoded size in bytes.
     ///
     /// Accumulates in `u64` (which cannot overflow for in-memory
@@ -3117,25 +3090,6 @@ impl ::buffa::Message for LoginResponse {
                 += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
                     + inner_size as u64;
         }
-        if self.flow.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.flow.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        if self.mfa_required {
-            size += 1u64 + ::buffa::types::BOOL_ENCODED_LEN as u64;
-        }
-        if !self.available_mfa_methods.is_empty() {
-            let payload: u64 = self
-                .available_mfa_methods
-                .iter()
-                .map(|v| ::buffa::types::int32_encoded_len(v.to_i32()) as u64)
-                .sum::<u64>();
-            size += 1u64 + ::buffa::encoding::varint_len(payload) as u64 + payload;
-        }
         size += self.__buffa_unknown_fields.encoded_len() as u64;
         ::buffa::saturate_size(size)
     }
@@ -3161,28 +3115,6 @@ impl ::buffa::Message for LoginResponse {
                 buf,
             );
             self.user.write_to(__cache, buf);
-        }
-        if self.flow.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                3u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.flow.write_to(__cache, buf);
-        }
-        if self.mfa_required {
-            ::buffa::types::put_bool_field(4u32, self.mfa_required, buf);
-        }
-        if !self.available_mfa_methods.is_empty() {
-            let payload: u64 = self
-                .available_mfa_methods
-                .iter()
-                .map(|v| ::buffa::types::int32_encoded_len(v.to_i32()) as u64)
-                .sum::<u64>();
-            ::buffa::types::put_len_delimited_header(5u32, payload, buf);
-            for v in &self.available_mfa_methods {
-                ::buffa::types::encode_int32(v.to_i32(), buf);
-            }
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -3219,7 +3151,166 @@ impl ::buffa::Message for LoginResponse {
                     ctx,
                 )?;
             }
-            3u32 => {
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.token = ::buffa::MessageField::none();
+        self.user = ::buffa::MessageField::none();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for LoginSuccess {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.LoginSuccess";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for LoginSuccess {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __LOGIN_SUCCESS_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.LoginSuccess",
+    to_json: ::buffa::type_registry::any_to_json::<LoginSuccess>,
+    from_json: ::buffa::type_registry::any_from_json::<LoginSuccess>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize, ::serde::Deserialize)]
+#[serde(default)]
+pub struct MfaRequired {
+    /// Field 1: `flow`
+    #[serde(
+        rename = "flow",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
+    )]
+    pub flow: ::buffa::MessageField<AuthFlow, ::buffa::Inline<AuthFlow>>,
+    /// Field 2: `available_mfa_methods`
+    #[serde(
+        rename = "availableMfaMethods",
+        alias = "available_mfa_methods",
+        with = "::buffa::json_helpers::repeated_enum",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_vec"
+    )]
+    pub available_mfa_methods: ::buffa::alloc::vec::Vec<
+        ::buffa::EnumValue<MfaFactorType>,
+    >,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for MfaRequired {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("MfaRequired")
+            .field("flow", &self.flow)
+            .field("available_mfa_methods", &self.available_mfa_methods)
+            .finish()
+    }
+}
+impl MfaRequired {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.MfaRequired";
+}
+::buffa::impl_default_instance!(MfaRequired);
+impl ::buffa::MessageName for MfaRequired {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "MfaRequired";
+    const FULL_NAME: &'static str = "oryon.identity.v1.MfaRequired";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.MfaRequired";
+}
+impl ::buffa::Message for MfaRequired {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.flow.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.flow.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if !self.available_mfa_methods.is_empty() {
+            let payload: u64 = self
+                .available_mfa_methods
+                .iter()
+                .map(|v| ::buffa::types::int32_encoded_len(v.to_i32()) as u64)
+                .sum::<u64>();
+            size += 1u64 + ::buffa::encoding::varint_len(payload) as u64 + payload;
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.flow.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.flow.write_to(__cache, buf);
+        }
+        if !self.available_mfa_methods.is_empty() {
+            let payload: u64 = self
+                .available_mfa_methods
+                .iter()
+                .map(|v| ::buffa::types::int32_encoded_len(v.to_i32()) as u64)
+                .sum::<u64>();
+            ::buffa::types::put_len_delimited_header(2u32, payload, buf);
+            for v in &self.available_mfa_methods {
+                ::buffa::types::encode_int32(v.to_i32(), buf);
+            }
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
                     ::buffa::encoding::WireType::LengthDelimited,
@@ -3230,14 +3321,7 @@ impl ::buffa::Message for LoginResponse {
                     ctx,
                 )?;
             }
-            4u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::Varint,
-                )?;
-                self.mfa_required = ::buffa::types::decode_bool(buf)?;
-            }
-            5u32 => {
+            2u32 => {
                 if tag.wire_type() == ::buffa::encoding::WireType::LengthDelimited {
                     let len = ::buffa::encoding::decode_varint(buf)?;
                     let len = usize::try_from(len)
@@ -3283,11 +3367,194 @@ impl ::buffa::Message for LoginResponse {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.token = ::buffa::MessageField::none();
-        self.user = ::buffa::MessageField::none();
         self.flow = ::buffa::MessageField::none();
-        self.mfa_required = false;
         self.available_mfa_methods.clear();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for MfaRequired {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.MfaRequired";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for MfaRequired {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __MFA_REQUIRED_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.MfaRequired",
+    to_json: ::buffa::type_registry::any_to_json::<MfaRequired>,
+    from_json: ::buffa::type_registry::any_from_json::<MfaRequired>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize)]
+#[serde(default)]
+pub struct LoginResponse {
+    #[serde(flatten)]
+    pub result: ::core::option::Option<__buffa::oneof::login_response::Result>,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for LoginResponse {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("LoginResponse").field("result", &self.result).finish()
+    }
+}
+impl LoginResponse {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginResponse";
+}
+::buffa::impl_default_instance!(LoginResponse);
+impl ::buffa::MessageName for LoginResponse {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "LoginResponse";
+    const FULL_NAME: &'static str = "oryon.identity.v1.LoginResponse";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginResponse";
+}
+impl ::buffa::Message for LoginResponse {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if let ::core::option::Option::Some(ref v) = self.result {
+            match v {
+                __buffa::oneof::login_response::Result::Success(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+                __buffa::oneof::login_response::Result::Mfa(x) => {
+                    let __slot = __cache.reserve();
+                    let inner = x.compute_size(__cache);
+                    __cache.set(__slot, inner);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                            + inner as u64;
+                }
+            }
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if let ::core::option::Option::Some(ref v) = self.result {
+            match v {
+                __buffa::oneof::login_response::Result::Success(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+                __buffa::oneof::login_response::Result::Mfa(x) => {
+                    ::buffa::types::put_len_delimited_header(
+                        2u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    x.write_to(__cache, buf);
+                }
+            }
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::login_response::Result::Success(ref mut existing),
+                ) = self.result
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.result = ::core::option::Option::Some(
+                        __buffa::oneof::login_response::Result::Success(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                if let ::core::option::Option::Some(
+                    __buffa::oneof::login_response::Result::Mfa(ref mut existing),
+                ) = self.result
+                {
+                    ::buffa::Message::merge_length_delimited(&mut **existing, buf, ctx)?;
+                } else {
+                    let mut val = ::core::default::Default::default();
+                    ::buffa::Message::merge_length_delimited(&mut val, buf, ctx)?;
+                    self.result = ::core::option::Option::Some(
+                        __buffa::oneof::login_response::Result::Mfa(
+                            ::buffa::alloc::boxed::Box::new(val),
+                        ),
+                    );
+                }
+            }
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.result = ::core::option::Option::None;
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -3298,6 +3565,90 @@ impl ::buffa::ExtensionSet for LoginResponse {
     }
     fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
         &mut self.__buffa_unknown_fields
+    }
+}
+impl<'de> ::serde::Deserialize<'de> for LoginResponse {
+    fn deserialize<D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        struct _V;
+        impl<'de> ::serde::de::Visitor<'de> for _V {
+            type Value = LoginResponse;
+            fn expecting(
+                &self,
+                f: &mut ::core::fmt::Formatter<'_>,
+            ) -> ::core::fmt::Result {
+                f.write_str("struct LoginResponse")
+            }
+            #[allow(clippy::field_reassign_with_default)]
+            fn visit_map<A: ::serde::de::MapAccess<'de>>(
+                self,
+                mut map: A,
+            ) -> ::core::result::Result<LoginResponse, A::Error> {
+                let mut __oneof_result: ::core::option::Option<
+                    __buffa::oneof::login_response::Result,
+                > = None;
+                while let Some(key) = map.next_key::<::buffa::alloc::string::String>()? {
+                    match key.as_str() {
+                        "success" => {
+                            let v: ::core::option::Option<LoginSuccess> = map
+                                .next_value_seed(
+                                    ::buffa::json_helpers::NullableDeserializeSeed(
+                                        ::buffa::json_helpers::DefaultDeserializeSeed::<
+                                            LoginSuccess,
+                                        >::new(),
+                                    ),
+                                )?;
+                            if let Some(v) = v {
+                                if __oneof_result.is_some() {
+                                    return Err(
+                                        ::serde::de::Error::custom(
+                                            "multiple oneof fields set for 'result'",
+                                        ),
+                                    );
+                                }
+                                __oneof_result = Some(
+                                    __buffa::oneof::login_response::Result::Success(
+                                        ::buffa::alloc::boxed::Box::new(v),
+                                    ),
+                                );
+                            }
+                        }
+                        "mfa" => {
+                            let v: ::core::option::Option<MfaRequired> = map
+                                .next_value_seed(
+                                    ::buffa::json_helpers::NullableDeserializeSeed(
+                                        ::buffa::json_helpers::DefaultDeserializeSeed::<
+                                            MfaRequired,
+                                        >::new(),
+                                    ),
+                                )?;
+                            if let Some(v) = v {
+                                if __oneof_result.is_some() {
+                                    return Err(
+                                        ::serde::de::Error::custom(
+                                            "multiple oneof fields set for 'result'",
+                                        ),
+                                    );
+                                }
+                                __oneof_result = Some(
+                                    __buffa::oneof::login_response::Result::Mfa(
+                                        ::buffa::alloc::boxed::Box::new(v),
+                                    ),
+                                );
+                            }
+                        }
+                        _ => {
+                            map.next_value::<::serde::de::IgnoredAny>()?;
+                        }
+                    }
+                }
+                let mut __r = <LoginResponse as ::core::default::Default>::default();
+                __r.result = __oneof_result;
+                Ok(__r)
+            }
+        }
+        d.deserialize_map(_V)
     }
 }
 impl ::buffa::json_helpers::ProtoElemJson for LoginResponse {
@@ -3320,6 +3671,14 @@ pub const __LOGIN_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::bu
     from_json: ::buffa::type_registry::any_from_json::<LoginResponse>,
     is_wkt: false,
 };
+pub mod login_response {
+    #[allow(unused_imports)]
+    use super::*;
+    #[doc(inline)]
+    pub use super::__buffa::oneof::login_response::Result;
+    #[doc(inline)]
+    pub use super::__buffa::view::oneof::login_response::Result as ResultView;
+}
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
@@ -8318,7 +8677,7 @@ pub mod __buffa {
             }
         }
         #[derive(Clone, Debug, Default)]
-        pub struct LoginResponseView<'a> {
+        pub struct LoginSuccessView<'a> {
             /// Field 1: `token`
             pub token: ::buffa::MessageFieldView<
                 super::super::__buffa::view::TokenView<'a>,
@@ -8327,21 +8686,10 @@ pub mod __buffa {
             pub user: ::buffa::MessageFieldView<
                 super::super::__buffa::view::UserView<'a>,
             >,
-            /// Field 3: `flow`
-            pub flow: ::buffa::MessageFieldView<
-                super::super::__buffa::view::AuthFlowView<'a>,
-            >,
-            /// Field 4: `mfa_required`
-            pub mfa_required: bool,
-            /// Field 5: `available_mfa_methods`
-            pub available_mfa_methods: ::buffa::RepeatedView<
-                'a,
-                ::buffa::EnumValue<super::super::MfaFactorType>,
-            >,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
-        impl<'a> ::buffa::MessageView<'a> for LoginResponseView<'a> {
-            type Owned = super::super::LoginResponse;
+        impl<'a> ::buffa::MessageView<'a> for LoginSuccessView<'a> {
+            type Owned = super::super::LoginSuccess;
             fn decode_view(
                 buf: &'a [u8],
             ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
@@ -8426,7 +8774,329 @@ pub mod __buffa {
                             }
                         }
                     }
-                    3u32 => {
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::LoginSuccess,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::LoginSuccess,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::LoginSuccess {
+                    token: match self.token.as_option() {
+                        Some(v) => {
+                            ::buffa::MessageField::<
+                                super::super::Token,
+                                ::buffa::Inline<super::super::Token>,
+                            >::some(v.to_owned_from_source(__buffa_src)?)
+                        }
+                        None => ::buffa::MessageField::none(),
+                    },
+                    user: match self.user.as_option() {
+                        Some(v) => {
+                            ::buffa::MessageField::<
+                                super::super::User,
+                                ::buffa::Inline<super::super::User>,
+                            >::some(v.to_owned_from_source(__buffa_src)?)
+                        }
+                        None => ::buffa::MessageField::none(),
+                    },
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for LoginSuccessView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if self.token.is_set() {
+                    let __slot = __cache.reserve();
+                    let inner_size = self.token.compute_size(__cache);
+                    __cache.set(__slot, inner_size);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
+                }
+                if self.user.is_set() {
+                    let __slot = __cache.reserve();
+                    let inner_size = self.user.compute_size(__cache);
+                    __cache.set(__slot, inner_size);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                __cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if self.token.is_set() {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    self.token.write_to(__cache, buf);
+                }
+                if self.user.is_set() {
+                    ::buffa::types::put_len_delimited_header(
+                        2u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    self.user.write_to(__cache, buf);
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for LoginSuccessView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                {
+                    if let ::core::option::Option::Some(__v) = self.token.as_option() {
+                        __map.serialize_entry("token", __v)?;
+                    }
+                }
+                {
+                    if let ::core::option::Option::Some(__v) = self.user.as_option() {
+                        __map.serialize_entry("user", __v)?;
+                    }
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for LoginSuccessView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "LoginSuccess";
+            const FULL_NAME: &'static str = "oryon.identity.v1.LoginSuccess";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.LoginSuccess";
+        }
+        ::buffa::impl_default_view_instance!(LoginSuccessView);
+        ::buffa::impl_view_reborrow!(LoginSuccessView);
+        /** Self-contained, `'static` owned view of a `LoginSuccess` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`LoginSuccessView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`LoginSuccessView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct LoginSuccessOwnedView(::buffa::OwnedView<LoginSuccessView<'static>>);
+        impl LoginSuccessOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    LoginSuccessOwnedView(::buffa::OwnedView::decode(bytes)?),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    LoginSuccessOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::LoginSuccess,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    LoginSuccessOwnedView(::buffa::OwnedView::from_owned(msg)?),
+                )
+            }
+            /// Borrow the full [`LoginSuccessView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &LoginSuccessView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::LoginSuccess {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `token`
+            #[must_use]
+            pub fn token(
+                &self,
+            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::TokenView<'_>> {
+                &self.0.reborrow().token
+            }
+            /// Field 2: `user`
+            #[must_use]
+            pub fn user(
+                &self,
+            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::UserView<'_>> {
+                &self.0.reborrow().user
+            }
+        }
+        impl ::core::convert::From<::buffa::OwnedView<LoginSuccessView<'static>>>
+        for LoginSuccessOwnedView {
+            fn from(inner: ::buffa::OwnedView<LoginSuccessView<'static>>) -> Self {
+                LoginSuccessOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<LoginSuccessOwnedView>
+        for ::buffa::OwnedView<LoginSuccessView<'static>> {
+            fn from(wrapper: LoginSuccessOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<::buffa::OwnedView<LoginSuccessView<'static>>>
+        for LoginSuccessOwnedView {
+            fn as_ref(&self) -> &::buffa::OwnedView<LoginSuccessView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::LoginSuccess {
+            type View<'a> = LoginSuccessView<'a>;
+            type ViewHandle = LoginSuccessOwnedView;
+        }
+        impl ::serde::Serialize for LoginSuccessOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
+        pub struct MfaRequiredView<'a> {
+            /// Field 1: `flow`
+            pub flow: ::buffa::MessageFieldView<
+                super::super::__buffa::view::AuthFlowView<'a>,
+            >,
+            /// Field 2: `available_mfa_methods`
+            pub available_mfa_methods: ::buffa::RepeatedView<
+                'a,
+                ::buffa::EnumValue<super::super::MfaFactorType>,
+            >,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for MfaRequiredView<'a> {
+            type Owned = super::super::MfaRequired;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
                             ::buffa::encoding::WireType::LengthDelimited,
@@ -8451,14 +9121,7 @@ pub mod __buffa {
                             }
                         }
                     }
-                    4u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::Varint,
-                        )?;
-                        view.mfa_required = ::buffa::types::decode_bool(&mut cur)?;
-                    }
-                    5u32 => {
+                    2u32 => {
                         if tag.wire_type()
                             == ::buffa::encoding::WireType::LengthDelimited
                         {
@@ -8503,7 +9166,7 @@ pub mod __buffa {
             fn to_owned_message(
                 &self,
             ) -> ::core::result::Result<
-                super::super::LoginResponse,
+                super::super::MfaRequired,
                 ::buffa::DecodeError,
             > {
                 self.to_owned_from_source(None)
@@ -8513,31 +9176,13 @@ pub mod __buffa {
                 &self,
                 __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
             ) -> ::core::result::Result<
-                super::super::LoginResponse,
+                super::super::MfaRequired,
                 ::buffa::DecodeError,
             > {
                 #[allow(unused_imports)]
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::LoginResponse {
-                    token: match self.token.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::Token,
-                                ::buffa::Inline<super::super::Token>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    user: match self.user.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::User,
-                                ::buffa::Inline<super::super::User>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
+                ::core::result::Result::Ok(super::super::MfaRequired {
                     flow: match self.flow.as_option() {
                         Some(v) => {
                             ::buffa::MessageField::<
@@ -8547,7 +9192,6 @@ pub mod __buffa {
                         }
                         None => ::buffa::MessageField::none(),
                     },
-                    mfa_required: self.mfa_required,
                     available_mfa_methods: self.available_mfa_methods.to_vec(),
                     __buffa_unknown_fields: self
                         .__buffa_unknown_fields
@@ -8557,28 +9201,12 @@ pub mod __buffa {
                 })
             }
         }
-        impl<'a> ::buffa::ViewEncode<'a> for LoginResponseView<'a> {
+        impl<'a> ::buffa::ViewEncode<'a> for MfaRequiredView<'a> {
             #[allow(clippy::needless_borrow, clippy::let_and_return)]
             fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.token.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.token.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                if self.user.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.user.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
                 if self.flow.is_set() {
                     let __slot = __cache.reserve();
                     let inner_size = self.flow.compute_size(__cache);
@@ -8586,9 +9214,6 @@ pub mod __buffa {
                     size
                         += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
                             + inner_size as u64;
-                }
-                if self.mfa_required {
-                    size += 1u64 + ::buffa::types::BOOL_ENCODED_LEN as u64;
                 }
                 if !self.available_mfa_methods.is_empty() {
                     let payload: u64 = self
@@ -8611,32 +9236,13 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.token.is_set() {
+                if self.flow.is_set() {
                     ::buffa::types::put_len_delimited_header(
                         1u32,
                         u64::from(__cache.consume_next()),
                         buf,
                     );
-                    self.token.write_to(__cache, buf);
-                }
-                if self.user.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        2u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.user.write_to(__cache, buf);
-                }
-                if self.flow.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        3u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
                     self.flow.write_to(__cache, buf);
-                }
-                if self.mfa_required {
-                    ::buffa::types::put_bool_field(4u32, self.mfa_required, buf);
                 }
                 if !self.available_mfa_methods.is_empty() {
                     let payload: u64 = self
@@ -8644,9 +9250,421 @@ pub mod __buffa {
                         .iter()
                         .map(|v| ::buffa::types::int32_encoded_len(v.to_i32()) as u64)
                         .sum::<u64>();
-                    ::buffa::types::put_len_delimited_header(5u32, payload, buf);
+                    ::buffa::types::put_len_delimited_header(2u32, payload, buf);
                     for v in &self.available_mfa_methods {
                         ::buffa::types::encode_int32(v.to_i32(), buf);
+                    }
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for MfaRequiredView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                {
+                    if let ::core::option::Option::Some(__v) = self.flow.as_option() {
+                        __map.serialize_entry("flow", __v)?;
+                    }
+                }
+                if !self.available_mfa_methods.is_empty() {
+                    __map
+                        .serialize_entry(
+                            "availableMfaMethods",
+                            &::buffa::json_helpers::EnumSeqJson(
+                                &self.available_mfa_methods,
+                            ),
+                        )?;
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for MfaRequiredView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "MfaRequired";
+            const FULL_NAME: &'static str = "oryon.identity.v1.MfaRequired";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.MfaRequired";
+        }
+        ::buffa::impl_default_view_instance!(MfaRequiredView);
+        ::buffa::impl_view_reborrow!(MfaRequiredView);
+        /** Self-contained, `'static` owned view of a `MfaRequired` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`MfaRequiredView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`MfaRequiredView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct MfaRequiredOwnedView(::buffa::OwnedView<MfaRequiredView<'static>>);
+        impl MfaRequiredOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    MfaRequiredOwnedView(::buffa::OwnedView::decode(bytes)?),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    MfaRequiredOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::MfaRequired,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    MfaRequiredOwnedView(::buffa::OwnedView::from_owned(msg)?),
+                )
+            }
+            /// Borrow the full [`MfaRequiredView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &MfaRequiredView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::MfaRequired {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `flow`
+            #[must_use]
+            pub fn flow(
+                &self,
+            ) -> &::buffa::MessageFieldView<
+                super::super::__buffa::view::AuthFlowView<'_>,
+            > {
+                &self.0.reborrow().flow
+            }
+            /// Field 2: `available_mfa_methods`
+            #[must_use]
+            pub fn available_mfa_methods(
+                &self,
+            ) -> &::buffa::RepeatedView<
+                '_,
+                ::buffa::EnumValue<super::super::MfaFactorType>,
+            > {
+                &self.0.reborrow().available_mfa_methods
+            }
+        }
+        impl ::core::convert::From<::buffa::OwnedView<MfaRequiredView<'static>>>
+        for MfaRequiredOwnedView {
+            fn from(inner: ::buffa::OwnedView<MfaRequiredView<'static>>) -> Self {
+                MfaRequiredOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<MfaRequiredOwnedView>
+        for ::buffa::OwnedView<MfaRequiredView<'static>> {
+            fn from(wrapper: MfaRequiredOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<::buffa::OwnedView<MfaRequiredView<'static>>>
+        for MfaRequiredOwnedView {
+            fn as_ref(&self) -> &::buffa::OwnedView<MfaRequiredView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::MfaRequired {
+            type View<'a> = MfaRequiredView<'a>;
+            type ViewHandle = MfaRequiredOwnedView;
+        }
+        impl ::serde::Serialize for MfaRequiredOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
+        pub struct LoginResponseView<'a> {
+            pub result: ::core::option::Option<
+                super::super::__buffa::view::oneof::login_response::Result<'a>,
+            >,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for LoginResponseView<'a> {
+            type Owned = super::super::LoginResponse;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        let __sub_ctx = ctx.descend()?;
+                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        if let Some(
+                            super::super::__buffa::view::oneof::login_response::Result::Success(
+                                ref mut existing,
+                            ),
+                        ) = view.result
+                        {
+                            ::buffa::MessageView::merge_into_view(
+                                &mut **existing,
+                                sub,
+                                __sub_ctx,
+                            )?;
+                        } else {
+                            view.result = Some(
+                                super::super::__buffa::view::oneof::login_response::Result::Success(
+                                    ::buffa::alloc::boxed::Box::new(
+                                        <super::super::__buffa::view::LoginSuccessView as ::buffa::MessageView>::decode_view_ctx(
+                                            sub,
+                                            __sub_ctx,
+                                        )?,
+                                    ),
+                                ),
+                            );
+                        }
+                    }
+                    2u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        let __sub_ctx = ctx.descend()?;
+                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        if let Some(
+                            super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                                ref mut existing,
+                            ),
+                        ) = view.result
+                        {
+                            ::buffa::MessageView::merge_into_view(
+                                &mut **existing,
+                                sub,
+                                __sub_ctx,
+                            )?;
+                        } else {
+                            view.result = Some(
+                                super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                                    ::buffa::alloc::boxed::Box::new(
+                                        <super::super::__buffa::view::MfaRequiredView as ::buffa::MessageView>::decode_view_ctx(
+                                            sub,
+                                            __sub_ctx,
+                                        )?,
+                                    ),
+                                ),
+                            );
+                        }
+                    }
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::LoginResponse,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::LoginResponse,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::LoginResponse {
+                    result: match self.result.as_ref() {
+                        ::core::option::Option::Some(v) => {
+                            ::core::option::Option::Some(
+                                match v {
+                                    super::super::__buffa::view::oneof::login_response::Result::Success(
+                                        v,
+                                    ) => {
+                                        super::super::__buffa::oneof::login_response::Result::Success(
+                                            ::buffa::alloc::boxed::Box::new(
+                                                v.to_owned_from_source(__buffa_src)?,
+                                            ),
+                                        )
+                                    }
+                                    super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                                        v,
+                                    ) => {
+                                        super::super::__buffa::oneof::login_response::Result::Mfa(
+                                            ::buffa::alloc::boxed::Box::new(
+                                                v.to_owned_from_source(__buffa_src)?,
+                                            ),
+                                        )
+                                    }
+                                },
+                            )
+                        }
+                        ::core::option::Option::None => ::core::option::Option::None,
+                    },
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for LoginResponseView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if let ::core::option::Option::Some(ref v) = self.result {
+                    match v {
+                        super::super::__buffa::view::oneof::login_response::Result::Success(
+                            x,
+                        ) => {
+                            let __slot = __cache.reserve();
+                            let inner = x.compute_size(__cache);
+                            __cache.set(__slot, inner);
+                            size
+                                += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                                    + inner as u64;
+                        }
+                        super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                            x,
+                        ) => {
+                            let __slot = __cache.reserve();
+                            let inner = x.compute_size(__cache);
+                            __cache.set(__slot, inner);
+                            size
+                                += 1u64 + ::buffa::encoding::varint_len(inner as u64) as u64
+                                    + inner as u64;
+                        }
+                    }
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                __cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if let ::core::option::Option::Some(ref v) = self.result {
+                    match v {
+                        super::super::__buffa::view::oneof::login_response::Result::Success(
+                            x,
+                        ) => {
+                            ::buffa::types::put_len_delimited_header(
+                                1u32,
+                                u64::from(__cache.consume_next()),
+                                buf,
+                            );
+                            x.write_to(__cache, buf);
+                        }
+                        super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                            x,
+                        ) => {
+                            ::buffa::types::put_len_delimited_header(
+                                2u32,
+                                u64::from(__cache.consume_next()),
+                                buf,
+                            );
+                            x.write_to(__cache, buf);
+                        }
                     }
                 }
                 self.__buffa_unknown_fields.write_to(buf);
@@ -8670,32 +9688,19 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                {
-                    if let ::core::option::Option::Some(__v) = self.token.as_option() {
-                        __map.serialize_entry("token", __v)?;
+                if let ::core::option::Option::Some(ref __ov) = self.result {
+                    match __ov {
+                        super::super::__buffa::view::oneof::login_response::Result::Success(
+                            v,
+                        ) => {
+                            __map.serialize_entry("success", v)?;
+                        }
+                        super::super::__buffa::view::oneof::login_response::Result::Mfa(
+                            v,
+                        ) => {
+                            __map.serialize_entry("mfa", v)?;
+                        }
                     }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.user.as_option() {
-                        __map.serialize_entry("user", __v)?;
-                    }
-                }
-                {
-                    if let ::core::option::Option::Some(__v) = self.flow.as_option() {
-                        __map.serialize_entry("flow", __v)?;
-                    }
-                }
-                if self.mfa_required {
-                    __map.serialize_entry("mfaRequired", &self.mfa_required)?;
-                }
-                if !self.available_mfa_methods.is_empty() {
-                    __map
-                        .serialize_entry(
-                            "availableMfaMethods",
-                            &::buffa::json_helpers::EnumSeqJson(
-                                &self.available_mfa_methods,
-                            ),
-                        )?;
                 }
                 __map.end()
             }
@@ -8792,43 +9797,14 @@ pub mod __buffa {
             pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
                 self.0.into_bytes()
             }
-            /// Field 1: `token`
+            /// Oneof `result`.
             #[must_use]
-            pub fn token(
+            pub fn result(
                 &self,
-            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::TokenView<'_>> {
-                &self.0.reborrow().token
-            }
-            /// Field 2: `user`
-            #[must_use]
-            pub fn user(
-                &self,
-            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::UserView<'_>> {
-                &self.0.reborrow().user
-            }
-            /// Field 3: `flow`
-            #[must_use]
-            pub fn flow(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::AuthFlowView<'_>,
+            ) -> ::core::option::Option<
+                &super::super::__buffa::view::oneof::login_response::Result<'_>,
             > {
-                &self.0.reborrow().flow
-            }
-            /// Field 4: `mfa_required`
-            #[must_use]
-            pub fn mfa_required(&self) -> bool {
-                self.0.reborrow().mfa_required
-            }
-            /// Field 5: `available_mfa_methods`
-            #[must_use]
-            pub fn available_mfa_methods(
-                &self,
-            ) -> &::buffa::RepeatedView<
-                '_,
-                ::buffa::EnumValue<super::super::MfaFactorType>,
-            > {
-                &self.0.reborrow().available_mfa_methods
+                self.0.reborrow().result.as_ref()
             }
         }
         impl ::core::convert::From<::buffa::OwnedView<LoginResponseView<'static>>>
@@ -11442,6 +12418,85 @@ pub mod __buffa {
                 ::serde::Serialize::serialize(&self.0, __s)
             }
         }
+        pub mod oneof {
+            #[allow(unused_imports)]
+            use super::*;
+            pub mod login_response {
+                #[allow(unused_imports)]
+                use super::*;
+                #[derive(Clone, Debug)]
+                pub enum Result<'a> {
+                    Success(
+                        ::buffa::alloc::boxed::Box<
+                            super::super::super::super::__buffa::view::LoginSuccessView<
+                                'a,
+                            >,
+                        >,
+                    ),
+                    Mfa(
+                        ::buffa::alloc::boxed::Box<
+                            super::super::super::super::__buffa::view::MfaRequiredView<
+                                'a,
+                            >,
+                        >,
+                    ),
+                }
+            }
+        }
+    }
+    pub mod oneof {
+        #[allow(unused_imports)]
+        use super::*;
+        pub mod login_response {
+            #[allow(unused_imports)]
+            use super::*;
+            #[derive(Clone, PartialEq, Debug)]
+            pub enum Result {
+                Success(::buffa::alloc::boxed::Box<super::super::super::LoginSuccess>),
+                Mfa(::buffa::alloc::boxed::Box<super::super::super::MfaRequired>),
+            }
+            impl ::buffa::Oneof for Result {}
+            impl From<super::super::super::LoginSuccess> for Result {
+                fn from(v: super::super::super::LoginSuccess) -> Self {
+                    Self::Success(::buffa::alloc::boxed::Box::new(v))
+                }
+            }
+            impl From<super::super::super::LoginSuccess>
+            for ::core::option::Option<Result> {
+                fn from(v: super::super::super::LoginSuccess) -> Self {
+                    Self::Some(Result::from(v))
+                }
+            }
+            impl From<super::super::super::MfaRequired> for Result {
+                fn from(v: super::super::super::MfaRequired) -> Self {
+                    Self::Mfa(::buffa::alloc::boxed::Box::new(v))
+                }
+            }
+            impl From<super::super::super::MfaRequired>
+            for ::core::option::Option<Result> {
+                fn from(v: super::super::super::MfaRequired) -> Self {
+                    Self::Some(Result::from(v))
+                }
+            }
+            impl ::serde::Serialize for Result {
+                fn serialize<S: ::serde::Serializer>(
+                    &self,
+                    s: S,
+                ) -> ::core::result::Result<S::Ok, S::Error> {
+                    use ::serde::ser::SerializeMap;
+                    let mut map = s.serialize_map(Some(1))?;
+                    match self {
+                        Self::Success(v) => {
+                            map.serialize_entry("success", &**v)?;
+                        }
+                        Self::Mfa(v) => {
+                            map.serialize_entry("mfa", &**v)?;
+                        }
+                    }
+                    map.end()
+                }
+            }
+        }
     }
     /// Register this package's `Any` type entries and extension entries.
     pub fn register_types(reg: &mut ::buffa::type_registry::TypeRegistry) {
@@ -11455,6 +12510,8 @@ pub mod __buffa {
         reg.register_json_any(super::__COMPLETE_REGISTRATION_REQUEST_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_REGISTRATION_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__LOGIN_REQUEST_JSON_ANY);
+        reg.register_json_any(super::__LOGIN_SUCCESS_JSON_ANY);
+        reg.register_json_any(super::__MFA_REQUIRED_JSON_ANY);
         reg.register_json_any(super::__LOGIN_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__REFRESH_TOKEN_REQUEST_JSON_ANY);
         reg.register_json_any(super::__REFRESH_TOKEN_RESPONSE_JSON_ANY);
@@ -11506,6 +12563,14 @@ pub use self::__buffa::view::CompleteRegistrationResponseOwnedView;
 pub use self::__buffa::view::LoginRequestView;
 #[doc(inline)]
 pub use self::__buffa::view::LoginRequestOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::LoginSuccessView;
+#[doc(inline)]
+pub use self::__buffa::view::LoginSuccessOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::MfaRequiredView;
+#[doc(inline)]
+pub use self::__buffa::view::MfaRequiredOwnedView;
 #[doc(inline)]
 pub use self::__buffa::view::LoginResponseView;
 #[doc(inline)]

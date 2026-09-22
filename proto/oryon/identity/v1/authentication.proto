@@ -118,12 +118,21 @@ message LoginRequest {
   string password = 2 [(buf.validate.field).string.min_len = 3];
 }
 
+message LoginSuccess {
+  Token token = 1;
+  User user = 2;
+}
+
+message MfaRequired {
+  AuthFlow flow = 1;
+  repeated MfaFactorType available_mfa_methods = 2;
+}
+
 message LoginResponse {
-  optional Token token = 1;
-  optional User user = 2;
-  optional AuthFlow flow = 3;
-  bool mfa_required = 4;
-  repeated MfaFactorType available_mfa_methods = 5;
+  oneof result {
+    LoginSuccess success = 1;
+    MfaRequired mfa = 2;
+  }
 }
 
 message RefreshTokenRequest {
