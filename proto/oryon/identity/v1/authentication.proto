@@ -66,6 +66,14 @@ message UserEmail {
   optional google.protobuf.Timestamp verified_at = 6;
 }
 
+message UserPhone {
+  int64 id = 1;
+  int64 user_id = 2;
+  string phone = 3;
+  google.protobuf.Timestamp created_at = 4;
+  optional google.protobuf.Timestamp verified_at = 5;
+}
+
 // ==============
 // rpc messages
 // ==============
@@ -170,5 +178,6 @@ message ConfirmVerificationRequest {
 }
 
 message ConfirmVerificationResponse {
-  UserEmail user_email = 1;
+  optional UserEmail user_email = 1;
+  optional UserPhone user_phone = 2;
 }
