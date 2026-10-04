@@ -13,13 +13,11 @@ import "oryon/identity/v1/enum.proto";
 service AuthenticationService {
   rpc Registration(RegistrationRequest) returns (RegistrationResponse);
   rpc CompleteRegistration(CompleteRegistrationRequest) returns (CompleteRegistrationResponse);
+  rpc ResendRegistrationCode(ResendRegistrationCodeRequest) returns (ResendRegistrationCodeResponse);
 
   rpc Login(LoginRequest) returns (LoginResponse);
-  rpc CompleteMfa(CompleteMfaRequest) returns (CompleteMfaResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-
-  rpc InitiateVerification(InitiateVerificationRequest) returns (InitiateVerificationResponse);
-  rpc ConfirmVerification(ConfirmVerificationRequest) returns (ConfirmVerificationResponse);
+  rpc CompleteLoginMfa(CompleteLoginMfaRequest) returns (CompleteLoginMfaResponse);
 
   rpc InitiatePasswordReset(InitiatePasswordResetRequest) returns (InitiatePasswordResetResponse);
   rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
@@ -59,23 +57,6 @@ message User {
   optional string avatar_url = 5;
   google.protobuf.Timestamp created_at = 6;
   google.protobuf.Timestamp updated_at = 7;
-}
-
-message UserEmail {
-  int64 id = 1;
-  int64 user_id = 2;
-  string email = 3;
-  bool is_primary = 4;
-  google.protobuf.Timestamp created_at = 5;
-  optional google.protobuf.Timestamp verified_at = 6;
-}
-
-message UserPhone {
-  int64 id = 1;
-  int64 user_id = 2;
-  string phone = 3;
-  google.protobuf.Timestamp created_at = 4;
-  optional google.protobuf.Timestamp verified_at = 5;
 }
 
 // ==============
@@ -124,101 +105,76 @@ message CompleteRegistrationResponse {
   User user = 1;
 }
 
+message ResendRegistrationCodeRequest {
+  int64 flow_id = 1 [(buf.validate.field).required = true];
+}
+
+message ResendRegistrationCodeResponse {
+  AuthFlow flow = 1;
+}
+
 message LoginRequest {
   // Email, phone (+E.164), or username identifier.
   string identifier = 1 [(buf.validate.field).string.min_len = 3];
   string password = 2 [(buf.validate.field).string.min_len = 3];
 }
 
-message LoginSuccess {
+message LoginToken {
   Token token = 1;
   User user = 2;
 }
 
-message MfaRequired {
+message LoginMfa {
   AuthFlow flow = 1;
   repeated MfaFactorType available_mfa_methods = 2;
 }
 
 message LoginResponse {
   oneof result {
-    LoginSuccess success = 1;
-    MfaRequired mfa = 2;
+    LoginToken login_token = 1;
+    LoginMfa login_mfa = 2;
   }
 }
 
 message RefreshTokenRequest {
-  string refresh_token = 1 [(buf.validate.field).string.min_len = 1];
+  string refresh_token = 1 [(buf.validate.field).required = true];
 }
 
 message RefreshTokenResponse {
   Token token = 1;
 }
 
-message CompleteMfaRequest {
+message CompleteLoginMfaRequest {
   int64 flow_id = 1 [(buf.validate.field).required = true];
   string code = 2 [(buf.validate.field).required = true];
-  MfaFactorType factor_type = 3;
+  MfaFactorType factor_type = 3 [(buf.validate.field).required = true];
 }
 
-message CompleteMfaResponse {
-  optional Token token = 1;
-  optional User user = 2;
-}
-
-message InitiateVerificationRequest {
-  string identifier = 1 [(buf.validate.field).string.min_len = 3];
-  VerificationPurpose purpose = 2;
-  optional int64 flow_id = 3; // if present = server invalidates old challenge, extends flow.expires_at
-}
-
-message InitiateVerificationResponse {
-  VerificationChallenge challenge = 1;
-}
-
-message ConfirmVerificationRequest {
-  int64 verification_id = 1;
-  string code = 2;
-}
-
-message ConfirmVerificationResponse {
-  optional UserEmail user_email = 1;
-  optional UserPhone user_phone = 2;
+message CompleteLoginMfaResponse {
+  Token token = 1;
+  User user = 2;
 }
 
 message InitiatePasswordResetRequest {
-  // Email, phone (+E.164), or username identifier.
-  // Server must return generic success even if identifier is unknown
-  // to avoid account enumeration. In that case no code is sent.
-  // Repeat calls invalidate prior unconsumed password_reset challenges
-  // for the same identifier (resend semantics).
   string identifier = 1 [(buf.validate.field).string.min_len = 3];
 }
 
 message InitiatePasswordResetResponse {
-  // Challenge metadata only (id, identifier, purpose=PASSWORD_RESET, expires_at).
-  // The OTP itself is sent out-of-band (email/SMS).
-  // Storage: auth_flows(flow_type=recovery) + verification_challenges(purpose=password_reset, flow_id set).
   VerificationChallenge challenge = 1;
 }
 
 message ConfirmPasswordResetRequest {
   int64 verification_id = 1 [(buf.validate.field).required = true];
-  string code = 2 [
-    (buf.validate.field).string.min_len = 6,
-    (buf.validate.field).string.max_len = 8
-  ];
+  string code = 2 [(buf.validate.field).required = true];
 }
 
 message ConfirmPasswordResetResponse {
-  // Opaque single-use short-lived token (e.g. stored in auth_flows.context
-  // or as signed JWT). Consumes the verification_challenge (consumed_at=NOW()).
-  string reset_token = 1 [(buf.validate.field).string.min_len = 1];
+  string reset_token = 1;
   google.protobuf.Timestamp expires_at = 2;
 }
 
 message CompletePasswordResetRequest {
-  string reset_token = 1 [(buf.validate.field).string.min_len = 1];
+  string reset_token = 1 [(buf.validate.field).required = true];
   string new_password = 2 [
     (buf.validate.field).string.min_len = 8,
     (buf.validate.field).string.max_len = 128
@@ -226,9 +182,5 @@ message CompletePasswordResetRequest {
 }
 
 message CompletePasswordResetResponse {
-  // Client must perform a fresh Login afterwards.
-  // Server must: update password_credentials(password, password_changed_at),
-  // complete the recovery auth_flow, revoke sessions/refresh_tokens,
-  // and emit security_events(password.changed).
   User user = 1;
 }

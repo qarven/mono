@@ -15,7 +15,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file oryon/identity/v1/authentication.proto.
  */
 export const file_oryon_identity_v1_authentication: GenFile = /*@__PURE__*/
-  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEiXAoFVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhUKDXJlZnJlc2hfdG9rZW4YAiABKAkSEgoKdG9rZW5fdHlwZRgDIAEoCRISCgpleHBpcmVzX2luGAQgASgDIrABCghBdXRoRmxvdxIKCgJpZBgBIAEoAxIyCglmbG93X3R5cGUYAiABKA4yHy5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvd1R5cGUSNAoKZmxvd19zdGF0ZRgDIAEoDjIgLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93U3RhdGUSLgoKZXhwaXJlc19hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAioAEKFVZlcmlmaWNhdGlvbkNoYWxsZW5nZRIKCgJpZBgBIAEoAxISCgppZGVudGlmaWVyGAIgASgJEjcKB3B1cnBvc2UYAyABKA4yJi5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25QdXJwb3NlEi4KCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIvsBCgRVc2VyEgoKAmlkGAEgASgDEi0KBnN0YXR1cxgCIAEoDjIdLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJTdGF0dXMSDAoEbmFtZRgDIAEoCRIVCgh1c2VybmFtZRgEIAEoCUgAiAEBEhcKCmF2YXRhcl91cmwYBSABKAlIAYgBARIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEILCglfdXNlcm5hbWVCDQoLX2F2YXRhcl91cmwiwQEKCVVzZXJFbWFpbBIKCgJpZBgBIAEoAxIPCgd1c2VyX2lkGAIgASgDEg0KBWVtYWlsGAMgASgJEhIKCmlzX3ByaW1hcnkYBCABKAgSLgoKY3JlYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASNAoLdmVyaWZpZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSACIAQFCDgoMX3ZlcmlmaWVkX2F0Iq0BCglVc2VyUGhvbmUSCgoCaWQYASABKAMSDwoHdXNlcl9pZBgCIAEoAxINCgVwaG9uZRgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBI0Cgt2ZXJpZmllZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAIgBAUIOCgxfdmVyaWZpZWRfYXQilwIKE1JlZ2lzdHJhdGlvblJlcXVlc3QSGwoFZW1haWwYASABKAlCB7pIBHICYAFIAIgBARIsCgVwaG9uZRgCIAEoCUIYukgVchMyEV5cK1sxLTldXGR7MSwxNH0kSAGIAQESHAoIcGFzc3dvcmQYAyABKAlCCrpIB3IFEAgYgAESFQoEbmFtZRgEIAEoCUIHukgEcgIQAzpsukhpGmcKHnJlZ2lzdHJhdGlvbi5pZGVudGlmaWVyX29uZV9vZhIhb25lIG9mIGVtYWlsIG9yIHBob25lIGlzIHJlcXVpcmVkGiJoYXModGhpcy5lbWFpbCkgfHwgaGFzKHRoaXMucGhvbmUpQggKBl9lbWFpbEIICgZfcGhvbmUiQQoUUmVnaXN0cmF0aW9uUmVzcG9uc2USKQoEZmxvdxgBIAEoCzIbLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93IpsCChtDb21wbGV0ZVJlZ2lzdHJhdGlvblJlcXVlc3QSDwoHZmxvd19pZBgBIAEoAxIiCgplbWFpbF9jb2RlGAIgASgJQgm6SAZyBBAGGAhIAIgBARIiCgpwaG9uZV9jb2RlGAMgASgJQgm6SAZyBBAGGAhIAYgBATqEAbpIgAEafgohY29tcGxldGVfcmVnaXN0cmF0aW9uLmNvZGVfb25lX29mEitvbmUgb2YgZW1haWxfY29kZSBvciBwaG9uZV9jb2RlIGlzIHJlcXVpcmVkGixoYXModGhpcy5lbWFpbF9jb2RlKSB8fCBoYXModGhpcy5waG9uZV9jb2RlKUINCgtfZW1haWxfY29kZUINCgtfcGhvbmVfY29kZSJFChxDb21wbGV0ZVJlZ2lzdHJhdGlvblJlc3BvbnNlEiUKBHVzZXIYASABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyIkYKDExvZ2luUmVxdWVzdBIbCgppZGVudGlmaWVyGAEgASgJQge6SARyAhADEhkKCHBhc3N3b3JkGAIgASgJQge6SARyAhADIl4KDExvZ2luU3VjY2VzcxInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuEiUKBHVzZXIYAiABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyInkKC01mYVJlcXVpcmVkEikKBGZsb3cYASABKAsyGy5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvdxI/ChVhdmFpbGFibGVfbWZhX21ldGhvZHMYAiADKA4yIC5vcnlvbi5pZGVudGl0eS52MS5NZmFGYWN0b3JUeXBlInwKDUxvZ2luUmVzcG9uc2USMgoHc3VjY2VzcxgBIAEoCzIfLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luU3VjY2Vzc0gAEi0KA21mYRgCIAEoCzIeLm9yeW9uLmlkZW50aXR5LnYxLk1mYVJlcXVpcmVkSABCCAoGcmVzdWx0IjUKE1JlZnJlc2hUb2tlblJlcXVlc3QSHgoNcmVmcmVzaF90b2tlbhgBIAEoCUIHukgEcgIQASI/ChRSZWZyZXNoVG9rZW5SZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuInoKEkNvbXBsZXRlTWZhUmVxdWVzdBIXCgdmbG93X2lkGAEgASgDQga6SAPIAQESFAoEY29kZRgCIAEoCUIGukgDyAEBEjUKC2ZhY3Rvcl90eXBlGAMgASgOMiAub3J5b24uaWRlbnRpdHkudjEuTWZhRmFjdG9yVHlwZSKCAQoTQ29tcGxldGVNZmFSZXNwb25zZRIsCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuSACIAQESKgoEdXNlchgCIAEoCzIXLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJIAYgBAUIICgZfdG9rZW5CBwoFX3VzZXIilQEKG0luaXRpYXRlVmVyaWZpY2F0aW9uUmVxdWVzdBIbCgppZGVudGlmaWVyGAEgASgJQge6SARyAhADEjcKB3B1cnBvc2UYAiABKA4yJi5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25QdXJwb3NlEhQKB2Zsb3dfaWQYAyABKANIAIgBAUIKCghfZmxvd19pZCJbChxJbml0aWF0ZVZlcmlmaWNhdGlvblJlc3BvbnNlEjsKCWNoYWxsZW5nZRgBIAEoCzIoLm9yeW9uLmlkZW50aXR5LnYxLlZlcmlmaWNhdGlvbkNoYWxsZW5nZSJDChpDb25maXJtVmVyaWZpY2F0aW9uUmVxdWVzdBIXCg92ZXJpZmljYXRpb25faWQYASABKAMSDAoEY29kZRgCIAEoCSKpAQobQ29uZmlybVZlcmlmaWNhdGlvblJlc3BvbnNlEjUKCnVzZXJfZW1haWwYASABKAsyHC5vcnlvbi5pZGVudGl0eS52MS5Vc2VyRW1haWxIAIgBARI1Cgp1c2VyX3Bob25lGAIgASgLMhwub3J5b24uaWRlbnRpdHkudjEuVXNlclBob25lSAGIAQFCDQoLX3VzZXJfZW1haWxCDQoLX3VzZXJfcGhvbmUiOwocSW5pdGlhdGVQYXNzd29yZFJlc2V0UmVxdWVzdBIbCgppZGVudGlmaWVyGAEgASgJQge6SARyAhADIlwKHUluaXRpYXRlUGFzc3dvcmRSZXNldFJlc3BvbnNlEjsKCWNoYWxsZW5nZRgBIAEoCzIoLm9yeW9uLmlkZW50aXR5LnYxLlZlcmlmaWNhdGlvbkNoYWxsZW5nZSJXChtDb25maXJtUGFzc3dvcmRSZXNldFJlcXVlc3QSHwoPdmVyaWZpY2F0aW9uX2lkGAEgASgDQga6SAPIAQESFwoEY29kZRgCIAEoCUIJukgGcgQQBhgIImwKHENvbmZpcm1QYXNzd29yZFJlc2V0UmVzcG9uc2USHAoLcmVzZXRfdG9rZW4YASABKAlCB7pIBHICEAESLgoKZXhwaXJlc19hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiXgocQ29tcGxldGVQYXNzd29yZFJlc2V0UmVxdWVzdBIcCgtyZXNldF90b2tlbhgBIAEoCUIHukgEcgIQARIgCgxuZXdfcGFzc3dvcmQYAiABKAlCCrpIB3IFEAgYgAEiRgodQ29tcGxldGVQYXNzd29yZFJlc2V0UmVzcG9uc2USJQoEdXNlchgBIAEoCzIXLm9yeW9uLmlkZW50aXR5LnYxLlVzZXIy3AgKFUF1dGhlbnRpY2F0aW9uU2VydmljZRJfCgxSZWdpc3RyYXRpb24SJi5vcnlvbi5pZGVudGl0eS52MS5SZWdpc3RyYXRpb25SZXF1ZXN0Gicub3J5b24uaWRlbnRpdHkudjEuUmVnaXN0cmF0aW9uUmVzcG9uc2USdwoUQ29tcGxldGVSZWdpc3RyYXRpb24SLi5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVJlZ2lzdHJhdGlvblJlcXVlc3QaLy5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVJlZ2lzdHJhdGlvblJlc3BvbnNlEkoKBUxvZ2luEh8ub3J5b24uaWRlbnRpdHkudjEuTG9naW5SZXF1ZXN0GiAub3J5b24uaWRlbnRpdHkudjEuTG9naW5SZXNwb25zZRJcCgtDb21wbGV0ZU1mYRIlLm9yeW9uLmlkZW50aXR5LnYxLkNvbXBsZXRlTWZhUmVxdWVzdBomLm9yeW9uLmlkZW50aXR5LnYxLkNvbXBsZXRlTWZhUmVzcG9uc2USXwoMUmVmcmVzaFRva2VuEiYub3J5b24uaWRlbnRpdHkudjEuUmVmcmVzaFRva2VuUmVxdWVzdBonLm9yeW9uLmlkZW50aXR5LnYxLlJlZnJlc2hUb2tlblJlc3BvbnNlEncKFEluaXRpYXRlVmVyaWZpY2F0aW9uEi4ub3J5b24uaWRlbnRpdHkudjEuSW5pdGlhdGVWZXJpZmljYXRpb25SZXF1ZXN0Gi8ub3J5b24uaWRlbnRpdHkudjEuSW5pdGlhdGVWZXJpZmljYXRpb25SZXNwb25zZRJ0ChNDb25maXJtVmVyaWZpY2F0aW9uEi0ub3J5b24uaWRlbnRpdHkudjEuQ29uZmlybVZlcmlmaWNhdGlvblJlcXVlc3QaLi5vcnlvbi5pZGVudGl0eS52MS5Db25maXJtVmVyaWZpY2F0aW9uUmVzcG9uc2USegoVSW5pdGlhdGVQYXNzd29yZFJlc2V0Ei8ub3J5b24uaWRlbnRpdHkudjEuSW5pdGlhdGVQYXNzd29yZFJlc2V0UmVxdWVzdBowLm9yeW9uLmlkZW50aXR5LnYxLkluaXRpYXRlUGFzc3dvcmRSZXNldFJlc3BvbnNlEncKFENvbmZpcm1QYXNzd29yZFJlc2V0Ei4ub3J5b24uaWRlbnRpdHkudjEuQ29uZmlybVBhc3N3b3JkUmVzZXRSZXF1ZXN0Gi8ub3J5b24uaWRlbnRpdHkudjEuQ29uZmlybVBhc3N3b3JkUmVzZXRSZXNwb25zZRJ6ChVDb21wbGV0ZVBhc3N3b3JkUmVzZXQSLy5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVBhc3N3b3JkUmVzZXRSZXF1ZXN0GjAub3J5b24uaWRlbnRpdHkudjEuQ29tcGxldGVQYXNzd29yZFJlc2V0UmVzcG9uc2VCzAEKFWNvbS5vcnlvbi5pZGVudGl0eS52MUITQXV0aGVudGljYXRpb25Qcm90b1ABWjhnaXRodWIuY29tL3FhcnZlbi9tb25vL2dlbi9nby9vcnlvbi9pZGVudGl0eS92MTtpZGVudGl0eaICA09JWKoCEU9yeW9uLklkZW50aXR5LlYxygIRT3J5b25cSWRlbnRpdHlcVjHiAh1PcnlvblxJZGVudGl0eVxWMVxHUEJNZXRhZGF0YeoCE09yeW9uOjpJZGVudGl0eTo6VjFiBnByb3RvMw", [file_buf_validate_validate, file_google_protobuf_timestamp, file_oryon_identity_v1_enum]);
+  fileDesc("CiZvcnlvbi9pZGVudGl0eS92MS9hdXRoZW50aWNhdGlvbi5wcm90bxIRb3J5b24uaWRlbnRpdHkudjEiXAoFVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhUKDXJlZnJlc2hfdG9rZW4YAiABKAkSEgoKdG9rZW5fdHlwZRgDIAEoCRISCgpleHBpcmVzX2luGAQgASgDIrABCghBdXRoRmxvdxIKCgJpZBgBIAEoAxIyCglmbG93X3R5cGUYAiABKA4yHy5vcnlvbi5pZGVudGl0eS52MS5BdXRoRmxvd1R5cGUSNAoKZmxvd19zdGF0ZRgDIAEoDjIgLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93U3RhdGUSLgoKZXhwaXJlc19hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAioAEKFVZlcmlmaWNhdGlvbkNoYWxsZW5nZRIKCgJpZBgBIAEoAxISCgppZGVudGlmaWVyGAIgASgJEjcKB3B1cnBvc2UYAyABKA4yJi5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25QdXJwb3NlEi4KCmV4cGlyZXNfYXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIvsBCgRVc2VyEgoKAmlkGAEgASgDEi0KBnN0YXR1cxgCIAEoDjIdLm9yeW9uLmlkZW50aXR5LnYxLlVzZXJTdGF0dXMSDAoEbmFtZRgDIAEoCRIVCgh1c2VybmFtZRgEIAEoCUgAiAEBEhcKCmF2YXRhcl91cmwYBSABKAlIAYgBARIuCgpjcmVhdGVkX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEILCglfdXNlcm5hbWVCDQoLX2F2YXRhcl91cmwilwIKE1JlZ2lzdHJhdGlvblJlcXVlc3QSGwoFZW1haWwYASABKAlCB7pIBHICYAFIAIgBARIsCgVwaG9uZRgCIAEoCUIYukgVchMyEV5cK1sxLTldXGR7MSwxNH0kSAGIAQESHAoIcGFzc3dvcmQYAyABKAlCCrpIB3IFEAgYgAESFQoEbmFtZRgEIAEoCUIHukgEcgIQAzpsukhpGmcKHnJlZ2lzdHJhdGlvbi5pZGVudGlmaWVyX29uZV9vZhIhb25lIG9mIGVtYWlsIG9yIHBob25lIGlzIHJlcXVpcmVkGiJoYXModGhpcy5lbWFpbCkgfHwgaGFzKHRoaXMucGhvbmUpQggKBl9lbWFpbEIICgZfcGhvbmUiQQoUUmVnaXN0cmF0aW9uUmVzcG9uc2USKQoEZmxvdxgBIAEoCzIbLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93IpsCChtDb21wbGV0ZVJlZ2lzdHJhdGlvblJlcXVlc3QSDwoHZmxvd19pZBgBIAEoAxIiCgplbWFpbF9jb2RlGAIgASgJQgm6SAZyBBAGGAhIAIgBARIiCgpwaG9uZV9jb2RlGAMgASgJQgm6SAZyBBAGGAhIAYgBATqEAbpIgAEafgohY29tcGxldGVfcmVnaXN0cmF0aW9uLmNvZGVfb25lX29mEitvbmUgb2YgZW1haWxfY29kZSBvciBwaG9uZV9jb2RlIGlzIHJlcXVpcmVkGixoYXModGhpcy5lbWFpbF9jb2RlKSB8fCBoYXModGhpcy5waG9uZV9jb2RlKUINCgtfZW1haWxfY29kZUINCgtfcGhvbmVfY29kZSJFChxDb21wbGV0ZVJlZ2lzdHJhdGlvblJlc3BvbnNlEiUKBHVzZXIYASABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyIjgKHVJlc2VuZFJlZ2lzdHJhdGlvbkNvZGVSZXF1ZXN0EhcKB2Zsb3dfaWQYASABKANCBrpIA8gBASJLCh5SZXNlbmRSZWdpc3RyYXRpb25Db2RlUmVzcG9uc2USKQoEZmxvdxgBIAEoCzIbLm9yeW9uLmlkZW50aXR5LnYxLkF1dGhGbG93IkYKDExvZ2luUmVxdWVzdBIbCgppZGVudGlmaWVyGAEgASgJQge6SARyAhADEhkKCHBhc3N3b3JkGAIgASgJQge6SARyAhADIlwKCkxvZ2luVG9rZW4SJwoFdG9rZW4YASABKAsyGC5vcnlvbi5pZGVudGl0eS52MS5Ub2tlbhIlCgR1c2VyGAIgASgLMhcub3J5b24uaWRlbnRpdHkudjEuVXNlciJ2CghMb2dpbk1mYRIpCgRmbG93GAEgASgLMhsub3J5b24uaWRlbnRpdHkudjEuQXV0aEZsb3cSPwoVYXZhaWxhYmxlX21mYV9tZXRob2RzGAIgAygOMiAub3J5b24uaWRlbnRpdHkudjEuTWZhRmFjdG9yVHlwZSKBAQoNTG9naW5SZXNwb25zZRI0Cgtsb2dpbl90b2tlbhgBIAEoCzIdLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luVG9rZW5IABIwCglsb2dpbl9tZmEYAiABKAsyGy5vcnlvbi5pZGVudGl0eS52MS5Mb2dpbk1mYUgAQggKBnJlc3VsdCI0ChNSZWZyZXNoVG9rZW5SZXF1ZXN0Eh0KDXJlZnJlc2hfdG9rZW4YASABKAlCBrpIA8gBASI/ChRSZWZyZXNoVG9rZW5SZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuIocBChdDb21wbGV0ZUxvZ2luTWZhUmVxdWVzdBIXCgdmbG93X2lkGAEgASgDQga6SAPIAQESFAoEY29kZRgCIAEoCUIGukgDyAEBEj0KC2ZhY3Rvcl90eXBlGAMgASgOMiAub3J5b24uaWRlbnRpdHkudjEuTWZhRmFjdG9yVHlwZUIGukgDyAEBImoKGENvbXBsZXRlTG9naW5NZmFSZXNwb25zZRInCgV0b2tlbhgBIAEoCzIYLm9yeW9uLmlkZW50aXR5LnYxLlRva2VuEiUKBHVzZXIYAiABKAsyFy5vcnlvbi5pZGVudGl0eS52MS5Vc2VyIjsKHEluaXRpYXRlUGFzc3dvcmRSZXNldFJlcXVlc3QSGwoKaWRlbnRpZmllchgBIAEoCUIHukgEcgIQAyJcCh1Jbml0aWF0ZVBhc3N3b3JkUmVzZXRSZXNwb25zZRI7CgljaGFsbGVuZ2UYASABKAsyKC5vcnlvbi5pZGVudGl0eS52MS5WZXJpZmljYXRpb25DaGFsbGVuZ2UiVAobQ29uZmlybVBhc3N3b3JkUmVzZXRSZXF1ZXN0Eh8KD3ZlcmlmaWNhdGlvbl9pZBgBIAEoA0IGukgDyAEBEhQKBGNvZGUYAiABKAlCBrpIA8gBASJjChxDb25maXJtUGFzc3dvcmRSZXNldFJlc3BvbnNlEhMKC3Jlc2V0X3Rva2VuGAEgASgJEi4KCmV4cGlyZXNfYXQYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIl0KHENvbXBsZXRlUGFzc3dvcmRSZXNldFJlcXVlc3QSGwoLcmVzZXRfdG9rZW4YASABKAlCBrpIA8gBARIgCgxuZXdfcGFzc3dvcmQYAiABKAlCCrpIB3IFEAgYgAEiRgodQ29tcGxldGVQYXNzd29yZFJlc2V0UmVzcG9uc2USJQoEdXNlchgBIAEoCzIXLm9yeW9uLmlkZW50aXR5LnYxLlVzZXIy+wcKFUF1dGhlbnRpY2F0aW9uU2VydmljZRJfCgxSZWdpc3RyYXRpb24SJi5vcnlvbi5pZGVudGl0eS52MS5SZWdpc3RyYXRpb25SZXF1ZXN0Gicub3J5b24uaWRlbnRpdHkudjEuUmVnaXN0cmF0aW9uUmVzcG9uc2USdwoUQ29tcGxldGVSZWdpc3RyYXRpb24SLi5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVJlZ2lzdHJhdGlvblJlcXVlc3QaLy5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVJlZ2lzdHJhdGlvblJlc3BvbnNlEn0KFlJlc2VuZFJlZ2lzdHJhdGlvbkNvZGUSMC5vcnlvbi5pZGVudGl0eS52MS5SZXNlbmRSZWdpc3RyYXRpb25Db2RlUmVxdWVzdBoxLm9yeW9uLmlkZW50aXR5LnYxLlJlc2VuZFJlZ2lzdHJhdGlvbkNvZGVSZXNwb25zZRJKCgVMb2dpbhIfLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVxdWVzdBogLm9yeW9uLmlkZW50aXR5LnYxLkxvZ2luUmVzcG9uc2USXwoMUmVmcmVzaFRva2VuEiYub3J5b24uaWRlbnRpdHkudjEuUmVmcmVzaFRva2VuUmVxdWVzdBonLm9yeW9uLmlkZW50aXR5LnYxLlJlZnJlc2hUb2tlblJlc3BvbnNlEmsKEENvbXBsZXRlTG9naW5NZmESKi5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZUxvZ2luTWZhUmVxdWVzdBorLm9yeW9uLmlkZW50aXR5LnYxLkNvbXBsZXRlTG9naW5NZmFSZXNwb25zZRJ6ChVJbml0aWF0ZVBhc3N3b3JkUmVzZXQSLy5vcnlvbi5pZGVudGl0eS52MS5Jbml0aWF0ZVBhc3N3b3JkUmVzZXRSZXF1ZXN0GjAub3J5b24uaWRlbnRpdHkudjEuSW5pdGlhdGVQYXNzd29yZFJlc2V0UmVzcG9uc2USdwoUQ29uZmlybVBhc3N3b3JkUmVzZXQSLi5vcnlvbi5pZGVudGl0eS52MS5Db25maXJtUGFzc3dvcmRSZXNldFJlcXVlc3QaLy5vcnlvbi5pZGVudGl0eS52MS5Db25maXJtUGFzc3dvcmRSZXNldFJlc3BvbnNlEnoKFUNvbXBsZXRlUGFzc3dvcmRSZXNldBIvLm9yeW9uLmlkZW50aXR5LnYxLkNvbXBsZXRlUGFzc3dvcmRSZXNldFJlcXVlc3QaMC5vcnlvbi5pZGVudGl0eS52MS5Db21wbGV0ZVBhc3N3b3JkUmVzZXRSZXNwb25zZULMAQoVY29tLm9yeW9uLmlkZW50aXR5LnYxQhNBdXRoZW50aWNhdGlvblByb3RvUAFaOGdpdGh1Yi5jb20vcWFydmVuL21vbm8vZ2VuL2dvL29yeW9uL2lkZW50aXR5L3YxO2lkZW50aXR5ogIDT0lYqgIRT3J5b24uSWRlbnRpdHkuVjHKAhFPcnlvblxJZGVudGl0eVxWMeICHU9yeW9uXElkZW50aXR5XFYxXEdQQk1ldGFkYXRh6gITT3J5b246OklkZW50aXR5OjpWMWIGcHJvdG8z", [file_buf_validate_validate, file_google_protobuf_timestamp, file_oryon_identity_v1_enum]);
 
 /**
  * @generated from message oryon.identity.v1.Token
@@ -161,85 +161,6 @@ export const UserSchema: GenMessage<User> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 3);
 
 /**
- * @generated from message oryon.identity.v1.UserEmail
- */
-export type UserEmail = Message<"oryon.identity.v1.UserEmail"> & {
-  /**
-   * @generated from field: int64 id = 1;
-   */
-  id: bigint;
-
-  /**
-   * @generated from field: int64 user_id = 2;
-   */
-  userId: bigint;
-
-  /**
-   * @generated from field: string email = 3;
-   */
-  email: string;
-
-  /**
-   * @generated from field: bool is_primary = 4;
-   */
-  isPrimary: boolean;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp created_at = 5;
-   */
-  createdAt?: Timestamp | undefined;
-
-  /**
-   * @generated from field: optional google.protobuf.Timestamp verified_at = 6;
-   */
-  verifiedAt?: Timestamp | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.UserEmail.
- * Use `create(UserEmailSchema)` to create a new message.
- */
-export const UserEmailSchema: GenMessage<UserEmail> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 4);
-
-/**
- * @generated from message oryon.identity.v1.UserPhone
- */
-export type UserPhone = Message<"oryon.identity.v1.UserPhone"> & {
-  /**
-   * @generated from field: int64 id = 1;
-   */
-  id: bigint;
-
-  /**
-   * @generated from field: int64 user_id = 2;
-   */
-  userId: bigint;
-
-  /**
-   * @generated from field: string phone = 3;
-   */
-  phone: string;
-
-  /**
-   * @generated from field: google.protobuf.Timestamp created_at = 4;
-   */
-  createdAt?: Timestamp | undefined;
-
-  /**
-   * @generated from field: optional google.protobuf.Timestamp verified_at = 5;
-   */
-  verifiedAt?: Timestamp | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.UserPhone.
- * Use `create(UserPhoneSchema)` to create a new message.
- */
-export const UserPhoneSchema: GenMessage<UserPhone> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 5);
-
-/**
  * @generated from message oryon.identity.v1.RegistrationRequest
  */
 export type RegistrationRequest = Message<"oryon.identity.v1.RegistrationRequest"> & {
@@ -269,7 +190,7 @@ export type RegistrationRequest = Message<"oryon.identity.v1.RegistrationRequest
  * Use `create(RegistrationRequestSchema)` to create a new message.
  */
 export const RegistrationRequestSchema: GenMessage<RegistrationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 6);
+  messageDesc(file_oryon_identity_v1_authentication, 4);
 
 /**
  * @generated from message oryon.identity.v1.RegistrationResponse
@@ -286,7 +207,7 @@ export type RegistrationResponse = Message<"oryon.identity.v1.RegistrationRespon
  * Use `create(RegistrationResponseSchema)` to create a new message.
  */
 export const RegistrationResponseSchema: GenMessage<RegistrationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 7);
+  messageDesc(file_oryon_identity_v1_authentication, 5);
 
 /**
  * @generated from message oryon.identity.v1.CompleteRegistrationRequest
@@ -313,7 +234,7 @@ export type CompleteRegistrationRequest = Message<"oryon.identity.v1.CompleteReg
  * Use `create(CompleteRegistrationRequestSchema)` to create a new message.
  */
 export const CompleteRegistrationRequestSchema: GenMessage<CompleteRegistrationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 8);
+  messageDesc(file_oryon_identity_v1_authentication, 6);
 
 /**
  * @generated from message oryon.identity.v1.CompleteRegistrationResponse
@@ -330,6 +251,40 @@ export type CompleteRegistrationResponse = Message<"oryon.identity.v1.CompleteRe
  * Use `create(CompleteRegistrationResponseSchema)` to create a new message.
  */
 export const CompleteRegistrationResponseSchema: GenMessage<CompleteRegistrationResponse> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 7);
+
+/**
+ * @generated from message oryon.identity.v1.ResendRegistrationCodeRequest
+ */
+export type ResendRegistrationCodeRequest = Message<"oryon.identity.v1.ResendRegistrationCodeRequest"> & {
+  /**
+   * @generated from field: int64 flow_id = 1;
+   */
+  flowId: bigint;
+};
+
+/**
+ * Describes the message oryon.identity.v1.ResendRegistrationCodeRequest.
+ * Use `create(ResendRegistrationCodeRequestSchema)` to create a new message.
+ */
+export const ResendRegistrationCodeRequestSchema: GenMessage<ResendRegistrationCodeRequest> = /*@__PURE__*/
+  messageDesc(file_oryon_identity_v1_authentication, 8);
+
+/**
+ * @generated from message oryon.identity.v1.ResendRegistrationCodeResponse
+ */
+export type ResendRegistrationCodeResponse = Message<"oryon.identity.v1.ResendRegistrationCodeResponse"> & {
+  /**
+   * @generated from field: oryon.identity.v1.AuthFlow flow = 1;
+   */
+  flow?: AuthFlow | undefined;
+};
+
+/**
+ * Describes the message oryon.identity.v1.ResendRegistrationCodeResponse.
+ * Use `create(ResendRegistrationCodeResponseSchema)` to create a new message.
+ */
+export const ResendRegistrationCodeResponseSchema: GenMessage<ResendRegistrationCodeResponse> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 9);
 
 /**
@@ -357,9 +312,9 @@ export const LoginRequestSchema: GenMessage<LoginRequest> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 10);
 
 /**
- * @generated from message oryon.identity.v1.LoginSuccess
+ * @generated from message oryon.identity.v1.LoginToken
  */
-export type LoginSuccess = Message<"oryon.identity.v1.LoginSuccess"> & {
+export type LoginToken = Message<"oryon.identity.v1.LoginToken"> & {
   /**
    * @generated from field: oryon.identity.v1.Token token = 1;
    */
@@ -372,16 +327,16 @@ export type LoginSuccess = Message<"oryon.identity.v1.LoginSuccess"> & {
 };
 
 /**
- * Describes the message oryon.identity.v1.LoginSuccess.
- * Use `create(LoginSuccessSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.LoginToken.
+ * Use `create(LoginTokenSchema)` to create a new message.
  */
-export const LoginSuccessSchema: GenMessage<LoginSuccess> = /*@__PURE__*/
+export const LoginTokenSchema: GenMessage<LoginToken> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 11);
 
 /**
- * @generated from message oryon.identity.v1.MfaRequired
+ * @generated from message oryon.identity.v1.LoginMfa
  */
-export type MfaRequired = Message<"oryon.identity.v1.MfaRequired"> & {
+export type LoginMfa = Message<"oryon.identity.v1.LoginMfa"> & {
   /**
    * @generated from field: oryon.identity.v1.AuthFlow flow = 1;
    */
@@ -394,10 +349,10 @@ export type MfaRequired = Message<"oryon.identity.v1.MfaRequired"> & {
 };
 
 /**
- * Describes the message oryon.identity.v1.MfaRequired.
- * Use `create(MfaRequiredSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.LoginMfa.
+ * Use `create(LoginMfaSchema)` to create a new message.
  */
-export const MfaRequiredSchema: GenMessage<MfaRequired> = /*@__PURE__*/
+export const LoginMfaSchema: GenMessage<LoginMfa> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 12);
 
 /**
@@ -409,16 +364,16 @@ export type LoginResponse = Message<"oryon.identity.v1.LoginResponse"> & {
    */
   result: {
     /**
-     * @generated from field: oryon.identity.v1.LoginSuccess success = 1;
+     * @generated from field: oryon.identity.v1.LoginToken login_token = 1;
      */
-    value: LoginSuccess;
-    case: "success";
+    value: LoginToken;
+    case: "loginToken";
   } | {
     /**
-     * @generated from field: oryon.identity.v1.MfaRequired mfa = 2;
+     * @generated from field: oryon.identity.v1.LoginMfa login_mfa = 2;
      */
-    value: MfaRequired;
-    case: "mfa";
+    value: LoginMfa;
+    case: "loginMfa";
   } | { case: undefined; value?: undefined };
 };
 
@@ -464,9 +419,9 @@ export const RefreshTokenResponseSchema: GenMessage<RefreshTokenResponse> = /*@_
   messageDesc(file_oryon_identity_v1_authentication, 15);
 
 /**
- * @generated from message oryon.identity.v1.CompleteMfaRequest
+ * @generated from message oryon.identity.v1.CompleteLoginMfaRequest
  */
-export type CompleteMfaRequest = Message<"oryon.identity.v1.CompleteMfaRequest"> & {
+export type CompleteLoginMfaRequest = Message<"oryon.identity.v1.CompleteLoginMfaRequest"> & {
   /**
    * @generated from field: int64 flow_id = 1;
    */
@@ -484,135 +439,39 @@ export type CompleteMfaRequest = Message<"oryon.identity.v1.CompleteMfaRequest">
 };
 
 /**
- * Describes the message oryon.identity.v1.CompleteMfaRequest.
- * Use `create(CompleteMfaRequestSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.CompleteLoginMfaRequest.
+ * Use `create(CompleteLoginMfaRequestSchema)` to create a new message.
  */
-export const CompleteMfaRequestSchema: GenMessage<CompleteMfaRequest> = /*@__PURE__*/
+export const CompleteLoginMfaRequestSchema: GenMessage<CompleteLoginMfaRequest> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 16);
 
 /**
- * @generated from message oryon.identity.v1.CompleteMfaResponse
+ * @generated from message oryon.identity.v1.CompleteLoginMfaResponse
  */
-export type CompleteMfaResponse = Message<"oryon.identity.v1.CompleteMfaResponse"> & {
+export type CompleteLoginMfaResponse = Message<"oryon.identity.v1.CompleteLoginMfaResponse"> & {
   /**
-   * @generated from field: optional oryon.identity.v1.Token token = 1;
+   * @generated from field: oryon.identity.v1.Token token = 1;
    */
   token?: Token | undefined;
 
   /**
-   * @generated from field: optional oryon.identity.v1.User user = 2;
+   * @generated from field: oryon.identity.v1.User user = 2;
    */
   user?: User | undefined;
 };
 
 /**
- * Describes the message oryon.identity.v1.CompleteMfaResponse.
- * Use `create(CompleteMfaResponseSchema)` to create a new message.
+ * Describes the message oryon.identity.v1.CompleteLoginMfaResponse.
+ * Use `create(CompleteLoginMfaResponseSchema)` to create a new message.
  */
-export const CompleteMfaResponseSchema: GenMessage<CompleteMfaResponse> = /*@__PURE__*/
+export const CompleteLoginMfaResponseSchema: GenMessage<CompleteLoginMfaResponse> = /*@__PURE__*/
   messageDesc(file_oryon_identity_v1_authentication, 17);
-
-/**
- * @generated from message oryon.identity.v1.InitiateVerificationRequest
- */
-export type InitiateVerificationRequest = Message<"oryon.identity.v1.InitiateVerificationRequest"> & {
-  /**
-   * @generated from field: string identifier = 1;
-   */
-  identifier: string;
-
-  /**
-   * @generated from field: oryon.identity.v1.VerificationPurpose purpose = 2;
-   */
-  purpose: VerificationPurpose;
-
-  /**
-   * if present = server invalidates old challenge, extends flow.expires_at
-   *
-   * @generated from field: optional int64 flow_id = 3;
-   */
-  flowId?: bigint | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.InitiateVerificationRequest.
- * Use `create(InitiateVerificationRequestSchema)` to create a new message.
- */
-export const InitiateVerificationRequestSchema: GenMessage<InitiateVerificationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 18);
-
-/**
- * @generated from message oryon.identity.v1.InitiateVerificationResponse
- */
-export type InitiateVerificationResponse = Message<"oryon.identity.v1.InitiateVerificationResponse"> & {
-  /**
-   * @generated from field: oryon.identity.v1.VerificationChallenge challenge = 1;
-   */
-  challenge?: VerificationChallenge | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.InitiateVerificationResponse.
- * Use `create(InitiateVerificationResponseSchema)` to create a new message.
- */
-export const InitiateVerificationResponseSchema: GenMessage<InitiateVerificationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 19);
-
-/**
- * @generated from message oryon.identity.v1.ConfirmVerificationRequest
- */
-export type ConfirmVerificationRequest = Message<"oryon.identity.v1.ConfirmVerificationRequest"> & {
-  /**
-   * @generated from field: int64 verification_id = 1;
-   */
-  verificationId: bigint;
-
-  /**
-   * @generated from field: string code = 2;
-   */
-  code: string;
-};
-
-/**
- * Describes the message oryon.identity.v1.ConfirmVerificationRequest.
- * Use `create(ConfirmVerificationRequestSchema)` to create a new message.
- */
-export const ConfirmVerificationRequestSchema: GenMessage<ConfirmVerificationRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 20);
-
-/**
- * @generated from message oryon.identity.v1.ConfirmVerificationResponse
- */
-export type ConfirmVerificationResponse = Message<"oryon.identity.v1.ConfirmVerificationResponse"> & {
-  /**
-   * @generated from field: optional oryon.identity.v1.UserEmail user_email = 1;
-   */
-  userEmail?: UserEmail | undefined;
-
-  /**
-   * @generated from field: optional oryon.identity.v1.UserPhone user_phone = 2;
-   */
-  userPhone?: UserPhone | undefined;
-};
-
-/**
- * Describes the message oryon.identity.v1.ConfirmVerificationResponse.
- * Use `create(ConfirmVerificationResponseSchema)` to create a new message.
- */
-export const ConfirmVerificationResponseSchema: GenMessage<ConfirmVerificationResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 21);
 
 /**
  * @generated from message oryon.identity.v1.InitiatePasswordResetRequest
  */
 export type InitiatePasswordResetRequest = Message<"oryon.identity.v1.InitiatePasswordResetRequest"> & {
   /**
-   * Email, phone (+E.164), or username identifier.
-   * Server must return generic success even if identifier is unknown
-   * to avoid account enumeration. In that case no code is sent.
-   * Repeat calls invalidate prior unconsumed password_reset challenges
-   * for the same identifier (resend semantics).
-   *
    * @generated from field: string identifier = 1;
    */
   identifier: string;
@@ -623,17 +482,13 @@ export type InitiatePasswordResetRequest = Message<"oryon.identity.v1.InitiatePa
  * Use `create(InitiatePasswordResetRequestSchema)` to create a new message.
  */
 export const InitiatePasswordResetRequestSchema: GenMessage<InitiatePasswordResetRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 22);
+  messageDesc(file_oryon_identity_v1_authentication, 18);
 
 /**
  * @generated from message oryon.identity.v1.InitiatePasswordResetResponse
  */
 export type InitiatePasswordResetResponse = Message<"oryon.identity.v1.InitiatePasswordResetResponse"> & {
   /**
-   * Challenge metadata only (id, identifier, purpose=PASSWORD_RESET, expires_at).
-   * The OTP itself is sent out-of-band (email/SMS).
-   * Storage: auth_flows(flow_type=recovery) + verification_challenges(purpose=password_reset, flow_id set).
-   *
    * @generated from field: oryon.identity.v1.VerificationChallenge challenge = 1;
    */
   challenge?: VerificationChallenge | undefined;
@@ -644,7 +499,7 @@ export type InitiatePasswordResetResponse = Message<"oryon.identity.v1.InitiateP
  * Use `create(InitiatePasswordResetResponseSchema)` to create a new message.
  */
 export const InitiatePasswordResetResponseSchema: GenMessage<InitiatePasswordResetResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 23);
+  messageDesc(file_oryon_identity_v1_authentication, 19);
 
 /**
  * @generated from message oryon.identity.v1.ConfirmPasswordResetRequest
@@ -666,16 +521,13 @@ export type ConfirmPasswordResetRequest = Message<"oryon.identity.v1.ConfirmPass
  * Use `create(ConfirmPasswordResetRequestSchema)` to create a new message.
  */
 export const ConfirmPasswordResetRequestSchema: GenMessage<ConfirmPasswordResetRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 24);
+  messageDesc(file_oryon_identity_v1_authentication, 20);
 
 /**
  * @generated from message oryon.identity.v1.ConfirmPasswordResetResponse
  */
 export type ConfirmPasswordResetResponse = Message<"oryon.identity.v1.ConfirmPasswordResetResponse"> & {
   /**
-   * Opaque single-use short-lived token (e.g. stored in auth_flows.context
-   * or as signed JWT). Consumes the verification_challenge (consumed_at=NOW()).
-   *
    * @generated from field: string reset_token = 1;
    */
   resetToken: string;
@@ -691,7 +543,7 @@ export type ConfirmPasswordResetResponse = Message<"oryon.identity.v1.ConfirmPas
  * Use `create(ConfirmPasswordResetResponseSchema)` to create a new message.
  */
 export const ConfirmPasswordResetResponseSchema: GenMessage<ConfirmPasswordResetResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 25);
+  messageDesc(file_oryon_identity_v1_authentication, 21);
 
 /**
  * @generated from message oryon.identity.v1.CompletePasswordResetRequest
@@ -713,18 +565,13 @@ export type CompletePasswordResetRequest = Message<"oryon.identity.v1.CompletePa
  * Use `create(CompletePasswordResetRequestSchema)` to create a new message.
  */
 export const CompletePasswordResetRequestSchema: GenMessage<CompletePasswordResetRequest> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 26);
+  messageDesc(file_oryon_identity_v1_authentication, 22);
 
 /**
  * @generated from message oryon.identity.v1.CompletePasswordResetResponse
  */
 export type CompletePasswordResetResponse = Message<"oryon.identity.v1.CompletePasswordResetResponse"> & {
   /**
-   * Client must perform a fresh Login afterwards.
-   * Server must: update password_credentials(password, password_changed_at),
-   * complete the recovery auth_flow, revoke sessions/refresh_tokens,
-   * and emit security_events(password.changed).
-   *
    * @generated from field: oryon.identity.v1.User user = 1;
    */
   user?: User | undefined;
@@ -735,7 +582,7 @@ export type CompletePasswordResetResponse = Message<"oryon.identity.v1.CompleteP
  * Use `create(CompletePasswordResetResponseSchema)` to create a new message.
  */
 export const CompletePasswordResetResponseSchema: GenMessage<CompletePasswordResetResponse> = /*@__PURE__*/
-  messageDesc(file_oryon_identity_v1_authentication, 27);
+  messageDesc(file_oryon_identity_v1_authentication, 23);
 
 /**
  * @generated from service oryon.identity.v1.AuthenticationService
@@ -758,20 +605,20 @@ export const AuthenticationService: GenService<{
     output: typeof CompleteRegistrationResponseSchema;
   },
   /**
+   * @generated from rpc oryon.identity.v1.AuthenticationService.ResendRegistrationCode
+   */
+  resendRegistrationCode: {
+    methodKind: "unary";
+    input: typeof ResendRegistrationCodeRequestSchema;
+    output: typeof ResendRegistrationCodeResponseSchema;
+  },
+  /**
    * @generated from rpc oryon.identity.v1.AuthenticationService.Login
    */
   login: {
     methodKind: "unary";
     input: typeof LoginRequestSchema;
     output: typeof LoginResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.CompleteMfa
-   */
-  completeMfa: {
-    methodKind: "unary";
-    input: typeof CompleteMfaRequestSchema;
-    output: typeof CompleteMfaResponseSchema;
   },
   /**
    * @generated from rpc oryon.identity.v1.AuthenticationService.RefreshToken
@@ -782,20 +629,12 @@ export const AuthenticationService: GenService<{
     output: typeof RefreshTokenResponseSchema;
   },
   /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.InitiateVerification
+   * @generated from rpc oryon.identity.v1.AuthenticationService.CompleteLoginMfa
    */
-  initiateVerification: {
+  completeLoginMfa: {
     methodKind: "unary";
-    input: typeof InitiateVerificationRequestSchema;
-    output: typeof InitiateVerificationResponseSchema;
-  },
-  /**
-   * @generated from rpc oryon.identity.v1.AuthenticationService.ConfirmVerification
-   */
-  confirmVerification: {
-    methodKind: "unary";
-    input: typeof ConfirmVerificationRequestSchema;
-    output: typeof ConfirmVerificationResponseSchema;
+    input: typeof CompleteLoginMfaRequestSchema;
+    output: typeof CompleteLoginMfaResponseSchema;
   },
   /**
    * @generated from rpc oryon.identity.v1.AuthenticationService.InitiatePasswordReset

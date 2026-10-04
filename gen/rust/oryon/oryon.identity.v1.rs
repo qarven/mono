@@ -20,6 +20,18 @@ pub type OwnedCompleteRegistrationResponseView = ::buffa::view::OwnedView<
         'static,
     >,
 >;
+///Shorthand for `OwnedView<ResendRegistrationCodeRequestView<'static>>`.
+pub type OwnedResendRegistrationCodeRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<ResendRegistrationCodeResponseView<'static>>`.
+pub type OwnedResendRegistrationCodeResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeResponseView<
+        'static,
+    >,
+>;
 ///Shorthand for `OwnedView<LoginRequestView<'static>>`.
 pub type OwnedLoginRequestView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::LoginRequestView<'static>,
@@ -27,14 +39,6 @@ pub type OwnedLoginRequestView = ::buffa::view::OwnedView<
 ///Shorthand for `OwnedView<LoginResponseView<'static>>`.
 pub type OwnedLoginResponseView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'static>,
->;
-///Shorthand for `OwnedView<CompleteMfaRequestView<'static>>`.
-pub type OwnedCompleteMfaRequestView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaRequestView<'static>,
->;
-///Shorthand for `OwnedView<CompleteMfaResponseView<'static>>`.
-pub type OwnedCompleteMfaResponseView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<'static>,
 >;
 ///Shorthand for `OwnedView<RefreshTokenRequestView<'static>>`.
 pub type OwnedRefreshTokenRequestView = ::buffa::view::OwnedView<
@@ -44,27 +48,15 @@ pub type OwnedRefreshTokenRequestView = ::buffa::view::OwnedView<
 pub type OwnedRefreshTokenResponseView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::RefreshTokenResponseView<'static>,
 >;
-///Shorthand for `OwnedView<InitiateVerificationRequestView<'static>>`.
-pub type OwnedInitiateVerificationRequestView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationRequestView<
+///Shorthand for `OwnedView<CompleteLoginMfaRequestView<'static>>`.
+pub type OwnedCompleteLoginMfaRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaRequestView<
         'static,
     >,
 >;
-///Shorthand for `OwnedView<InitiateVerificationResponseView<'static>>`.
-pub type OwnedInitiateVerificationResponseView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationResponseView<
-        'static,
-    >,
->;
-///Shorthand for `OwnedView<ConfirmVerificationRequestView<'static>>`.
-pub type OwnedConfirmVerificationRequestView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationRequestView<
-        'static,
-    >,
->;
-///Shorthand for `OwnedView<ConfirmVerificationResponseView<'static>>`.
-pub type OwnedConfirmVerificationResponseView = ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationResponseView<
+///Shorthand for `OwnedView<CompleteLoginMfaResponseView<'static>>`.
+pub type OwnedCompleteLoginMfaResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaResponseView<
         'static,
     >,
 >;
@@ -180,8 +172,12 @@ for ::buffa::view::OwnedView<
         )
     }
 }
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LoginResponse>
-for crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'_> {
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::ResendRegistrationCodeResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeResponseView<
+    '_,
+> {
     fn encode(
         &self,
         codec: ::connectrpc::CodecFormat,
@@ -189,9 +185,13 @@ for crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'_> {
         ::connectrpc::__codegen::encode_view_body(self, codec)
     }
 }
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LoginResponse>
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::ResendRegistrationCodeResponse,
+>
 for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'static>,
+    crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeResponseView<
+        'static,
+    >,
 > {
     fn encode(
         &self,
@@ -214,8 +214,8 @@ for ::buffa::view::OwnedView<
         )
     }
 }
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::CompleteMfaResponse>
-for crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<'_> {
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LoginResponse>
+for crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'_> {
     fn encode(
         &self,
         codec: ::connectrpc::CodecFormat,
@@ -223,9 +223,9 @@ for crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<'_
         ::connectrpc::__codegen::encode_view_body(self, codec)
     }
 }
-impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::CompleteMfaResponse>
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::LoginResponse>
 for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<'static>,
+    crate::proto::oryon::identity::v1::__buffa::view::LoginResponseView<'static>,
 > {
     fn encode(
         &self,
@@ -282,12 +282,8 @@ for ::buffa::view::OwnedView<
         )
     }
 }
-impl ::connectrpc::Encodable<
-    crate::proto::oryon::identity::v1::InitiateVerificationResponse,
->
-for crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationResponseView<
-    '_,
-> {
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::CompleteLoginMfaResponse>
+for crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaResponseView<'_> {
     fn encode(
         &self,
         codec: ::connectrpc::CodecFormat,
@@ -295,53 +291,9 @@ for crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationRespon
         ::connectrpc::__codegen::encode_view_body(self, codec)
     }
 }
-impl ::connectrpc::Encodable<
-    crate::proto::oryon::identity::v1::InitiateVerificationResponse,
->
+impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::CompleteLoginMfaResponse>
 for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationResponseView<
-        'static,
-    >,
-> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
-    }
-    /// An `OwnedView` still holds the buffer it was decoded from, so
-    /// its large fields can be handed to the response body by
-    /// reference count instead of copied. The bare view impl above
-    /// cannot do this: it has borrows but no buffer to name.
-    fn encode_segments(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body_segments(
-            self.reborrow(),
-            self.bytes(),
-            codec,
-        )
-    }
-}
-impl ::connectrpc::Encodable<
-    crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
->
-for crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationResponseView<
-    '_,
-> {
-    fn encode(
-        &self,
-        codec: ::connectrpc::CodecFormat,
-    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
-        ::connectrpc::__codegen::encode_view_body(self, codec)
-    }
-}
-impl ::connectrpc::Encodable<
-    crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
->
-for ::buffa::view::OwnedView<
-    crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationResponseView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaResponseView<
         'static,
     >,
 > {
@@ -506,15 +458,15 @@ pub const AUTHENTICATION_SERVICE_COMPLETE_REGISTRATION_SPEC: ::connectrpc::Spec 
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `Login` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_LOGIN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/Login",
+/// Static [`Spec`](::connectrpc::Spec) for the `ResendRegistrationCode` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_RESEND_REGISTRATION_CODE_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/ResendRegistrationCode",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `CompleteMfa` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_COMPLETE_MFA_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/CompleteMfa",
+/// Static [`Spec`](::connectrpc::Spec) for the `Login` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_LOGIN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/Login",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -524,15 +476,9 @@ pub const AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC: ::connectrpc::Spec = ::conn
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `InitiateVerification` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_INITIATE_VERIFICATION_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/InitiateVerification",
-        ::connectrpc::StreamType::Unary,
-    )
-    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
-/// Static [`Spec`](::connectrpc::Spec) for the `ConfirmVerification` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
-pub const AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
-        "/oryon.identity.v1.AuthenticationService/ConfirmVerification",
+/// Static [`Spec`](::connectrpc::Spec) for the `CompleteLoginMfa` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -651,6 +597,29 @@ pub trait AuthenticationService: Send + Sync + 'static {
             > + Send + use<'a, Self>,
         >,
     > + Send;
+    /// Handle the ResendRegistrationCode RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn resend_registration_code<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::ResendRegistrationCodeResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
     /// Handle the Login RPC.
     ///
     /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
@@ -671,29 +640,6 @@ pub trait AuthenticationService: Send + Sync + 'static {
         Output = ::connectrpc::ServiceResult<
             impl ::connectrpc::Encodable<
                 crate::proto::oryon::identity::v1::LoginResponse,
-            > + Send + use<'a, Self>,
-        >,
-    > + Send;
-    /// Handle the CompleteMfa RPC.
-    ///
-    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
-    ///
-    /// `request` is borrowed from the request body and is valid for the
-    /// duration of the call; message fields are read directly on it
-    /// (zero-copy). The response cannot borrow from `request` — use
-    /// `.to_owned_message()` (or copy the specific fields) for anything
-    /// returned, stored, or moved into `tokio::spawn`.
-    fn complete_mfa<'a>(
-        &'a self,
-        ctx: ::connectrpc::RequestContext,
-        request: ::connectrpc::ServiceRequest<
-            '_,
-            crate::proto::oryon::identity::v1::CompleteMfaRequest,
-        >,
-    ) -> impl ::std::future::Future<
-        Output = ::connectrpc::ServiceResult<
-            impl ::connectrpc::Encodable<
-                crate::proto::oryon::identity::v1::CompleteMfaResponse,
             > + Send + use<'a, Self>,
         >,
     > + Send;
@@ -720,7 +666,7 @@ pub trait AuthenticationService: Send + Sync + 'static {
             > + Send + use<'a, Self>,
         >,
     > + Send;
-    /// Handle the InitiateVerification RPC.
+    /// Handle the CompleteLoginMfa RPC.
     ///
     /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
     ///
@@ -729,40 +675,17 @@ pub trait AuthenticationService: Send + Sync + 'static {
     /// (zero-copy). The response cannot borrow from `request` — use
     /// `.to_owned_message()` (or copy the specific fields) for anything
     /// returned, stored, or moved into `tokio::spawn`.
-    fn initiate_verification<'a>(
+    fn complete_login_mfa<'a>(
         &'a self,
         ctx: ::connectrpc::RequestContext,
         request: ::connectrpc::ServiceRequest<
             '_,
-            crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+            crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
         >,
     ) -> impl ::std::future::Future<
         Output = ::connectrpc::ServiceResult<
             impl ::connectrpc::Encodable<
-                crate::proto::oryon::identity::v1::InitiateVerificationResponse,
-            > + Send + use<'a, Self>,
-        >,
-    > + Send;
-    /// Handle the ConfirmVerification RPC.
-    ///
-    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
-    ///
-    /// `request` is borrowed from the request body and is valid for the
-    /// duration of the call; message fields are read directly on it
-    /// (zero-copy). The response cannot borrow from `request` — use
-    /// `.to_owned_message()` (or copy the specific fields) for anything
-    /// returned, stored, or moved into `tokio::spawn`.
-    fn confirm_verification<'a>(
-        &'a self,
-        ctx: ::connectrpc::RequestContext,
-        request: ::connectrpc::ServiceRequest<
-            '_,
-            crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-        >,
-    ) -> impl ::std::future::Future<
-        Output = ::connectrpc::ServiceResult<
-            impl ::connectrpc::Encodable<
-                crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
+                crate::proto::oryon::identity::v1::CompleteLoginMfaResponse,
             > + Send + use<'a, Self>,
         >,
     > + Send;
@@ -927,6 +850,35 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
             .with_spec(AUTHENTICATION_SERVICE_COMPLETE_REGISTRATION_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "ResendRegistrationCode",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.resend_registration_code(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::ResendRegistrationCodeResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_RESEND_REGISTRATION_CODE_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "Login",
                 {
                     let svc = ::std::sync::Arc::clone(&self);
@@ -954,35 +906,6 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
                 },
             )
             .with_spec(AUTHENTICATION_SERVICE_LOGIN_SPEC)
-            .route_view(
-                AUTHENTICATION_SERVICE_SERVICE_NAME,
-                "CompleteMfa",
-                {
-                    let svc = ::std::sync::Arc::clone(&self);
-                    ::connectrpc::view_handler_fn(move |
-                        ctx,
-                        req: ::buffa::view::OwnedView<
-                            crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaRequestView<
-                                'static,
-                            >,
-                        >,
-                        format|
-                    {
-                        let svc = ::std::sync::Arc::clone(&svc);
-                        async move {
-                            let sreq = ::connectrpc::ServiceRequest::<
-                                crate::proto::oryon::identity::v1::CompleteMfaRequest,
-                            >::from_parts(req.reborrow(), req.bytes());
-                            svc.complete_mfa(ctx, sreq)
-                                .await?
-                                .encode::<
-                                    crate::proto::oryon::identity::v1::CompleteMfaResponse,
-                                >(format)
-                        }
-                    })
-                },
-            )
-            .with_spec(AUTHENTICATION_SERVICE_COMPLETE_MFA_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "RefreshToken",
@@ -1014,13 +937,13 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
             .with_spec(AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
-                "InitiateVerification",
+                "CompleteLoginMfa",
                 {
                     let svc = ::std::sync::Arc::clone(&self);
                     ::connectrpc::view_handler_fn(move |
                         ctx,
                         req: ::buffa::view::OwnedView<
-                            crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationRequestView<
+                            crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaRequestView<
                                 'static,
                             >,
                         >,
@@ -1029,47 +952,18 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
                         let svc = ::std::sync::Arc::clone(&svc);
                         async move {
                             let sreq = ::connectrpc::ServiceRequest::<
-                                crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+                                crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
                             >::from_parts(req.reborrow(), req.bytes());
-                            svc.initiate_verification(ctx, sreq)
+                            svc.complete_login_mfa(ctx, sreq)
                                 .await?
                                 .encode::<
-                                    crate::proto::oryon::identity::v1::InitiateVerificationResponse,
+                                    crate::proto::oryon::identity::v1::CompleteLoginMfaResponse,
                                 >(format)
                         }
                     })
                 },
             )
-            .with_spec(AUTHENTICATION_SERVICE_INITIATE_VERIFICATION_SPEC)
-            .route_view(
-                AUTHENTICATION_SERVICE_SERVICE_NAME,
-                "ConfirmVerification",
-                {
-                    let svc = ::std::sync::Arc::clone(&self);
-                    ::connectrpc::view_handler_fn(move |
-                        ctx,
-                        req: ::buffa::view::OwnedView<
-                            crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationRequestView<
-                                'static,
-                            >,
-                        >,
-                        format|
-                    {
-                        let svc = ::std::sync::Arc::clone(&svc);
-                        async move {
-                            let sreq = ::connectrpc::ServiceRequest::<
-                                crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-                            >::from_parts(req.reborrow(), req.bytes());
-                            svc.confirm_verification(ctx, sreq)
-                                .await?
-                                .encode::<
-                                    crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
-                                >(format)
-                        }
-                    })
-                },
-            )
-            .with_spec(AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC)
+            .with_spec(AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "InitiatePasswordReset",
@@ -1226,16 +1120,16 @@ for AuthenticationServiceServer<T> {
                         .with_spec(AUTHENTICATION_SERVICE_COMPLETE_REGISTRATION_SPEC),
                 )
             }
+            "ResendRegistrationCode" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_RESEND_REGISTRATION_CODE_SPEC),
+                )
+            }
             "Login" => {
                 Some(
                     ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
                         .with_spec(AUTHENTICATION_SERVICE_LOGIN_SPEC),
-                )
-            }
-            "CompleteMfa" => {
-                Some(
-                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
-                        .with_spec(AUTHENTICATION_SERVICE_COMPLETE_MFA_SPEC),
                 )
             }
             "RefreshToken" => {
@@ -1244,16 +1138,10 @@ for AuthenticationServiceServer<T> {
                         .with_spec(AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC),
                 )
             }
-            "InitiateVerification" => {
+            "CompleteLoginMfa" => {
                 Some(
                     ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
-                        .with_spec(AUTHENTICATION_SERVICE_INITIATE_VERIFICATION_SPEC),
-                )
-            }
-            "ConfirmVerification" => {
-                Some(
-                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
-                        .with_spec(AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC),
+                        .with_spec(AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC),
                 )
             }
             "InitiatePasswordReset" => {
@@ -1334,6 +1222,28 @@ for AuthenticationServiceServer<T> {
                         >(format)
                 })
             }
+            "ResendRegistrationCode" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+                    >::from_parts(&req, &body);
+                    svc.resend_registration_code(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::ResendRegistrationCodeResponse,
+                        >(format)
+                })
+            }
             "Login" => {
                 let svc = ::std::sync::Arc::clone(&self.inner);
                 Box::pin(async move {
@@ -1353,28 +1263,6 @@ for AuthenticationServiceServer<T> {
                         .await?
                         .encode::<
                             crate::proto::oryon::identity::v1::LoginResponse,
-                        >(format)
-                })
-            }
-            "CompleteMfa" => {
-                let svc = ::std::sync::Arc::clone(&self.inner);
-                Box::pin(async move {
-                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
-                        crate::proto::oryon::identity::v1::CompleteMfaRequest,
-                    >(request.encoded()?, format)?;
-                    let req: crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaRequestView<
-                        '_,
-                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
-                        &body,
-                        ctx.decode_options(),
-                    )?;
-                    let req = ::connectrpc::ServiceRequest::<
-                        crate::proto::oryon::identity::v1::CompleteMfaRequest,
-                    >::from_parts(&req, &body);
-                    svc.complete_mfa(ctx, req)
-                        .await?
-                        .encode::<
-                            crate::proto::oryon::identity::v1::CompleteMfaResponse,
                         >(format)
                 })
             }
@@ -1400,47 +1288,25 @@ for AuthenticationServiceServer<T> {
                         >(format)
                 })
             }
-            "InitiateVerification" => {
+            "CompleteLoginMfa" => {
                 let svc = ::std::sync::Arc::clone(&self.inner);
                 Box::pin(async move {
                     let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
-                        crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+                        crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
                     >(request.encoded()?, format)?;
-                    let req: crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationRequestView<
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaRequestView<
                         '_,
                     > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
                         &body,
                         ctx.decode_options(),
                     )?;
                     let req = ::connectrpc::ServiceRequest::<
-                        crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+                        crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
                     >::from_parts(&req, &body);
-                    svc.initiate_verification(ctx, req)
+                    svc.complete_login_mfa(ctx, req)
                         .await?
                         .encode::<
-                            crate::proto::oryon::identity::v1::InitiateVerificationResponse,
-                        >(format)
-                })
-            }
-            "ConfirmVerification" => {
-                let svc = ::std::sync::Arc::clone(&self.inner);
-                Box::pin(async move {
-                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
-                        crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-                    >(request.encoded()?, format)?;
-                    let req: crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationRequestView<
-                        '_,
-                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
-                        &body,
-                        ctx.decode_options(),
-                    )?;
-                    let req = ::connectrpc::ServiceRequest::<
-                        crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-                    >::from_parts(&req, &body);
-                    svc.confirm_verification(ctx, req)
-                        .await?
-                        .encode::<
-                            crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
+                            crate::proto::oryon::identity::v1::CompleteLoginMfaResponse,
                         >(format)
                 })
             }
@@ -1731,6 +1597,51 @@ where
             )
             .await
     }
+    /// Call the ResendRegistrationCode RPC. Sends a request to /oryon.identity.v1.AuthenticationService/ResendRegistrationCode.
+    pub async fn resend_registration_code(
+        &self,
+        request: crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.resend_registration_code_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the ResendRegistrationCode RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn resend_registration_code_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::ResendRegistrationCodeRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::ResendRegistrationCodeResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_RESEND_REGISTRATION_CODE_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
     /// Call the Login RPC. Sends a request to /oryon.identity.v1.AuthenticationService/Login.
     pub async fn login(
         &self,
@@ -1767,51 +1678,6 @@ where
                 &self.transport,
                 &self.config,
                 AUTHENTICATION_SERVICE_LOGIN_SPEC
-                    .with_origin(::connectrpc::SpecOrigin::Client),
-                request,
-                options,
-            )
-            .await
-    }
-    /// Call the CompleteMfa RPC. Sends a request to /oryon.identity.v1.AuthenticationService/CompleteMfa.
-    pub async fn complete_mfa(
-        &self,
-        request: crate::proto::oryon::identity::v1::CompleteMfaRequest,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        self.complete_mfa_with_options(
-                request,
-                ::connectrpc::client::CallOptions::default(),
-            )
-            .await
-    }
-    /// Call the CompleteMfa RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
-    pub async fn complete_mfa_with_options(
-        &self,
-        request: crate::proto::oryon::identity::v1::CompleteMfaRequest,
-        options: ::connectrpc::client::CallOptions,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::CompleteMfaResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        ::connectrpc::client::call_unary(
-                &self.transport,
-                &self.config,
-                AUTHENTICATION_SERVICE_COMPLETE_MFA_SPEC
                     .with_origin(::connectrpc::SpecOrigin::Client),
                 request,
                 options,
@@ -1863,35 +1729,35 @@ where
             )
             .await
     }
-    /// Call the InitiateVerification RPC. Sends a request to /oryon.identity.v1.AuthenticationService/InitiateVerification.
-    pub async fn initiate_verification(
+    /// Call the CompleteLoginMfa RPC. Sends a request to /oryon.identity.v1.AuthenticationService/CompleteLoginMfa.
+    pub async fn complete_login_mfa(
         &self,
-        request: crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+        request: crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
     ) -> Result<
         ::connectrpc::client::UnaryResponse<
             ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationResponseView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaResponseView<
                     'static,
                 >,
             >,
         >,
         ::connectrpc::ConnectError,
     > {
-        self.initiate_verification_with_options(
+        self.complete_login_mfa_with_options(
                 request,
                 ::connectrpc::client::CallOptions::default(),
             )
             .await
     }
-    /// Call the InitiateVerification RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
-    pub async fn initiate_verification_with_options(
+    /// Call the CompleteLoginMfa RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn complete_login_mfa_with_options(
         &self,
-        request: crate::proto::oryon::identity::v1::InitiateVerificationRequest,
+        request: crate::proto::oryon::identity::v1::CompleteLoginMfaRequest,
         options: ::connectrpc::client::CallOptions,
     ) -> Result<
         ::connectrpc::client::UnaryResponse<
             ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::InitiateVerificationResponseView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompleteLoginMfaResponseView<
                     'static,
                 >,
             >,
@@ -1901,52 +1767,7 @@ where
         ::connectrpc::client::call_unary(
                 &self.transport,
                 &self.config,
-                AUTHENTICATION_SERVICE_INITIATE_VERIFICATION_SPEC
-                    .with_origin(::connectrpc::SpecOrigin::Client),
-                request,
-                options,
-            )
-            .await
-    }
-    /// Call the ConfirmVerification RPC. Sends a request to /oryon.identity.v1.AuthenticationService/ConfirmVerification.
-    pub async fn confirm_verification(
-        &self,
-        request: crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        self.confirm_verification_with_options(
-                request,
-                ::connectrpc::client::CallOptions::default(),
-            )
-            .await
-    }
-    /// Call the ConfirmVerification RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
-    pub async fn confirm_verification_with_options(
-        &self,
-        request: crate::proto::oryon::identity::v1::ConfirmVerificationRequest,
-        options: ::connectrpc::client::CallOptions,
-    ) -> Result<
-        ::connectrpc::client::UnaryResponse<
-            ::buffa::view::OwnedView<
-                crate::proto::oryon::identity::v1::__buffa::view::ConfirmVerificationResponseView<
-                    'static,
-                >,
-            >,
-        >,
-        ::connectrpc::ConnectError,
-    > {
-        ::connectrpc::client::call_unary(
-                &self.transport,
-                &self.config,
-                AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC
+                AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC
                     .with_origin(::connectrpc::SpecOrigin::Client),
                 request,
                 options,

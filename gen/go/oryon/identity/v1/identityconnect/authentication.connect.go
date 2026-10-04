@@ -39,21 +39,18 @@ const (
 	// AuthenticationServiceCompleteRegistrationProcedure is the fully-qualified name of the
 	// AuthenticationService's CompleteRegistration RPC.
 	AuthenticationServiceCompleteRegistrationProcedure = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
+	// AuthenticationServiceResendRegistrationCodeProcedure is the fully-qualified name of the
+	// AuthenticationService's ResendRegistrationCode RPC.
+	AuthenticationServiceResendRegistrationCodeProcedure = "/oryon.identity.v1.AuthenticationService/ResendRegistrationCode"
 	// AuthenticationServiceLoginProcedure is the fully-qualified name of the AuthenticationService's
 	// Login RPC.
 	AuthenticationServiceLoginProcedure = "/oryon.identity.v1.AuthenticationService/Login"
-	// AuthenticationServiceCompleteMfaProcedure is the fully-qualified name of the
-	// AuthenticationService's CompleteMfa RPC.
-	AuthenticationServiceCompleteMfaProcedure = "/oryon.identity.v1.AuthenticationService/CompleteMfa"
 	// AuthenticationServiceRefreshTokenProcedure is the fully-qualified name of the
 	// AuthenticationService's RefreshToken RPC.
 	AuthenticationServiceRefreshTokenProcedure = "/oryon.identity.v1.AuthenticationService/RefreshToken"
-	// AuthenticationServiceInitiateVerificationProcedure is the fully-qualified name of the
-	// AuthenticationService's InitiateVerification RPC.
-	AuthenticationServiceInitiateVerificationProcedure = "/oryon.identity.v1.AuthenticationService/InitiateVerification"
-	// AuthenticationServiceConfirmVerificationProcedure is the fully-qualified name of the
-	// AuthenticationService's ConfirmVerification RPC.
-	AuthenticationServiceConfirmVerificationProcedure = "/oryon.identity.v1.AuthenticationService/ConfirmVerification"
+	// AuthenticationServiceCompleteLoginMfaProcedure is the fully-qualified name of the
+	// AuthenticationService's CompleteLoginMfa RPC.
+	AuthenticationServiceCompleteLoginMfaProcedure = "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa"
 	// AuthenticationServiceInitiatePasswordResetProcedure is the fully-qualified name of the
 	// AuthenticationService's InitiatePasswordReset RPC.
 	AuthenticationServiceInitiatePasswordResetProcedure = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
@@ -69,11 +66,10 @@ const (
 type AuthenticationServiceClient interface {
 	Registration(context.Context, *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error)
 	CompleteRegistration(context.Context, *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error)
+	ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error)
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
-	CompleteMfa(context.Context, *connect.Request[v1.CompleteMfaRequest]) (*connect.Response[v1.CompleteMfaResponse], error)
 	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
-	InitiateVerification(context.Context, *connect.Request[v1.InitiateVerificationRequest]) (*connect.Response[v1.InitiateVerificationResponse], error)
-	ConfirmVerification(context.Context, *connect.Request[v1.ConfirmVerificationRequest]) (*connect.Response[v1.ConfirmVerificationResponse], error)
+	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
 	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
 	ConfirmPasswordReset(context.Context, *connect.Request[v1.ConfirmPasswordResetRequest]) (*connect.Response[v1.ConfirmPasswordResetResponse], error)
 	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
@@ -102,16 +98,16 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			connect.WithSchema(authenticationServiceMethods.ByName("CompleteRegistration")),
 			connect.WithClientOptions(opts...),
 		),
+		resendRegistrationCode: connect.NewClient[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse](
+			httpClient,
+			baseURL+AuthenticationServiceResendRegistrationCodeProcedure,
+			connect.WithSchema(authenticationServiceMethods.ByName("ResendRegistrationCode")),
+			connect.WithClientOptions(opts...),
+		),
 		login: connect.NewClient[v1.LoginRequest, v1.LoginResponse](
 			httpClient,
 			baseURL+AuthenticationServiceLoginProcedure,
 			connect.WithSchema(authenticationServiceMethods.ByName("Login")),
-			connect.WithClientOptions(opts...),
-		),
-		completeMfa: connect.NewClient[v1.CompleteMfaRequest, v1.CompleteMfaResponse](
-			httpClient,
-			baseURL+AuthenticationServiceCompleteMfaProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("CompleteMfa")),
 			connect.WithClientOptions(opts...),
 		),
 		refreshToken: connect.NewClient[v1.RefreshTokenRequest, v1.RefreshTokenResponse](
@@ -120,16 +116,10 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
 			connect.WithClientOptions(opts...),
 		),
-		initiateVerification: connect.NewClient[v1.InitiateVerificationRequest, v1.InitiateVerificationResponse](
+		completeLoginMfa: connect.NewClient[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse](
 			httpClient,
-			baseURL+AuthenticationServiceInitiateVerificationProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("InitiateVerification")),
-			connect.WithClientOptions(opts...),
-		),
-		confirmVerification: connect.NewClient[v1.ConfirmVerificationRequest, v1.ConfirmVerificationResponse](
-			httpClient,
-			baseURL+AuthenticationServiceConfirmVerificationProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("ConfirmVerification")),
+			baseURL+AuthenticationServiceCompleteLoginMfaProcedure,
+			connect.WithSchema(authenticationServiceMethods.ByName("CompleteLoginMfa")),
 			connect.WithClientOptions(opts...),
 		),
 		initiatePasswordReset: connect.NewClient[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse](
@@ -155,16 +145,15 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 
 // authenticationServiceClient implements AuthenticationServiceClient.
 type authenticationServiceClient struct {
-	registration          *connect.Client[v1.RegistrationRequest, v1.RegistrationResponse]
-	completeRegistration  *connect.Client[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse]
-	login                 *connect.Client[v1.LoginRequest, v1.LoginResponse]
-	completeMfa           *connect.Client[v1.CompleteMfaRequest, v1.CompleteMfaResponse]
-	refreshToken          *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
-	initiateVerification  *connect.Client[v1.InitiateVerificationRequest, v1.InitiateVerificationResponse]
-	confirmVerification   *connect.Client[v1.ConfirmVerificationRequest, v1.ConfirmVerificationResponse]
-	initiatePasswordReset *connect.Client[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse]
-	confirmPasswordReset  *connect.Client[v1.ConfirmPasswordResetRequest, v1.ConfirmPasswordResetResponse]
-	completePasswordReset *connect.Client[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse]
+	registration           *connect.Client[v1.RegistrationRequest, v1.RegistrationResponse]
+	completeRegistration   *connect.Client[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse]
+	resendRegistrationCode *connect.Client[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse]
+	login                  *connect.Client[v1.LoginRequest, v1.LoginResponse]
+	refreshToken           *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
+	completeLoginMfa       *connect.Client[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse]
+	initiatePasswordReset  *connect.Client[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse]
+	confirmPasswordReset   *connect.Client[v1.ConfirmPasswordResetRequest, v1.ConfirmPasswordResetResponse]
+	completePasswordReset  *connect.Client[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse]
 }
 
 // Registration calls oryon.identity.v1.AuthenticationService.Registration.
@@ -177,14 +166,14 @@ func (c *authenticationServiceClient) CompleteRegistration(ctx context.Context, 
 	return c.completeRegistration.CallUnary(ctx, req)
 }
 
+// ResendRegistrationCode calls oryon.identity.v1.AuthenticationService.ResendRegistrationCode.
+func (c *authenticationServiceClient) ResendRegistrationCode(ctx context.Context, req *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error) {
+	return c.resendRegistrationCode.CallUnary(ctx, req)
+}
+
 // Login calls oryon.identity.v1.AuthenticationService.Login.
 func (c *authenticationServiceClient) Login(ctx context.Context, req *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
 	return c.login.CallUnary(ctx, req)
-}
-
-// CompleteMfa calls oryon.identity.v1.AuthenticationService.CompleteMfa.
-func (c *authenticationServiceClient) CompleteMfa(ctx context.Context, req *connect.Request[v1.CompleteMfaRequest]) (*connect.Response[v1.CompleteMfaResponse], error) {
-	return c.completeMfa.CallUnary(ctx, req)
 }
 
 // RefreshToken calls oryon.identity.v1.AuthenticationService.RefreshToken.
@@ -192,14 +181,9 @@ func (c *authenticationServiceClient) RefreshToken(ctx context.Context, req *con
 	return c.refreshToken.CallUnary(ctx, req)
 }
 
-// InitiateVerification calls oryon.identity.v1.AuthenticationService.InitiateVerification.
-func (c *authenticationServiceClient) InitiateVerification(ctx context.Context, req *connect.Request[v1.InitiateVerificationRequest]) (*connect.Response[v1.InitiateVerificationResponse], error) {
-	return c.initiateVerification.CallUnary(ctx, req)
-}
-
-// ConfirmVerification calls oryon.identity.v1.AuthenticationService.ConfirmVerification.
-func (c *authenticationServiceClient) ConfirmVerification(ctx context.Context, req *connect.Request[v1.ConfirmVerificationRequest]) (*connect.Response[v1.ConfirmVerificationResponse], error) {
-	return c.confirmVerification.CallUnary(ctx, req)
+// CompleteLoginMfa calls oryon.identity.v1.AuthenticationService.CompleteLoginMfa.
+func (c *authenticationServiceClient) CompleteLoginMfa(ctx context.Context, req *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error) {
+	return c.completeLoginMfa.CallUnary(ctx, req)
 }
 
 // InitiatePasswordReset calls oryon.identity.v1.AuthenticationService.InitiatePasswordReset.
@@ -222,11 +206,10 @@ func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context,
 type AuthenticationServiceHandler interface {
 	Registration(context.Context, *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error)
 	CompleteRegistration(context.Context, *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error)
+	ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error)
 	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
-	CompleteMfa(context.Context, *connect.Request[v1.CompleteMfaRequest]) (*connect.Response[v1.CompleteMfaResponse], error)
 	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
-	InitiateVerification(context.Context, *connect.Request[v1.InitiateVerificationRequest]) (*connect.Response[v1.InitiateVerificationResponse], error)
-	ConfirmVerification(context.Context, *connect.Request[v1.ConfirmVerificationRequest]) (*connect.Response[v1.ConfirmVerificationResponse], error)
+	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
 	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
 	ConfirmPasswordReset(context.Context, *connect.Request[v1.ConfirmPasswordResetRequest]) (*connect.Response[v1.ConfirmPasswordResetResponse], error)
 	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
@@ -251,16 +234,16 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		connect.WithSchema(authenticationServiceMethods.ByName("CompleteRegistration")),
 		connect.WithHandlerOptions(opts...),
 	)
+	authenticationServiceResendRegistrationCodeHandler := connect.NewUnaryHandler(
+		AuthenticationServiceResendRegistrationCodeProcedure,
+		svc.ResendRegistrationCode,
+		connect.WithSchema(authenticationServiceMethods.ByName("ResendRegistrationCode")),
+		connect.WithHandlerOptions(opts...),
+	)
 	authenticationServiceLoginHandler := connect.NewUnaryHandler(
 		AuthenticationServiceLoginProcedure,
 		svc.Login,
 		connect.WithSchema(authenticationServiceMethods.ByName("Login")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceCompleteMfaHandler := connect.NewUnaryHandler(
-		AuthenticationServiceCompleteMfaProcedure,
-		svc.CompleteMfa,
-		connect.WithSchema(authenticationServiceMethods.ByName("CompleteMfa")),
 		connect.WithHandlerOptions(opts...),
 	)
 	authenticationServiceRefreshTokenHandler := connect.NewUnaryHandler(
@@ -269,16 +252,10 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
 		connect.WithHandlerOptions(opts...),
 	)
-	authenticationServiceInitiateVerificationHandler := connect.NewUnaryHandler(
-		AuthenticationServiceInitiateVerificationProcedure,
-		svc.InitiateVerification,
-		connect.WithSchema(authenticationServiceMethods.ByName("InitiateVerification")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceConfirmVerificationHandler := connect.NewUnaryHandler(
-		AuthenticationServiceConfirmVerificationProcedure,
-		svc.ConfirmVerification,
-		connect.WithSchema(authenticationServiceMethods.ByName("ConfirmVerification")),
+	authenticationServiceCompleteLoginMfaHandler := connect.NewUnaryHandler(
+		AuthenticationServiceCompleteLoginMfaProcedure,
+		svc.CompleteLoginMfa,
+		connect.WithSchema(authenticationServiceMethods.ByName("CompleteLoginMfa")),
 		connect.WithHandlerOptions(opts...),
 	)
 	authenticationServiceInitiatePasswordResetHandler := connect.NewUnaryHandler(
@@ -305,16 +282,14 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 			authenticationServiceRegistrationHandler.ServeHTTP(w, r)
 		case AuthenticationServiceCompleteRegistrationProcedure:
 			authenticationServiceCompleteRegistrationHandler.ServeHTTP(w, r)
+		case AuthenticationServiceResendRegistrationCodeProcedure:
+			authenticationServiceResendRegistrationCodeHandler.ServeHTTP(w, r)
 		case AuthenticationServiceLoginProcedure:
 			authenticationServiceLoginHandler.ServeHTTP(w, r)
-		case AuthenticationServiceCompleteMfaProcedure:
-			authenticationServiceCompleteMfaHandler.ServeHTTP(w, r)
 		case AuthenticationServiceRefreshTokenProcedure:
 			authenticationServiceRefreshTokenHandler.ServeHTTP(w, r)
-		case AuthenticationServiceInitiateVerificationProcedure:
-			authenticationServiceInitiateVerificationHandler.ServeHTTP(w, r)
-		case AuthenticationServiceConfirmVerificationProcedure:
-			authenticationServiceConfirmVerificationHandler.ServeHTTP(w, r)
+		case AuthenticationServiceCompleteLoginMfaProcedure:
+			authenticationServiceCompleteLoginMfaHandler.ServeHTTP(w, r)
 		case AuthenticationServiceInitiatePasswordResetProcedure:
 			authenticationServiceInitiatePasswordResetHandler.ServeHTTP(w, r)
 		case AuthenticationServiceConfirmPasswordResetProcedure:
@@ -338,24 +313,20 @@ func (UnimplementedAuthenticationServiceHandler) CompleteRegistration(context.Co
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompleteRegistration is not implemented"))
 }
 
-func (UnimplementedAuthenticationServiceHandler) Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Login is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.ResendRegistrationCode is not implemented"))
 }
 
-func (UnimplementedAuthenticationServiceHandler) CompleteMfa(context.Context, *connect.Request[v1.CompleteMfaRequest]) (*connect.Response[v1.CompleteMfaResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompleteMfa is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Login is not implemented"))
 }
 
 func (UnimplementedAuthenticationServiceHandler) RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.RefreshToken is not implemented"))
 }
 
-func (UnimplementedAuthenticationServiceHandler) InitiateVerification(context.Context, *connect.Request[v1.InitiateVerificationRequest]) (*connect.Response[v1.InitiateVerificationResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.InitiateVerification is not implemented"))
-}
-
-func (UnimplementedAuthenticationServiceHandler) ConfirmVerification(context.Context, *connect.Request[v1.ConfirmVerificationRequest]) (*connect.Response[v1.ConfirmVerificationResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.ConfirmVerification is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompleteLoginMfa is not implemented"))
 }
 
 func (UnimplementedAuthenticationServiceHandler) InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error) {
