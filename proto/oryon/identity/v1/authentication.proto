@@ -20,8 +20,8 @@ service AuthenticationService {
   rpc CompleteLoginMfa(CompleteLoginMfaRequest) returns (CompleteLoginMfaResponse);
 
   rpc InitiatePasswordReset(InitiatePasswordResetRequest) returns (InitiatePasswordResetResponse);
-  rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
   rpc CompletePasswordReset(CompletePasswordResetRequest) returns (CompletePasswordResetResponse);
+  rpc ResendPasswordResetCode(ResendPasswordResetCodeRequest) returns (ResendPasswordResetCodeResponse);
 }
 
 // ======
@@ -163,19 +163,10 @@ message InitiatePasswordResetResponse {
   VerificationChallenge challenge = 1;
 }
 
-message ConfirmPasswordResetRequest {
+message CompletePasswordResetRequest {
   int64 verification_id = 1 [(buf.validate.field).required = true];
   string code = 2 [(buf.validate.field).required = true];
-}
-
-message ConfirmPasswordResetResponse {
-  string reset_token = 1;
-  google.protobuf.Timestamp expires_at = 2;
-}
-
-message CompletePasswordResetRequest {
-  string reset_token = 1 [(buf.validate.field).required = true];
-  string new_password = 2 [
+  string new_password = 3 [
     (buf.validate.field).string.min_len = 8,
     (buf.validate.field).string.max_len = 128
   ];
@@ -183,4 +174,12 @@ message CompletePasswordResetRequest {
 
 message CompletePasswordResetResponse {
   User user = 1;
+}
+
+message ResendPasswordResetCodeRequest {
+  int64 verification_id = 1 [(buf.validate.field).required = true];
+}
+
+message ResendPasswordResetCodeResponse {
+  VerificationChallenge challenge = 1;
 }

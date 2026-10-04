@@ -1150,121 +1150,18 @@ func (x *InitiatePasswordResetResponse) GetChallenge() *VerificationChallenge {
 	return nil
 }
 
-type ConfirmPasswordResetRequest struct {
+type CompletePasswordResetRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	VerificationId int64                  `protobuf:"varint,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
 	Code           string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	NewPassword    string                 `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
-func (x *ConfirmPasswordResetRequest) Reset() {
-	*x = ConfirmPasswordResetRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConfirmPasswordResetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConfirmPasswordResetRequest) ProtoMessage() {}
-
-func (x *ConfirmPasswordResetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConfirmPasswordResetRequest.ProtoReflect.Descriptor instead.
-func (*ConfirmPasswordResetRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *ConfirmPasswordResetRequest) GetVerificationId() int64 {
-	if x != nil {
-		return x.VerificationId
-	}
-	return 0
-}
-
-func (x *ConfirmPasswordResetRequest) GetCode() string {
-	if x != nil {
-		return x.Code
-	}
-	return ""
-}
-
-type ConfirmPasswordResetResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ResetToken    string                 `protobuf:"bytes,1,opt,name=reset_token,json=resetToken,proto3" json:"reset_token,omitempty"`
-	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ConfirmPasswordResetResponse) Reset() {
-	*x = ConfirmPasswordResetResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ConfirmPasswordResetResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ConfirmPasswordResetResponse) ProtoMessage() {}
-
-func (x *ConfirmPasswordResetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ConfirmPasswordResetResponse.ProtoReflect.Descriptor instead.
-func (*ConfirmPasswordResetResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *ConfirmPasswordResetResponse) GetResetToken() string {
-	if x != nil {
-		return x.ResetToken
-	}
-	return ""
-}
-
-func (x *ConfirmPasswordResetResponse) GetExpiresAt() *timestamppb.Timestamp {
-	if x != nil {
-		return x.ExpiresAt
-	}
-	return nil
-}
-
-type CompletePasswordResetRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	ResetToken    string                 `protobuf:"bytes,1,opt,name=reset_token,json=resetToken,proto3" json:"reset_token,omitempty"`
-	NewPassword   string                 `protobuf:"bytes,2,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
 func (x *CompletePasswordResetRequest) Reset() {
 	*x = CompletePasswordResetRequest{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1276,7 +1173,7 @@ func (x *CompletePasswordResetRequest) String() string {
 func (*CompletePasswordResetRequest) ProtoMessage() {}
 
 func (x *CompletePasswordResetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1289,12 +1186,19 @@ func (x *CompletePasswordResetRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompletePasswordResetRequest.ProtoReflect.Descriptor instead.
 func (*CompletePasswordResetRequest) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{22}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *CompletePasswordResetRequest) GetResetToken() string {
+func (x *CompletePasswordResetRequest) GetVerificationId() int64 {
 	if x != nil {
-		return x.ResetToken
+		return x.VerificationId
+	}
+	return 0
+}
+
+func (x *CompletePasswordResetRequest) GetCode() string {
+	if x != nil {
+		return x.Code
 	}
 	return ""
 }
@@ -1315,7 +1219,7 @@ type CompletePasswordResetResponse struct {
 
 func (x *CompletePasswordResetResponse) Reset() {
 	*x = CompletePasswordResetResponse{}
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1327,7 +1231,7 @@ func (x *CompletePasswordResetResponse) String() string {
 func (*CompletePasswordResetResponse) ProtoMessage() {}
 
 func (x *CompletePasswordResetResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1340,12 +1244,100 @@ func (x *CompletePasswordResetResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompletePasswordResetResponse.ProtoReflect.Descriptor instead.
 func (*CompletePasswordResetResponse) Descriptor() ([]byte, []int) {
-	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{23}
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *CompletePasswordResetResponse) GetUser() *User {
 	if x != nil {
 		return x.User
+	}
+	return nil
+}
+
+type ResendPasswordResetCodeRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	VerificationId int64                  `protobuf:"varint,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ResendPasswordResetCodeRequest) Reset() {
+	*x = ResendPasswordResetCodeRequest{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResendPasswordResetCodeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResendPasswordResetCodeRequest) ProtoMessage() {}
+
+func (x *ResendPasswordResetCodeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[22]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResendPasswordResetCodeRequest.ProtoReflect.Descriptor instead.
+func (*ResendPasswordResetCodeRequest) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{22}
+}
+
+func (x *ResendPasswordResetCodeRequest) GetVerificationId() int64 {
+	if x != nil {
+		return x.VerificationId
+	}
+	return 0
+}
+
+type ResendPasswordResetCodeResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Challenge     *VerificationChallenge `protobuf:"bytes,1,opt,name=challenge,proto3" json:"challenge,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ResendPasswordResetCodeResponse) Reset() {
+	*x = ResendPasswordResetCodeResponse{}
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ResendPasswordResetCodeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResendPasswordResetCodeResponse) ProtoMessage() {}
+
+func (x *ResendPasswordResetCodeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_oryon_identity_v1_authentication_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResendPasswordResetCodeResponse.ProtoReflect.Descriptor instead.
+func (*ResendPasswordResetCodeResponse) Descriptor() ([]byte, []int) {
+	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *ResendPasswordResetCodeResponse) GetChallenge() *VerificationChallenge {
+	if x != nil {
+		return x.Challenge
 	}
 	return nil
 }
@@ -1450,22 +1442,18 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"identifier\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x03R\n" +
 	"identifier\"g\n" +
 	"\x1dInitiatePasswordResetResponse\x12F\n" +
-	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge\"j\n" +
-	"\x1bConfirmPasswordResetRequest\x12/\n" +
+	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge\"\x9a\x01\n" +
+	"\x1cCompletePasswordResetRequest\x12/\n" +
 	"\x0fverification_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x0everificationId\x12\x1a\n" +
-	"\x04code\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04code\"z\n" +
-	"\x1cConfirmPasswordResetResponse\x12\x1f\n" +
-	"\vreset_token\x18\x01 \x01(\tR\n" +
-	"resetToken\x129\n" +
-	"\n" +
-	"expires_at\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"v\n" +
-	"\x1cCompletePasswordResetRequest\x12'\n" +
-	"\vreset_token\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\n" +
-	"resetToken\x12-\n" +
-	"\fnew_password\x18\x02 \x01(\tB\n" +
+	"\x04code\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04code\x12-\n" +
+	"\fnew_password\x18\x03 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\b\x18\x80\x01R\vnewPassword\"L\n" +
 	"\x1dCompletePasswordResetResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user2\xfb\a\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"Q\n" +
+	"\x1eResendPasswordResetCodeRequest\x12/\n" +
+	"\x0fverification_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x0everificationId\"i\n" +
+	"\x1fResendPasswordResetCodeResponse\x12F\n" +
+	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge2\x85\b\n" +
 	"\x15AuthenticationService\x12_\n" +
 	"\fRegistration\x12&.oryon.identity.v1.RegistrationRequest\x1a'.oryon.identity.v1.RegistrationResponse\x12w\n" +
 	"\x14CompleteRegistration\x12..oryon.identity.v1.CompleteRegistrationRequest\x1a/.oryon.identity.v1.CompleteRegistrationResponse\x12}\n" +
@@ -1473,9 +1461,9 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\x05Login\x12\x1f.oryon.identity.v1.LoginRequest\x1a .oryon.identity.v1.LoginResponse\x12_\n" +
 	"\fRefreshToken\x12&.oryon.identity.v1.RefreshTokenRequest\x1a'.oryon.identity.v1.RefreshTokenResponse\x12k\n" +
 	"\x10CompleteLoginMfa\x12*.oryon.identity.v1.CompleteLoginMfaRequest\x1a+.oryon.identity.v1.CompleteLoginMfaResponse\x12z\n" +
-	"\x15InitiatePasswordReset\x12/.oryon.identity.v1.InitiatePasswordResetRequest\x1a0.oryon.identity.v1.InitiatePasswordResetResponse\x12w\n" +
-	"\x14ConfirmPasswordReset\x12..oryon.identity.v1.ConfirmPasswordResetRequest\x1a/.oryon.identity.v1.ConfirmPasswordResetResponse\x12z\n" +
-	"\x15CompletePasswordReset\x12/.oryon.identity.v1.CompletePasswordResetRequest\x1a0.oryon.identity.v1.CompletePasswordResetResponseB\xcc\x01\n" +
+	"\x15InitiatePasswordReset\x12/.oryon.identity.v1.InitiatePasswordResetRequest\x1a0.oryon.identity.v1.InitiatePasswordResetResponse\x12z\n" +
+	"\x15CompletePasswordReset\x12/.oryon.identity.v1.CompletePasswordResetRequest\x1a0.oryon.identity.v1.CompletePasswordResetResponse\x12\x80\x01\n" +
+	"\x17ResendPasswordResetCode\x121.oryon.identity.v1.ResendPasswordResetCodeRequest\x1a2.oryon.identity.v1.ResendPasswordResetCodeResponseB\xcc\x01\n" +
 	"\x15com.oryon.identity.v1B\x13AuthenticationProtoP\x01Z8github.com/qarven/mono/gen/go/oryon/identity/v1;identity\xa2\x02\x03OIX\xaa\x02\x11Oryon.Identity.V1\xca\x02\x11Oryon\\Identity\\V1\xe2\x02\x1dOryon\\Identity\\V1\\GPBMetadata\xea\x02\x13Oryon::Identity::V1b\x06proto3"
 
 var (
@@ -1492,36 +1480,36 @@ func file_oryon_identity_v1_authentication_proto_rawDescGZIP() []byte {
 
 var file_oryon_identity_v1_authentication_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_oryon_identity_v1_authentication_proto_goTypes = []any{
-	(*Token)(nil),                          // 0: oryon.identity.v1.Token
-	(*AuthFlow)(nil),                       // 1: oryon.identity.v1.AuthFlow
-	(*VerificationChallenge)(nil),          // 2: oryon.identity.v1.VerificationChallenge
-	(*User)(nil),                           // 3: oryon.identity.v1.User
-	(*RegistrationRequest)(nil),            // 4: oryon.identity.v1.RegistrationRequest
-	(*RegistrationResponse)(nil),           // 5: oryon.identity.v1.RegistrationResponse
-	(*CompleteRegistrationRequest)(nil),    // 6: oryon.identity.v1.CompleteRegistrationRequest
-	(*CompleteRegistrationResponse)(nil),   // 7: oryon.identity.v1.CompleteRegistrationResponse
-	(*ResendRegistrationCodeRequest)(nil),  // 8: oryon.identity.v1.ResendRegistrationCodeRequest
-	(*ResendRegistrationCodeResponse)(nil), // 9: oryon.identity.v1.ResendRegistrationCodeResponse
-	(*LoginRequest)(nil),                   // 10: oryon.identity.v1.LoginRequest
-	(*LoginToken)(nil),                     // 11: oryon.identity.v1.LoginToken
-	(*LoginMfa)(nil),                       // 12: oryon.identity.v1.LoginMfa
-	(*LoginResponse)(nil),                  // 13: oryon.identity.v1.LoginResponse
-	(*RefreshTokenRequest)(nil),            // 14: oryon.identity.v1.RefreshTokenRequest
-	(*RefreshTokenResponse)(nil),           // 15: oryon.identity.v1.RefreshTokenResponse
-	(*CompleteLoginMfaRequest)(nil),        // 16: oryon.identity.v1.CompleteLoginMfaRequest
-	(*CompleteLoginMfaResponse)(nil),       // 17: oryon.identity.v1.CompleteLoginMfaResponse
-	(*InitiatePasswordResetRequest)(nil),   // 18: oryon.identity.v1.InitiatePasswordResetRequest
-	(*InitiatePasswordResetResponse)(nil),  // 19: oryon.identity.v1.InitiatePasswordResetResponse
-	(*ConfirmPasswordResetRequest)(nil),    // 20: oryon.identity.v1.ConfirmPasswordResetRequest
-	(*ConfirmPasswordResetResponse)(nil),   // 21: oryon.identity.v1.ConfirmPasswordResetResponse
-	(*CompletePasswordResetRequest)(nil),   // 22: oryon.identity.v1.CompletePasswordResetRequest
-	(*CompletePasswordResetResponse)(nil),  // 23: oryon.identity.v1.CompletePasswordResetResponse
-	(AuthFlowType)(0),                      // 24: oryon.identity.v1.AuthFlowType
-	(AuthFlowState)(0),                     // 25: oryon.identity.v1.AuthFlowState
-	(*timestamppb.Timestamp)(nil),          // 26: google.protobuf.Timestamp
-	(VerificationPurpose)(0),               // 27: oryon.identity.v1.VerificationPurpose
-	(UserStatus)(0),                        // 28: oryon.identity.v1.UserStatus
-	(MfaFactorType)(0),                     // 29: oryon.identity.v1.MfaFactorType
+	(*Token)(nil),                           // 0: oryon.identity.v1.Token
+	(*AuthFlow)(nil),                        // 1: oryon.identity.v1.AuthFlow
+	(*VerificationChallenge)(nil),           // 2: oryon.identity.v1.VerificationChallenge
+	(*User)(nil),                            // 3: oryon.identity.v1.User
+	(*RegistrationRequest)(nil),             // 4: oryon.identity.v1.RegistrationRequest
+	(*RegistrationResponse)(nil),            // 5: oryon.identity.v1.RegistrationResponse
+	(*CompleteRegistrationRequest)(nil),     // 6: oryon.identity.v1.CompleteRegistrationRequest
+	(*CompleteRegistrationResponse)(nil),    // 7: oryon.identity.v1.CompleteRegistrationResponse
+	(*ResendRegistrationCodeRequest)(nil),   // 8: oryon.identity.v1.ResendRegistrationCodeRequest
+	(*ResendRegistrationCodeResponse)(nil),  // 9: oryon.identity.v1.ResendRegistrationCodeResponse
+	(*LoginRequest)(nil),                    // 10: oryon.identity.v1.LoginRequest
+	(*LoginToken)(nil),                      // 11: oryon.identity.v1.LoginToken
+	(*LoginMfa)(nil),                        // 12: oryon.identity.v1.LoginMfa
+	(*LoginResponse)(nil),                   // 13: oryon.identity.v1.LoginResponse
+	(*RefreshTokenRequest)(nil),             // 14: oryon.identity.v1.RefreshTokenRequest
+	(*RefreshTokenResponse)(nil),            // 15: oryon.identity.v1.RefreshTokenResponse
+	(*CompleteLoginMfaRequest)(nil),         // 16: oryon.identity.v1.CompleteLoginMfaRequest
+	(*CompleteLoginMfaResponse)(nil),        // 17: oryon.identity.v1.CompleteLoginMfaResponse
+	(*InitiatePasswordResetRequest)(nil),    // 18: oryon.identity.v1.InitiatePasswordResetRequest
+	(*InitiatePasswordResetResponse)(nil),   // 19: oryon.identity.v1.InitiatePasswordResetResponse
+	(*CompletePasswordResetRequest)(nil),    // 20: oryon.identity.v1.CompletePasswordResetRequest
+	(*CompletePasswordResetResponse)(nil),   // 21: oryon.identity.v1.CompletePasswordResetResponse
+	(*ResendPasswordResetCodeRequest)(nil),  // 22: oryon.identity.v1.ResendPasswordResetCodeRequest
+	(*ResendPasswordResetCodeResponse)(nil), // 23: oryon.identity.v1.ResendPasswordResetCodeResponse
+	(AuthFlowType)(0),                       // 24: oryon.identity.v1.AuthFlowType
+	(AuthFlowState)(0),                      // 25: oryon.identity.v1.AuthFlowState
+	(*timestamppb.Timestamp)(nil),           // 26: google.protobuf.Timestamp
+	(VerificationPurpose)(0),                // 27: oryon.identity.v1.VerificationPurpose
+	(UserStatus)(0),                         // 28: oryon.identity.v1.UserStatus
+	(MfaFactorType)(0),                      // 29: oryon.identity.v1.MfaFactorType
 }
 var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
 	24, // 0: oryon.identity.v1.AuthFlow.flow_type:type_name -> oryon.identity.v1.AuthFlowType
@@ -1546,8 +1534,8 @@ var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
 	0,  // 19: oryon.identity.v1.CompleteLoginMfaResponse.token:type_name -> oryon.identity.v1.Token
 	3,  // 20: oryon.identity.v1.CompleteLoginMfaResponse.user:type_name -> oryon.identity.v1.User
 	2,  // 21: oryon.identity.v1.InitiatePasswordResetResponse.challenge:type_name -> oryon.identity.v1.VerificationChallenge
-	26, // 22: oryon.identity.v1.ConfirmPasswordResetResponse.expires_at:type_name -> google.protobuf.Timestamp
-	3,  // 23: oryon.identity.v1.CompletePasswordResetResponse.user:type_name -> oryon.identity.v1.User
+	3,  // 22: oryon.identity.v1.CompletePasswordResetResponse.user:type_name -> oryon.identity.v1.User
+	2,  // 23: oryon.identity.v1.ResendPasswordResetCodeResponse.challenge:type_name -> oryon.identity.v1.VerificationChallenge
 	4,  // 24: oryon.identity.v1.AuthenticationService.Registration:input_type -> oryon.identity.v1.RegistrationRequest
 	6,  // 25: oryon.identity.v1.AuthenticationService.CompleteRegistration:input_type -> oryon.identity.v1.CompleteRegistrationRequest
 	8,  // 26: oryon.identity.v1.AuthenticationService.ResendRegistrationCode:input_type -> oryon.identity.v1.ResendRegistrationCodeRequest
@@ -1555,8 +1543,8 @@ var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
 	14, // 28: oryon.identity.v1.AuthenticationService.RefreshToken:input_type -> oryon.identity.v1.RefreshTokenRequest
 	16, // 29: oryon.identity.v1.AuthenticationService.CompleteLoginMfa:input_type -> oryon.identity.v1.CompleteLoginMfaRequest
 	18, // 30: oryon.identity.v1.AuthenticationService.InitiatePasswordReset:input_type -> oryon.identity.v1.InitiatePasswordResetRequest
-	20, // 31: oryon.identity.v1.AuthenticationService.ConfirmPasswordReset:input_type -> oryon.identity.v1.ConfirmPasswordResetRequest
-	22, // 32: oryon.identity.v1.AuthenticationService.CompletePasswordReset:input_type -> oryon.identity.v1.CompletePasswordResetRequest
+	20, // 31: oryon.identity.v1.AuthenticationService.CompletePasswordReset:input_type -> oryon.identity.v1.CompletePasswordResetRequest
+	22, // 32: oryon.identity.v1.AuthenticationService.ResendPasswordResetCode:input_type -> oryon.identity.v1.ResendPasswordResetCodeRequest
 	5,  // 33: oryon.identity.v1.AuthenticationService.Registration:output_type -> oryon.identity.v1.RegistrationResponse
 	7,  // 34: oryon.identity.v1.AuthenticationService.CompleteRegistration:output_type -> oryon.identity.v1.CompleteRegistrationResponse
 	9,  // 35: oryon.identity.v1.AuthenticationService.ResendRegistrationCode:output_type -> oryon.identity.v1.ResendRegistrationCodeResponse
@@ -1564,8 +1552,8 @@ var file_oryon_identity_v1_authentication_proto_depIdxs = []int32{
 	15, // 37: oryon.identity.v1.AuthenticationService.RefreshToken:output_type -> oryon.identity.v1.RefreshTokenResponse
 	17, // 38: oryon.identity.v1.AuthenticationService.CompleteLoginMfa:output_type -> oryon.identity.v1.CompleteLoginMfaResponse
 	19, // 39: oryon.identity.v1.AuthenticationService.InitiatePasswordReset:output_type -> oryon.identity.v1.InitiatePasswordResetResponse
-	21, // 40: oryon.identity.v1.AuthenticationService.ConfirmPasswordReset:output_type -> oryon.identity.v1.ConfirmPasswordResetResponse
-	23, // 41: oryon.identity.v1.AuthenticationService.CompletePasswordReset:output_type -> oryon.identity.v1.CompletePasswordResetResponse
+	21, // 40: oryon.identity.v1.AuthenticationService.CompletePasswordReset:output_type -> oryon.identity.v1.CompletePasswordResetResponse
+	23, // 41: oryon.identity.v1.AuthenticationService.ResendPasswordResetCode:output_type -> oryon.identity.v1.ResendPasswordResetCodeResponse
 	33, // [33:42] is the sub-list for method output_type
 	24, // [24:33] is the sub-list for method input_type
 	24, // [24:24] is the sub-list for extension type_name
