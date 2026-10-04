@@ -377,8 +377,8 @@ pub enum VerificationPurpose {
     VERIFICATION_PURPOSE_UNSPECIFIED = 0i32,
     VERIFICATION_PURPOSE_EMAIL_VERIFICATION = 1i32,
     VERIFICATION_PURPOSE_PHONE_VERIFICATION = 2i32,
-    VERIFICATION_PURPOSE_PASSWORD_RESET = 3i32,
-    VERIFICATION_PURPOSE_MFA_VERIFICATION = 4i32,
+    VERIFICATION_PURPOSE_MFA_VERIFICATION = 3i32,
+    VERIFICATION_PURPOSE_PASSWORD_RESET = 4i32,
 }
 impl VerificationPurpose {
     ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_UNSPECIFIED`]; `Debug` prints the variant name.
@@ -390,12 +390,12 @@ impl VerificationPurpose {
     ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION`]; `Debug` prints the variant name.
     #[allow(non_upper_case_globals)]
     pub const PhoneVerification: Self = Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION;
-    ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_PASSWORD_RESET`]; `Debug` prints the variant name.
-    #[allow(non_upper_case_globals)]
-    pub const PasswordReset: Self = Self::VERIFICATION_PURPOSE_PASSWORD_RESET;
     ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_MFA_VERIFICATION`]; `Debug` prints the variant name.
     #[allow(non_upper_case_globals)]
     pub const MfaVerification: Self = Self::VERIFICATION_PURPOSE_MFA_VERIFICATION;
+    ///Idiomatic alias for [`Self::VERIFICATION_PURPOSE_PASSWORD_RESET`]; `Debug` prints the variant name.
+    #[allow(non_upper_case_globals)]
+    pub const PasswordReset: Self = Self::VERIFICATION_PURPOSE_PASSWORD_RESET;
 }
 impl ::core::default::Default for VerificationPurpose {
     fn default() -> Self {
@@ -506,10 +506,10 @@ impl ::buffa::Enumeration for VerificationPurpose {
                 )
             }
             3i32 => {
-                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_PASSWORD_RESET)
+                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MFA_VERIFICATION)
             }
             4i32 => {
-                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MFA_VERIFICATION)
+                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_PASSWORD_RESET)
             }
             _ => ::core::option::Option::None,
         }
@@ -526,11 +526,11 @@ impl ::buffa::Enumeration for VerificationPurpose {
             Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION => {
                 "VERIFICATION_PURPOSE_PHONE_VERIFICATION"
             }
-            Self::VERIFICATION_PURPOSE_PASSWORD_RESET => {
-                "VERIFICATION_PURPOSE_PASSWORD_RESET"
-            }
             Self::VERIFICATION_PURPOSE_MFA_VERIFICATION => {
                 "VERIFICATION_PURPOSE_MFA_VERIFICATION"
+            }
+            Self::VERIFICATION_PURPOSE_PASSWORD_RESET => {
+                "VERIFICATION_PURPOSE_PASSWORD_RESET"
             }
         }
     }
@@ -549,11 +549,11 @@ impl ::buffa::Enumeration for VerificationPurpose {
                     Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION,
                 )
             }
-            "VERIFICATION_PURPOSE_PASSWORD_RESET" => {
-                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_PASSWORD_RESET)
-            }
             "VERIFICATION_PURPOSE_MFA_VERIFICATION" => {
                 ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_MFA_VERIFICATION)
+            }
+            "VERIFICATION_PURPOSE_PASSWORD_RESET" => {
+                ::core::option::Option::Some(Self::VERIFICATION_PURPOSE_PASSWORD_RESET)
             }
             _ => ::core::option::Option::None,
         }
@@ -563,8 +563,8 @@ impl ::buffa::Enumeration for VerificationPurpose {
             Self::VERIFICATION_PURPOSE_UNSPECIFIED,
             Self::VERIFICATION_PURPOSE_EMAIL_VERIFICATION,
             Self::VERIFICATION_PURPOSE_PHONE_VERIFICATION,
-            Self::VERIFICATION_PURPOSE_PASSWORD_RESET,
             Self::VERIFICATION_PURPOSE_MFA_VERIFICATION,
+            Self::VERIFICATION_PURPOSE_PASSWORD_RESET,
         ]
     }
 }
