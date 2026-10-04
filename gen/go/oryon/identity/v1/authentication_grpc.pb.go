@@ -19,13 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthenticationService_Registration_FullMethodName         = "/oryon.identity.v1.AuthenticationService/Registration"
-	AuthenticationService_CompleteRegistration_FullMethodName = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
-	AuthenticationService_Login_FullMethodName                = "/oryon.identity.v1.AuthenticationService/Login"
-	AuthenticationService_CompleteMfa_FullMethodName          = "/oryon.identity.v1.AuthenticationService/CompleteMfa"
-	AuthenticationService_RefreshToken_FullMethodName         = "/oryon.identity.v1.AuthenticationService/RefreshToken"
-	AuthenticationService_InitiateVerification_FullMethodName = "/oryon.identity.v1.AuthenticationService/InitiateVerification"
-	AuthenticationService_ConfirmVerification_FullMethodName  = "/oryon.identity.v1.AuthenticationService/ConfirmVerification"
+	AuthenticationService_Registration_FullMethodName          = "/oryon.identity.v1.AuthenticationService/Registration"
+	AuthenticationService_CompleteRegistration_FullMethodName  = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
+	AuthenticationService_Login_FullMethodName                 = "/oryon.identity.v1.AuthenticationService/Login"
+	AuthenticationService_CompleteMfa_FullMethodName           = "/oryon.identity.v1.AuthenticationService/CompleteMfa"
+	AuthenticationService_RefreshToken_FullMethodName          = "/oryon.identity.v1.AuthenticationService/RefreshToken"
+	AuthenticationService_InitiateVerification_FullMethodName  = "/oryon.identity.v1.AuthenticationService/InitiateVerification"
+	AuthenticationService_ConfirmVerification_FullMethodName   = "/oryon.identity.v1.AuthenticationService/ConfirmVerification"
+	AuthenticationService_InitiatePasswordReset_FullMethodName = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
+	AuthenticationService_ConfirmPasswordReset_FullMethodName  = "/oryon.identity.v1.AuthenticationService/ConfirmPasswordReset"
+	AuthenticationService_CompletePasswordReset_FullMethodName = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -39,6 +42,9 @@ type AuthenticationServiceClient interface {
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	InitiateVerification(ctx context.Context, in *InitiateVerificationRequest, opts ...grpc.CallOption) (*InitiateVerificationResponse, error)
 	ConfirmVerification(ctx context.Context, in *ConfirmVerificationRequest, opts ...grpc.CallOption) (*ConfirmVerificationResponse, error)
+	InitiatePasswordReset(ctx context.Context, in *InitiatePasswordResetRequest, opts ...grpc.CallOption) (*InitiatePasswordResetResponse, error)
+	ConfirmPasswordReset(ctx context.Context, in *ConfirmPasswordResetRequest, opts ...grpc.CallOption) (*ConfirmPasswordResetResponse, error)
+	CompletePasswordReset(ctx context.Context, in *CompletePasswordResetRequest, opts ...grpc.CallOption) (*CompletePasswordResetResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -119,6 +125,36 @@ func (c *authenticationServiceClient) ConfirmVerification(ctx context.Context, i
 	return out, nil
 }
 
+func (c *authenticationServiceClient) InitiatePasswordReset(ctx context.Context, in *InitiatePasswordResetRequest, opts ...grpc.CallOption) (*InitiatePasswordResetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(InitiatePasswordResetResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_InitiatePasswordReset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationServiceClient) ConfirmPasswordReset(ctx context.Context, in *ConfirmPasswordResetRequest, opts ...grpc.CallOption) (*ConfirmPasswordResetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ConfirmPasswordResetResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_ConfirmPasswordReset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context, in *CompletePasswordResetRequest, opts ...grpc.CallOption) (*CompletePasswordResetResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompletePasswordResetResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_CompletePasswordReset_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility.
@@ -130,6 +166,9 @@ type AuthenticationServiceServer interface {
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	InitiateVerification(context.Context, *InitiateVerificationRequest) (*InitiateVerificationResponse, error)
 	ConfirmVerification(context.Context, *ConfirmVerificationRequest) (*ConfirmVerificationResponse, error)
+	InitiatePasswordReset(context.Context, *InitiatePasswordResetRequest) (*InitiatePasswordResetResponse, error)
+	ConfirmPasswordReset(context.Context, *ConfirmPasswordResetRequest) (*ConfirmPasswordResetResponse, error)
+	CompletePasswordReset(context.Context, *CompletePasswordResetRequest) (*CompletePasswordResetResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -160,6 +199,15 @@ func (UnimplementedAuthenticationServiceServer) InitiateVerification(context.Con
 }
 func (UnimplementedAuthenticationServiceServer) ConfirmVerification(context.Context, *ConfirmVerificationRequest) (*ConfirmVerificationResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method ConfirmVerification not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) InitiatePasswordReset(context.Context, *InitiatePasswordResetRequest) (*InitiatePasswordResetResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method InitiatePasswordReset not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) ConfirmPasswordReset(context.Context, *ConfirmPasswordResetRequest) (*ConfirmPasswordResetResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ConfirmPasswordReset not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) CompletePasswordReset(context.Context, *CompletePasswordResetRequest) (*CompletePasswordResetResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompletePasswordReset not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 func (UnimplementedAuthenticationServiceServer) testEmbeddedByValue()                               {}
@@ -308,6 +356,60 @@ func _AuthenticationService_ConfirmVerification_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticationService_InitiatePasswordReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InitiatePasswordResetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).InitiatePasswordReset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_InitiatePasswordReset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).InitiatePasswordReset(ctx, req.(*InitiatePasswordResetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticationService_ConfirmPasswordReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmPasswordResetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).ConfirmPasswordReset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_ConfirmPasswordReset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).ConfirmPasswordReset(ctx, req.(*ConfirmPasswordResetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticationService_CompletePasswordReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompletePasswordResetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).CompletePasswordReset(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_CompletePasswordReset_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).CompletePasswordReset(ctx, req.(*CompletePasswordResetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -342,6 +444,18 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ConfirmVerification",
 			Handler:    _AuthenticationService_ConfirmVerification_Handler,
+		},
+		{
+			MethodName: "InitiatePasswordReset",
+			Handler:    _AuthenticationService_InitiatePasswordReset_Handler,
+		},
+		{
+			MethodName: "ConfirmPasswordReset",
+			Handler:    _AuthenticationService_ConfirmPasswordReset_Handler,
+		},
+		{
+			MethodName: "CompletePasswordReset",
+			Handler:    _AuthenticationService_CompletePasswordReset_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

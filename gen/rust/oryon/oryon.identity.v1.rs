@@ -68,6 +68,42 @@ pub type OwnedConfirmVerificationResponseView = ::buffa::view::OwnedView<
         'static,
     >,
 >;
+///Shorthand for `OwnedView<InitiatePasswordResetRequestView<'static>>`.
+pub type OwnedInitiatePasswordResetRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<InitiatePasswordResetResponseView<'static>>`.
+pub type OwnedInitiatePasswordResetResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<ConfirmPasswordResetRequestView<'static>>`.
+pub type OwnedConfirmPasswordResetRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<ConfirmPasswordResetResponseView<'static>>`.
+pub type OwnedConfirmPasswordResetResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetResponseView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<CompletePasswordResetRequestView<'static>>`.
+pub type OwnedCompletePasswordResetRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<CompletePasswordResetResponseView<'static>>`.
+pub type OwnedCompletePasswordResetResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetResponseView<
+        'static,
+    >,
+>;
 impl ::connectrpc::Encodable<crate::proto::oryon::identity::v1::RegistrationResponse>
 for crate::proto::oryon::identity::v1::__buffa::view::RegistrationResponseView<'_> {
     fn encode(
@@ -330,6 +366,132 @@ for ::buffa::view::OwnedView<
         )
     }
 }
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
+    '_,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
+>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
+        'static,
+    >,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+    /// An `OwnedView` still holds the buffer it was decoded from, so
+    /// its large fields can be handed to the response body by
+    /// reference count instead of copied. The bare view impl above
+    /// cannot do this: it has borrows but no buffer to name.
+    fn encode_segments(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body_segments(
+            self.reborrow(),
+            self.bytes(),
+            codec,
+        )
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::ConfirmPasswordResetResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetResponseView<
+    '_,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::ConfirmPasswordResetResponse,
+>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetResponseView<
+        'static,
+    >,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+    /// An `OwnedView` still holds the buffer it was decoded from, so
+    /// its large fields can be handed to the response body by
+    /// reference count instead of copied. The bare view impl above
+    /// cannot do this: it has borrows but no buffer to name.
+    fn encode_segments(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body_segments(
+            self.reborrow(),
+            self.bytes(),
+            codec,
+        )
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::CompletePasswordResetResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetResponseView<
+    '_,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::CompletePasswordResetResponse,
+>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetResponseView<
+        'static,
+    >,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+    /// An `OwnedView` still holds the buffer it was decoded from, so
+    /// its large fields can be handed to the response body by
+    /// reference count instead of copied. The bare view impl above
+    /// cannot do this: it has borrows but no buffer to name.
+    fn encode_segments(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body_segments(
+            self.reborrow(),
+            self.bytes(),
+            codec,
+        )
+    }
+}
 /// Full service name for this service.
 pub const AUTHENTICATION_SERVICE_SERVICE_NAME: &str = "oryon.identity.v1.AuthenticationService";
 /// Static [`Spec`](::connectrpc::Spec) for the `Registration` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
@@ -371,6 +533,24 @@ pub const AUTHENTICATION_SERVICE_INITIATE_VERIFICATION_SPEC: ::connectrpc::Spec 
 /// Static [`Spec`](::connectrpc::Spec) for the `ConfirmVerification` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
 pub const AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
         "/oryon.identity.v1.AuthenticationService/ConfirmVerification",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the `InitiatePasswordReset` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_INITIATE_PASSWORD_RESET_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the `ConfirmPasswordReset` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_CONFIRM_PASSWORD_RESET_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/ConfirmPasswordReset",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the `CompletePasswordReset` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_COMPLETE_PASSWORD_RESET_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/CompletePasswordReset",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -583,6 +763,75 @@ pub trait AuthenticationService: Send + Sync + 'static {
         Output = ::connectrpc::ServiceResult<
             impl ::connectrpc::Encodable<
                 crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the InitiatePasswordReset RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn initiate_password_reset<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the ConfirmPasswordReset RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn confirm_password_reset<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::ConfirmPasswordResetResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the CompletePasswordReset RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn complete_password_reset<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::CompletePasswordResetResponse,
             > + Send + use<'a, Self>,
         >,
     > + Send;
@@ -821,6 +1070,93 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
                 },
             )
             .with_spec(AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "InitiatePasswordReset",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.initiate_password_reset(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_INITIATE_PASSWORD_RESET_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "ConfirmPasswordReset",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.confirm_password_reset(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::ConfirmPasswordResetResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_CONFIRM_PASSWORD_RESET_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "CompletePasswordReset",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.complete_password_reset(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::CompletePasswordResetResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_COMPLETE_PASSWORD_RESET_SPEC)
     }
 }
 /// Type-inference marker used by [`Router::add_service`](::connectrpc::Router::add_service).
@@ -918,6 +1254,24 @@ for AuthenticationServiceServer<T> {
                 Some(
                     ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
                         .with_spec(AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC),
+                )
+            }
+            "InitiatePasswordReset" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_INITIATE_PASSWORD_RESET_SPEC),
+                )
+            }
+            "ConfirmPasswordReset" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_CONFIRM_PASSWORD_RESET_SPEC),
+                )
+            }
+            "CompletePasswordReset" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_COMPLETE_PASSWORD_RESET_SPEC),
                 )
             }
             _ => None,
@@ -1087,6 +1441,72 @@ for AuthenticationServiceServer<T> {
                         .await?
                         .encode::<
                             crate::proto::oryon::identity::v1::ConfirmVerificationResponse,
+                        >(format)
+                })
+            }
+            "InitiatePasswordReset" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+                    >::from_parts(&req, &body);
+                    svc.initiate_password_reset(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
+                        >(format)
+                })
+            }
+            "ConfirmPasswordReset" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+                    >::from_parts(&req, &body);
+                    svc.confirm_password_reset(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::ConfirmPasswordResetResponse,
+                        >(format)
+                })
+            }
+            "CompletePasswordReset" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+                    >::from_parts(&req, &body);
+                    svc.complete_password_reset(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::CompletePasswordResetResponse,
                         >(format)
                 })
             }
@@ -1527,6 +1947,141 @@ where
                 &self.transport,
                 &self.config,
                 AUTHENTICATION_SERVICE_CONFIRM_VERIFICATION_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the InitiatePasswordReset RPC. Sends a request to /oryon.identity.v1.AuthenticationService/InitiatePasswordReset.
+    pub async fn initiate_password_reset(
+        &self,
+        request: crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.initiate_password_reset_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the InitiatePasswordReset RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn initiate_password_reset_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::InitiatePasswordResetRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_INITIATE_PASSWORD_RESET_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the ConfirmPasswordReset RPC. Sends a request to /oryon.identity.v1.AuthenticationService/ConfirmPasswordReset.
+    pub async fn confirm_password_reset(
+        &self,
+        request: crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.confirm_password_reset_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the ConfirmPasswordReset RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn confirm_password_reset_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::ConfirmPasswordResetRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::ConfirmPasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_CONFIRM_PASSWORD_RESET_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the CompletePasswordReset RPC. Sends a request to /oryon.identity.v1.AuthenticationService/CompletePasswordReset.
+    pub async fn complete_password_reset(
+        &self,
+        request: crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.complete_password_reset_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the CompletePasswordReset RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn complete_password_reset_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::CompletePasswordResetRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompletePasswordResetResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_COMPLETE_PASSWORD_RESET_SPEC
                     .with_origin(::connectrpc::SpecOrigin::Client),
                 request,
                 options,

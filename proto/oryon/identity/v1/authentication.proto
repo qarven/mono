@@ -20,6 +20,10 @@ service AuthenticationService {
 
   rpc InitiateVerification(InitiateVerificationRequest) returns (InitiateVerificationResponse);
   rpc ConfirmVerification(ConfirmVerificationRequest) returns (ConfirmVerificationResponse);
+
+  rpc InitiatePasswordReset(InitiatePasswordResetRequest) returns (InitiatePasswordResetResponse);
+  rpc ConfirmPasswordReset(ConfirmPasswordResetRequest) returns (ConfirmPasswordResetResponse);
+  rpc CompletePasswordReset(CompletePasswordResetRequest) returns (CompletePasswordResetResponse);
 }
 
 // ======
@@ -180,4 +184,51 @@ message ConfirmVerificationRequest {
 message ConfirmVerificationResponse {
   optional UserEmail user_email = 1;
   optional UserPhone user_phone = 2;
+}
+
+message InitiatePasswordResetRequest {
+  // Email, phone (+E.164), or username identifier.
+  // Server must return generic success even if identifier is unknown
+  // to avoid account enumeration. In that case no code is sent.
+  // Repeat calls invalidate prior unconsumed password_reset challenges
+  // for the same identifier (resend semantics).
+  string identifier = 1 [(buf.validate.field).string.min_len = 3];
+}
+
+message InitiatePasswordResetResponse {
+  // Challenge metadata only (id, identifier, purpose=PASSWORD_RESET, expires_at).
+  // The OTP itself is sent out-of-band (email/SMS).
+  // Storage: auth_flows(flow_type=recovery) + verification_challenges(purpose=password_reset, flow_id set).
+  VerificationChallenge challenge = 1;
+}
+
+message ConfirmPasswordResetRequest {
+  int64 verification_id = 1 [(buf.validate.field).required = true];
+  string code = 2 [
+    (buf.validate.field).string.min_len = 6,
+    (buf.validate.field).string.max_len = 8
+  ];
+}
+
+message ConfirmPasswordResetResponse {
+  // Opaque single-use short-lived token (e.g. stored in auth_flows.context
+  // or as signed JWT). Consumes the verification_challenge (consumed_at=NOW()).
+  string reset_token = 1 [(buf.validate.field).string.min_len = 1];
+  google.protobuf.Timestamp expires_at = 2;
+}
+
+message CompletePasswordResetRequest {
+  string reset_token = 1 [(buf.validate.field).string.min_len = 1];
+  string new_password = 2 [
+    (buf.validate.field).string.min_len = 8,
+    (buf.validate.field).string.max_len = 128
+  ];
+}
+
+message CompletePasswordResetResponse {
+  // Client must perform a fresh Login afterwards.
+  // Server must: update password_credentials(password, password_changed_at),
+  // complete the recovery auth_flow, revoke sessions/refresh_tokens,
+  // and emit security_events(password.changed).
+  User user = 1;
 }
