@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package oryon.identity.v1;
+
+import "buf/validate/validate.proto";
+
+// ========
+// services
+// ========
+
+service SessionService {
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+}
+
+// ==============
+// rpc messages
+// ==============
+
+message LogoutRequest {
+  string refresh_token = 1 [(buf.validate.field).required = true];
+}
+
+message LogoutResponse {}
