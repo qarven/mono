@@ -1137,10 +1137,10 @@ pub struct AuthFlow {
     /// Field 1: `id`
     #[serde(
         rename = "id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub id: i64,
+    pub id: ::buffa::alloc::string::String,
     /// Field 2: `flow_type`
     #[serde(
         rename = "flowType",
@@ -1208,8 +1208,8 @@ impl ::buffa::Message for AuthFlow {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+        if !self.id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
         }
         {
             let val = self.flow_type.to_i32();
@@ -1241,8 +1241,8 @@ impl ::buffa::Message for AuthFlow {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.id, buf);
+        if !self.id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.id, buf);
         }
         {
             let val = self.flow_type.to_i32();
@@ -1280,9 +1280,9 @@ impl ::buffa::Message for AuthFlow {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -1321,7 +1321,7 @@ impl ::buffa::Message for AuthFlow {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.id = 0i64;
+        self.id.clear();
         self.flow_type = ::buffa::EnumValue::from(0);
         self.flow_state = ::buffa::EnumValue::from(0);
         self.expires_at = ::buffa::MessageField::none();
@@ -1364,10 +1364,10 @@ pub struct VerificationChallenge {
     /// Field 1: `id`
     #[serde(
         rename = "id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub id: i64,
+    pub id: ::buffa::alloc::string::String,
     /// Field 2: `identifier`
     #[serde(
         rename = "identifier",
@@ -1433,8 +1433,8 @@ impl ::buffa::Message for VerificationChallenge {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+        if !self.id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
         }
         if !self.identifier.is_empty() {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.identifier) as u64;
@@ -1463,8 +1463,8 @@ impl ::buffa::Message for VerificationChallenge {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.id, buf);
+        if !self.id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.id, buf);
         }
         if !self.identifier.is_empty() {
             ::buffa::types::put_string_field(2u32, &self.identifier, buf);
@@ -1499,9 +1499,9 @@ impl ::buffa::Message for VerificationChallenge {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -1538,7 +1538,7 @@ impl ::buffa::Message for VerificationChallenge {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.id = 0i64;
+        self.id.clear();
         self.identifier.clear();
         self.purpose = ::buffa::EnumValue::from(0);
         self.expires_at = ::buffa::MessageField::none();
@@ -1581,10 +1581,10 @@ pub struct User {
     /// Field 1: `id`
     #[serde(
         rename = "id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub id: i64,
+    pub id: ::buffa::alloc::string::String,
     /// Field 2: `status`
     #[serde(
         rename = "status",
@@ -1698,8 +1698,8 @@ impl ::buffa::Message for User {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+        if !self.id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
         }
         {
             let val = self.status.to_i32();
@@ -1742,8 +1742,8 @@ impl ::buffa::Message for User {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.id, buf);
+        if !self.id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.id, buf);
         }
         {
             let val = self.status.to_i32();
@@ -1792,9 +1792,9 @@ impl ::buffa::Message for User {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -1866,7 +1866,7 @@ impl ::buffa::Message for User {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.id = 0i64;
+        self.id.clear();
         self.status = ::buffa::EnumValue::from(0);
         self.name.clear();
         self.username = ::core::option::Option::None;
@@ -2265,10 +2265,10 @@ pub struct CompleteRegistrationRequest {
     #[serde(
         rename = "flowId",
         alias = "flow_id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub flow_id: i64,
+    pub flow_id: ::buffa::alloc::string::String,
     /// Field 2: `email_code`
     #[serde(
         rename = "emailCode",
@@ -2345,8 +2345,8 @@ impl ::buffa::Message for CompleteRegistrationRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.flow_id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+        if !self.flow_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
         }
         if let Some(ref v) = self.email_code {
             size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
@@ -2364,8 +2364,8 @@ impl ::buffa::Message for CompleteRegistrationRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.flow_id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+        if !self.flow_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
         }
         if let Some(ref v) = self.email_code {
             ::buffa::types::put_string_field(2u32, v, buf);
@@ -2389,9 +2389,9 @@ impl ::buffa::Message for CompleteRegistrationRequest {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.flow_id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.flow_id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -2425,7 +2425,7 @@ impl ::buffa::Message for CompleteRegistrationRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.flow_id = 0i64;
+        self.flow_id.clear();
         self.email_code = ::core::option::Option::None;
         self.phone_code = ::core::option::Option::None;
         self.__buffa_unknown_fields.clear();
@@ -2605,10 +2605,10 @@ pub struct ResendRegistrationCodeRequest {
     #[serde(
         rename = "flowId",
         alias = "flow_id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub flow_id: i64,
+    pub flow_id: ::buffa::alloc::string::String,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
@@ -2647,8 +2647,8 @@ impl ::buffa::Message for ResendRegistrationCodeRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.flow_id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+        if !self.flow_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
         }
         size += self.__buffa_unknown_fields.encoded_len() as u64;
         ::buffa::saturate_size(size)
@@ -2660,8 +2660,8 @@ impl ::buffa::Message for ResendRegistrationCodeRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.flow_id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+        if !self.flow_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -2679,9 +2679,9 @@ impl ::buffa::Message for ResendRegistrationCodeRequest {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.flow_id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.flow_id, buf)?;
             }
             _ => {
                 self.__buffa_unknown_fields
@@ -2691,7 +2691,7 @@ impl ::buffa::Message for ResendRegistrationCodeRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.flow_id = 0i64;
+        self.flow_id.clear();
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -3946,10 +3946,10 @@ pub struct CompleteLoginMfaRequest {
     #[serde(
         rename = "flowId",
         alias = "flow_id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub flow_id: i64,
+    pub flow_id: ::buffa::alloc::string::String,
     /// Field 2: `code`
     #[serde(
         rename = "code",
@@ -4005,8 +4005,8 @@ impl ::buffa::Message for CompleteLoginMfaRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.flow_id != 0i64 {
-            size += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+        if !self.flow_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
         }
         if !self.code.is_empty() {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.code) as u64;
@@ -4027,8 +4027,8 @@ impl ::buffa::Message for CompleteLoginMfaRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.flow_id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+        if !self.flow_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
         }
         if !self.code.is_empty() {
             ::buffa::types::put_string_field(2u32, &self.code, buf);
@@ -4055,9 +4055,9 @@ impl ::buffa::Message for CompleteLoginMfaRequest {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.flow_id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.flow_id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -4083,7 +4083,7 @@ impl ::buffa::Message for CompleteLoginMfaRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.flow_id = 0i64;
+        self.flow_id.clear();
         self.code.clear();
         self.factor_type = ::buffa::EnumValue::from(0);
         self.__buffa_unknown_fields.clear();
@@ -4568,10 +4568,10 @@ pub struct CompletePasswordResetRequest {
     #[serde(
         rename = "verificationId",
         alias = "verification_id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub verification_id: i64,
+    pub verification_id: ::buffa::alloc::string::String,
     /// Field 2: `code`
     #[serde(
         rename = "code",
@@ -4627,9 +4627,10 @@ impl ::buffa::Message for CompletePasswordResetRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.verification_id != 0i64 {
+        if !self.verification_id.is_empty() {
             size
-                += 1u64 + ::buffa::types::int64_encoded_len(self.verification_id) as u64;
+                += 1u64
+                    + ::buffa::types::string_encoded_len(&self.verification_id) as u64;
         }
         if !self.code.is_empty() {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.code) as u64;
@@ -4647,8 +4648,8 @@ impl ::buffa::Message for CompletePasswordResetRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.verification_id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.verification_id, buf);
+        if !self.verification_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
         }
         if !self.code.is_empty() {
             ::buffa::types::put_string_field(2u32, &self.code, buf);
@@ -4672,9 +4673,9 @@ impl ::buffa::Message for CompletePasswordResetRequest {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.verification_id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.verification_id, buf)?;
             }
             2u32 => {
                 ::buffa::encoding::check_wire_type(
@@ -4698,7 +4699,7 @@ impl ::buffa::Message for CompletePasswordResetRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.verification_id = 0i64;
+        self.verification_id.clear();
         self.code.clear();
         self.new_password.clear();
         self.__buffa_unknown_fields.clear();
@@ -4880,10 +4881,10 @@ pub struct ResendPasswordResetCodeRequest {
     #[serde(
         rename = "verificationId",
         alias = "verification_id",
-        with = "::buffa::json_helpers::int64",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_zero_i64"
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
-    pub verification_id: i64,
+    pub verification_id: ::buffa::alloc::string::String,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
@@ -4922,9 +4923,10 @@ impl ::buffa::Message for ResendPasswordResetCodeRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.verification_id != 0i64 {
+        if !self.verification_id.is_empty() {
             size
-                += 1u64 + ::buffa::types::int64_encoded_len(self.verification_id) as u64;
+                += 1u64
+                    + ::buffa::types::string_encoded_len(&self.verification_id) as u64;
         }
         size += self.__buffa_unknown_fields.encoded_len() as u64;
         ::buffa::saturate_size(size)
@@ -4936,8 +4938,8 @@ impl ::buffa::Message for ResendPasswordResetCodeRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.verification_id != 0i64 {
-            ::buffa::types::put_int64_field(1u32, self.verification_id, buf);
+        if !self.verification_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -4955,9 +4957,9 @@ impl ::buffa::Message for ResendPasswordResetCodeRequest {
             1u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
-                    ::buffa::encoding::WireType::Varint,
+                    ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                self.verification_id = ::buffa::types::decode_int64(buf)?;
+                ::buffa::types::merge_string(&mut self.verification_id, buf)?;
             }
             _ => {
                 self.__buffa_unknown_fields
@@ -4967,7 +4969,7 @@ impl ::buffa::Message for ResendPasswordResetCodeRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.verification_id = 0i64;
+        self.verification_id.clear();
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -5741,7 +5743,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct AuthFlowView<'a> {
             /// Field 1: `id`
-            pub id: i64,
+            pub id: &'a str,
             /// Field 2: `flow_type`
             pub flow_type: ::buffa::EnumValue<super::super::AuthFlowType>,
             /// Field 3: `flow_state`
@@ -5791,9 +5793,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -5861,7 +5863,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::AuthFlow {
-                    id: self.id,
+                    id: self.id.to_string(),
                     flow_type: self.flow_type,
                     flow_state: self.flow_state,
                     expires_at: match self.expires_at.as_option() {
@@ -5887,8 +5889,8 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.id != 0i64 {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+                if !self.id.is_empty() {
+                    size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
                 }
                 {
                     let val = self.flow_type.to_i32();
@@ -5921,8 +5923,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.id, buf);
+                if !self.id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.id, buf);
                 }
                 {
                     let val = self.flow_type.to_i32();
@@ -5965,12 +5967,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.id) {
-                    __map
-                        .serialize_entry(
-                            "id",
-                            &::buffa::json_helpers::ProtoJson(&self.id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.id) {
+                    __map.serialize_entry("id", self.id)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_default_enum_value(
                     &self.flow_type,
@@ -6085,7 +6083,7 @@ pub mod __buffa {
             }
             /// Field 1: `id`
             #[must_use]
-            pub fn id(&self) -> i64 {
+            pub fn id(&self) -> &'_ str {
                 self.0.reborrow().id
             }
             /// Field 2: `flow_type`
@@ -6141,7 +6139,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct VerificationChallengeView<'a> {
             /// Field 1: `id`
-            pub id: i64,
+            pub id: &'a str,
             /// Field 2: `identifier`
             pub identifier: &'a str,
             /// Field 3: `purpose`
@@ -6191,9 +6189,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -6265,7 +6263,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::VerificationChallenge {
-                    id: self.id,
+                    id: self.id.to_string(),
                     identifier: self.identifier.to_string(),
                     purpose: self.purpose,
                     expires_at: match self.expires_at.as_option() {
@@ -6291,8 +6289,8 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.id != 0i64 {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+                if !self.id.is_empty() {
+                    size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
                 }
                 if !self.identifier.is_empty() {
                     size
@@ -6325,8 +6323,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.id, buf);
+                if !self.id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.id, buf);
                 }
                 if !self.identifier.is_empty() {
                     ::buffa::types::put_string_field(2u32, &self.identifier, buf);
@@ -6366,12 +6364,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.id) {
-                    __map
-                        .serialize_entry(
-                            "id",
-                            &::buffa::json_helpers::ProtoJson(&self.id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.id) {
+                    __map.serialize_entry("id", self.id)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_empty_str(self.identifier) {
                     __map.serialize_entry("identifier", self.identifier)?;
@@ -6486,7 +6480,7 @@ pub mod __buffa {
             }
             /// Field 1: `id`
             #[must_use]
-            pub fn id(&self) -> i64 {
+            pub fn id(&self) -> &'_ str {
                 self.0.reborrow().id
             }
             /// Field 2: `identifier`
@@ -6548,7 +6542,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct UserView<'a> {
             /// Field 1: `id`
-            pub id: i64,
+            pub id: &'a str,
             /// Field 2: `status`
             pub status: ::buffa::EnumValue<super::super::UserStatus>,
             /// Field 3: `name`
@@ -6606,9 +6600,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -6713,7 +6707,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::User {
-                    id: self.id,
+                    id: self.id.to_string(),
                     status: self.status,
                     name: self.name.to_string(),
                     username: self.username.map(|s| s.to_string()),
@@ -6750,8 +6744,8 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.id != 0i64 {
-                    size += 1u64 + ::buffa::types::int64_encoded_len(self.id) as u64;
+                if !self.id.is_empty() {
+                    size += 1u64 + ::buffa::types::string_encoded_len(&self.id) as u64;
                 }
                 {
                     let val = self.status.to_i32();
@@ -6795,8 +6789,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.id, buf);
+                if !self.id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.id, buf);
                 }
                 {
                     let val = self.status.to_i32();
@@ -6850,12 +6844,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.id) {
-                    __map
-                        .serialize_entry(
-                            "id",
-                            &::buffa::json_helpers::ProtoJson(&self.id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.id) {
+                    __map.serialize_entry("id", self.id)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_default_enum_value(&self.status) {
                     __map.serialize_entry("status", &self.status)?;
@@ -6978,7 +6968,7 @@ pub mod __buffa {
             }
             /// Field 1: `id`
             #[must_use]
-            pub fn id(&self) -> i64 {
+            pub fn id(&self) -> &'_ str {
                 self.0.reborrow().id
             }
             /// Field 2: `status`
@@ -7709,7 +7699,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct CompleteRegistrationRequestView<'a> {
             /// Field 1: `flow_id`
-            pub flow_id: i64,
+            pub flow_id: &'a str,
             /// Field 2: `email_code`
             pub email_code: ::core::option::Option<&'a str>,
             /// Field 3: `phone_code`
@@ -7755,9 +7745,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.flow_id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.flow_id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -7802,7 +7792,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::CompleteRegistrationRequest {
-                    flow_id: self.flow_id,
+                    flow_id: self.flow_id.to_string(),
                     email_code: self.email_code.map(|s| s.to_string()),
                     phone_code: self.phone_code.map(|s| s.to_string()),
                     __buffa_unknown_fields: self
@@ -7819,9 +7809,10 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.flow_id != 0i64 {
+                if !self.flow_id.is_empty() {
                     size
-                        += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
                 }
                 if let Some(ref v) = self.email_code {
                     size += 1u64 + ::buffa::types::string_encoded_len(v) as u64;
@@ -7840,8 +7831,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.flow_id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+                if !self.flow_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
                 }
                 if let Some(ref v) = self.email_code {
                     ::buffa::types::put_string_field(2u32, v, buf);
@@ -7870,12 +7861,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.flow_id) {
-                    __map
-                        .serialize_entry(
-                            "flowId",
-                            &::buffa::json_helpers::ProtoJson(&self.flow_id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.flow_id) {
+                    __map.serialize_entry("flowId", self.flow_id)?;
                 }
                 if let ::core::option::Option::Some(__v) = self.email_code {
                     __map.serialize_entry("emailCode", __v)?;
@@ -7984,7 +7971,7 @@ pub mod __buffa {
             }
             /// Field 1: `flow_id`
             #[must_use]
-            pub fn flow_id(&self) -> i64 {
+            pub fn flow_id(&self) -> &'_ str {
                 self.0.reborrow().flow_id
             }
             /// Field 2: `email_code`
@@ -8356,7 +8343,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct ResendRegistrationCodeRequestView<'a> {
             /// Field 1: `flow_id`
-            pub flow_id: i64,
+            pub flow_id: &'a str,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
         impl<'a> ::buffa::MessageView<'a> for ResendRegistrationCodeRequestView<'a> {
@@ -8398,9 +8385,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.flow_id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.flow_id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     _ => {
                         ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
@@ -8431,7 +8418,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::ResendRegistrationCodeRequest {
-                    flow_id: self.flow_id,
+                    flow_id: self.flow_id.to_string(),
                     __buffa_unknown_fields: self
                         .__buffa_unknown_fields
                         .to_owned()?
@@ -8446,9 +8433,10 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.flow_id != 0i64 {
+                if !self.flow_id.is_empty() {
                     size
-                        += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
                 }
                 size += self.__buffa_unknown_fields.encoded_len() as u64;
                 ::buffa::saturate_size(size)
@@ -8461,8 +8449,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.flow_id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+                if !self.flow_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -8485,12 +8473,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.flow_id) {
-                    __map
-                        .serialize_entry(
-                            "flowId",
-                            &::buffa::json_helpers::ProtoJson(&self.flow_id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.flow_id) {
+                    __map.serialize_entry("flowId", self.flow_id)?;
                 }
                 __map.end()
             }
@@ -8595,7 +8579,7 @@ pub mod __buffa {
             }
             /// Field 1: `flow_id`
             #[must_use]
-            pub fn flow_id(&self) -> i64 {
+            pub fn flow_id(&self) -> &'_ str {
                 self.0.reborrow().flow_id
             }
         }
@@ -10984,7 +10968,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct CompleteLoginMfaRequestView<'a> {
             /// Field 1: `flow_id`
-            pub flow_id: i64,
+            pub flow_id: &'a str,
             /// Field 2: `code`
             pub code: &'a str,
             /// Field 3: `factor_type`
@@ -11030,9 +11014,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.flow_id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.flow_id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -11079,7 +11063,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::CompleteLoginMfaRequest {
-                    flow_id: self.flow_id,
+                    flow_id: self.flow_id.to_string(),
                     code: self.code.to_string(),
                     factor_type: self.factor_type,
                     __buffa_unknown_fields: self
@@ -11096,9 +11080,10 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.flow_id != 0i64 {
+                if !self.flow_id.is_empty() {
                     size
-                        += 1u64 + ::buffa::types::int64_encoded_len(self.flow_id) as u64;
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
                 }
                 if !self.code.is_empty() {
                     size += 1u64 + ::buffa::types::string_encoded_len(&self.code) as u64;
@@ -11120,8 +11105,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.flow_id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.flow_id, buf);
+                if !self.flow_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
                 }
                 if !self.code.is_empty() {
                     ::buffa::types::put_string_field(2u32, &self.code, buf);
@@ -11153,12 +11138,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.flow_id) {
-                    __map
-                        .serialize_entry(
-                            "flowId",
-                            &::buffa::json_helpers::ProtoJson(&self.flow_id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.flow_id) {
+                    __map.serialize_entry("flowId", self.flow_id)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_empty_str(self.code) {
                     __map.serialize_entry("code", self.code)?;
@@ -11267,7 +11248,7 @@ pub mod __buffa {
             }
             /// Field 1: `flow_id`
             #[must_use]
-            pub fn flow_id(&self) -> i64 {
+            pub fn flow_id(&self) -> &'_ str {
                 self.0.reborrow().flow_id
             }
             /// Field 2: `code`
@@ -12305,7 +12286,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct CompletePasswordResetRequestView<'a> {
             /// Field 1: `verification_id`
-            pub verification_id: i64,
+            pub verification_id: &'a str,
             /// Field 2: `code`
             pub code: &'a str,
             /// Field 3: `new_password`
@@ -12351,9 +12332,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.verification_id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.verification_id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     2u32 => {
                         ::buffa::encoding::check_wire_type(
@@ -12398,7 +12379,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::CompletePasswordResetRequest {
-                    verification_id: self.verification_id,
+                    verification_id: self.verification_id.to_string(),
                     code: self.code.to_string(),
                     new_password: self.new_password.to_string(),
                     __buffa_unknown_fields: self
@@ -12415,10 +12396,10 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.verification_id != 0i64 {
+                if !self.verification_id.is_empty() {
                     size
                         += 1u64
-                            + ::buffa::types::int64_encoded_len(self.verification_id)
+                            + ::buffa::types::string_encoded_len(&self.verification_id)
                                 as u64;
                 }
                 if !self.code.is_empty() {
@@ -12441,8 +12422,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.verification_id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.verification_id, buf);
+                if !self.verification_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
                 }
                 if !self.code.is_empty() {
                     ::buffa::types::put_string_field(2u32, &self.code, buf);
@@ -12471,12 +12452,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.verification_id) {
-                    __map
-                        .serialize_entry(
-                            "verificationId",
-                            &::buffa::json_helpers::ProtoJson(&self.verification_id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.verification_id) {
+                    __map.serialize_entry("verificationId", self.verification_id)?;
                 }
                 if !::buffa::json_helpers::skip_if::is_empty_str(self.code) {
                     __map.serialize_entry("code", self.code)?;
@@ -12587,7 +12564,7 @@ pub mod __buffa {
             }
             /// Field 1: `verification_id`
             #[must_use]
-            pub fn verification_id(&self) -> i64 {
+            pub fn verification_id(&self) -> &'_ str {
                 self.0.reborrow().verification_id
             }
             /// Field 2: `code`
@@ -12959,7 +12936,7 @@ pub mod __buffa {
         #[derive(Clone, Debug, Default)]
         pub struct ResendPasswordResetCodeRequestView<'a> {
             /// Field 1: `verification_id`
-            pub verification_id: i64,
+            pub verification_id: &'a str,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
         impl<'a> ::buffa::MessageView<'a> for ResendPasswordResetCodeRequestView<'a> {
@@ -13001,9 +12978,9 @@ pub mod __buffa {
                     1u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
-                            ::buffa::encoding::WireType::Varint,
+                            ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.verification_id = ::buffa::types::decode_int64(&mut cur)?;
+                        view.verification_id = ::buffa::types::borrow_str(&mut cur)?;
                     }
                     _ => {
                         ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
@@ -13034,7 +13011,7 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::ResendPasswordResetCodeRequest {
-                    verification_id: self.verification_id,
+                    verification_id: self.verification_id.to_string(),
                     __buffa_unknown_fields: self
                         .__buffa_unknown_fields
                         .to_owned()?
@@ -13049,10 +13026,10 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.verification_id != 0i64 {
+                if !self.verification_id.is_empty() {
                     size
                         += 1u64
-                            + ::buffa::types::int64_encoded_len(self.verification_id)
+                            + ::buffa::types::string_encoded_len(&self.verification_id)
                                 as u64;
                 }
                 size += self.__buffa_unknown_fields.encoded_len() as u64;
@@ -13066,8 +13043,8 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.verification_id != 0i64 {
-                    ::buffa::types::put_int64_field(1u32, self.verification_id, buf);
+                if !self.verification_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -13090,12 +13067,8 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_zero_i64(&self.verification_id) {
-                    __map
-                        .serialize_entry(
-                            "verificationId",
-                            &::buffa::json_helpers::ProtoJson(&self.verification_id),
-                        )?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.verification_id) {
+                    __map.serialize_entry("verificationId", self.verification_id)?;
                 }
                 __map.end()
             }
@@ -13200,7 +13173,7 @@ pub mod __buffa {
             }
             /// Field 1: `verification_id`
             #[must_use]
-            pub fn verification_id(&self) -> i64 {
+            pub fn verification_id(&self) -> &'_ str {
                 self.0.reborrow().verification_id
             }
         }

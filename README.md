@@ -35,7 +35,7 @@ Generated artifacts are checked into `gen/`.
 
 - Go 1.27+
 - Rust and Cargo
-- Buf
+- Buf v1.73.0
 - Git
 
 The exact Buf plugins are configured in `buf.gen.yaml`.

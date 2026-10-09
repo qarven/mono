@@ -93,7 +93,7 @@ func (x *Token) GetExpiresIn() int64 {
 
 type AuthFlow struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	FlowType      AuthFlowType           `protobuf:"varint,2,opt,name=flow_type,json=flowType,proto3,enum=oryon.identity.v1.AuthFlowType" json:"flow_type,omitempty"`
 	FlowState     AuthFlowState          `protobuf:"varint,3,opt,name=flow_state,json=flowState,proto3,enum=oryon.identity.v1.AuthFlowState" json:"flow_state,omitempty"`
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
@@ -131,11 +131,11 @@ func (*AuthFlow) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AuthFlow) GetId() int64 {
+func (x *AuthFlow) GetId() string {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return ""
 }
 
 func (x *AuthFlow) GetFlowType() AuthFlowType {
@@ -161,7 +161,7 @@ func (x *AuthFlow) GetExpiresAt() *timestamppb.Timestamp {
 
 type VerificationChallenge struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Identifier    string                 `protobuf:"bytes,2,opt,name=identifier,proto3" json:"identifier,omitempty"`
 	Purpose       VerificationPurpose    `protobuf:"varint,3,opt,name=purpose,proto3,enum=oryon.identity.v1.VerificationPurpose" json:"purpose,omitempty"`
 	ExpiresAt     *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expires_at,json=expiresAt,proto3" json:"expires_at,omitempty"`
@@ -199,11 +199,11 @@ func (*VerificationChallenge) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *VerificationChallenge) GetId() int64 {
+func (x *VerificationChallenge) GetId() string {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return ""
 }
 
 func (x *VerificationChallenge) GetIdentifier() string {
@@ -229,7 +229,7 @@ func (x *VerificationChallenge) GetExpiresAt() *timestamppb.Timestamp {
 
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	Status        UserStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=oryon.identity.v1.UserStatus" json:"status,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Username      *string                `protobuf:"bytes,4,opt,name=username,proto3,oneof" json:"username,omitempty"`
@@ -270,11 +270,11 @@ func (*User) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *User) GetId() int64 {
+func (x *User) GetId() string {
 	if x != nil {
 		return x.Id
 	}
-	return 0
+	return ""
 }
 
 func (x *User) GetStatus() UserStatus {
@@ -433,7 +433,7 @@ func (x *RegistrationResponse) GetFlow() *AuthFlow {
 
 type CompleteRegistrationRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FlowId        int64                  `protobuf:"varint,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
+	FlowId        string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
 	EmailCode     *string                `protobuf:"bytes,2,opt,name=email_code,json=emailCode,proto3,oneof" json:"email_code,omitempty"`
 	PhoneCode     *string                `protobuf:"bytes,3,opt,name=phone_code,json=phoneCode,proto3,oneof" json:"phone_code,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -470,11 +470,11 @@ func (*CompleteRegistrationRequest) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *CompleteRegistrationRequest) GetFlowId() int64 {
+func (x *CompleteRegistrationRequest) GetFlowId() string {
 	if x != nil {
 		return x.FlowId
 	}
-	return 0
+	return ""
 }
 
 func (x *CompleteRegistrationRequest) GetEmailCode() string {
@@ -537,7 +537,7 @@ func (x *CompleteRegistrationResponse) GetUser() *User {
 
 type ResendRegistrationCodeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FlowId        int64                  `protobuf:"varint,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
+	FlowId        string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -572,11 +572,11 @@ func (*ResendRegistrationCodeRequest) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{8}
 }
 
-func (x *ResendRegistrationCodeRequest) GetFlowId() int64 {
+func (x *ResendRegistrationCodeRequest) GetFlowId() string {
 	if x != nil {
 		return x.FlowId
 	}
-	return 0
+	return ""
 }
 
 type ResendRegistrationCodeResponse struct {
@@ -952,7 +952,7 @@ func (x *RefreshTokenResponse) GetToken() *Token {
 
 type CompleteLoginMfaRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	FlowId        int64                  `protobuf:"varint,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
+	FlowId        string                 `protobuf:"bytes,1,opt,name=flow_id,json=flowId,proto3" json:"flow_id,omitempty"`
 	Code          string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
 	FactorType    MfaFactorType          `protobuf:"varint,3,opt,name=factor_type,json=factorType,proto3,enum=oryon.identity.v1.MfaFactorType" json:"factor_type,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -989,11 +989,11 @@ func (*CompleteLoginMfaRequest) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *CompleteLoginMfaRequest) GetFlowId() int64 {
+func (x *CompleteLoginMfaRequest) GetFlowId() string {
 	if x != nil {
 		return x.FlowId
 	}
-	return 0
+	return ""
 }
 
 func (x *CompleteLoginMfaRequest) GetCode() string {
@@ -1152,7 +1152,7 @@ func (x *InitiatePasswordResetResponse) GetChallenge() *VerificationChallenge {
 
 type CompletePasswordResetRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	VerificationId int64                  `protobuf:"varint,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
+	VerificationId string                 `protobuf:"bytes,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
 	Code           string                 `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
 	NewPassword    string                 `protobuf:"bytes,3,opt,name=new_password,json=newPassword,proto3" json:"new_password,omitempty"`
 	unknownFields  protoimpl.UnknownFields
@@ -1189,11 +1189,11 @@ func (*CompletePasswordResetRequest) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{20}
 }
 
-func (x *CompletePasswordResetRequest) GetVerificationId() int64 {
+func (x *CompletePasswordResetRequest) GetVerificationId() string {
 	if x != nil {
 		return x.VerificationId
 	}
-	return 0
+	return ""
 }
 
 func (x *CompletePasswordResetRequest) GetCode() string {
@@ -1256,7 +1256,7 @@ func (x *CompletePasswordResetResponse) GetUser() *User {
 
 type ResendPasswordResetCodeRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
-	VerificationId int64                  `protobuf:"varint,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
+	VerificationId string                 `protobuf:"bytes,1,opt,name=verification_id,json=verificationId,proto3" json:"verification_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -1291,11 +1291,11 @@ func (*ResendPasswordResetCodeRequest) Descriptor() ([]byte, []int) {
 	return file_oryon_identity_v1_authentication_proto_rawDescGZIP(), []int{22}
 }
 
-func (x *ResendPasswordResetCodeRequest) GetVerificationId() int64 {
+func (x *ResendPasswordResetCodeRequest) GetVerificationId() string {
 	if x != nil {
 		return x.VerificationId
 	}
-	return 0
+	return ""
 }
 
 type ResendPasswordResetCodeResponse struct {
@@ -1353,24 +1353,24 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\n" +
 	"token_type\x18\x03 \x01(\tR\ttokenType\x12\x1d\n" +
 	"\n" +
-	"expires_in\x18\x04 \x01(\x03R\texpiresIn\"\xd4\x01\n" +
-	"\bAuthFlow\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12<\n" +
+	"expires_in\x18\x04 \x01(\x03R\texpiresIn\"\xde\x01\n" +
+	"\bAuthFlow\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12<\n" +
 	"\tflow_type\x18\x02 \x01(\x0e2\x1f.oryon.identity.v1.AuthFlowTypeR\bflowType\x12?\n" +
 	"\n" +
 	"flow_state\x18\x03 \x01(\x0e2 .oryon.identity.v1.AuthFlowStateR\tflowState\x129\n" +
 	"\n" +
-	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xc4\x01\n" +
-	"\x15VerificationChallenge\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1e\n" +
+	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xce\x01\n" +
+	"\x15VerificationChallenge\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12\x1e\n" +
 	"\n" +
 	"identifier\x18\x02 \x01(\tR\n" +
 	"identifier\x12@\n" +
 	"\apurpose\x18\x03 \x01(\x0e2&.oryon.identity.v1.VerificationPurposeR\apurpose\x129\n" +
 	"\n" +
-	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xb8\x02\n" +
-	"\x04User\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x125\n" +
+	"expires_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\texpiresAt\"\xc2\x02\n" +
+	"\x04User\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x125\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x1d.oryon.identity.v1.UserStatusR\x06status\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1f\n" +
 	"\busername\x18\x04 \x01(\tH\x00R\busername\x88\x01\x01\x12\"\n" +
@@ -1392,9 +1392,9 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\x06_emailB\b\n" +
 	"\x06_phone\"G\n" +
 	"\x14RegistrationResponse\x12/\n" +
-	"\x04flow\x18\x01 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"\xb9\x02\n" +
-	"\x1bCompleteRegistrationRequest\x12\x17\n" +
-	"\aflow_id\x18\x01 \x01(\x03R\x06flowId\x12-\n" +
+	"\x04flow\x18\x01 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"\xc3\x02\n" +
+	"\x1bCompleteRegistrationRequest\x12!\n" +
+	"\aflow_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06flowId\x12-\n" +
 	"\n" +
 	"email_code\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x06\x18\bH\x00R\temailCode\x88\x01\x01\x12-\n" +
 	"\n" +
@@ -1403,9 +1403,9 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\v_email_codeB\r\n" +
 	"\v_phone_code\"K\n" +
 	"\x1cCompleteRegistrationResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"@\n" +
-	"\x1dResendRegistrationCodeRequest\x12\x1f\n" +
-	"\aflow_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x06flowId\"Q\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"B\n" +
+	"\x1dResendRegistrationCodeRequest\x12!\n" +
+	"\aflow_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06flowId\"Q\n" +
 	"\x1eResendRegistrationCodeResponse\x12/\n" +
 	"\x04flow\x18\x01 \x01(\v2\x1b.oryon.identity.v1.AuthFlowR\x04flow\"\\\n" +
 	"\fLoginRequest\x12'\n" +
@@ -1428,9 +1428,9 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"\x13RefreshTokenRequest\x12+\n" +
 	"\rrefresh_token\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\frefreshToken\"F\n" +
 	"\x14RefreshTokenResponse\x12.\n" +
-	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\"\xa1\x01\n" +
-	"\x17CompleteLoginMfaRequest\x12\x1f\n" +
-	"\aflow_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x06flowId\x12\x1a\n" +
+	"\x05token\x18\x01 \x01(\v2\x18.oryon.identity.v1.TokenR\x05token\"\xa3\x01\n" +
+	"\x17CompleteLoginMfaRequest\x12!\n" +
+	"\aflow_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06flowId\x12\x1a\n" +
 	"\x04code\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04code\x12I\n" +
 	"\vfactor_type\x18\x03 \x01(\x0e2 .oryon.identity.v1.MfaFactorTypeB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"factorType\"w\n" +
@@ -1442,16 +1442,16 @@ const file_oryon_identity_v1_authentication_proto_rawDesc = "" +
 	"identifier\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x03R\n" +
 	"identifier\"g\n" +
 	"\x1dInitiatePasswordResetResponse\x12F\n" +
-	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge\"\x9a\x01\n" +
-	"\x1cCompletePasswordResetRequest\x12/\n" +
-	"\x0fverification_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x0everificationId\x12\x1a\n" +
+	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge\"\x9c\x01\n" +
+	"\x1cCompletePasswordResetRequest\x121\n" +
+	"\x0fverification_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x0everificationId\x12\x1a\n" +
 	"\x04code\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\x04code\x12-\n" +
 	"\fnew_password\x18\x03 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\b\x18\x80\x01R\vnewPassword\"L\n" +
 	"\x1dCompletePasswordResetResponse\x12+\n" +
-	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"Q\n" +
-	"\x1eResendPasswordResetCodeRequest\x12/\n" +
-	"\x0fverification_id\x18\x01 \x01(\x03B\x06\xbaH\x03\xc8\x01\x01R\x0everificationId\"i\n" +
+	"\x04user\x18\x01 \x01(\v2\x17.oryon.identity.v1.UserR\x04user\"S\n" +
+	"\x1eResendPasswordResetCodeRequest\x121\n" +
+	"\x0fverification_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x0everificationId\"i\n" +
 	"\x1fResendPasswordResetCodeResponse\x12F\n" +
 	"\tchallenge\x18\x01 \x01(\v2(.oryon.identity.v1.VerificationChallengeR\tchallenge2\x85\b\n" +
 	"\x15AuthenticationService\x12_\n" +
