@@ -60,6 +60,30 @@ pub type OwnedCompleteLoginMfaResponseView = ::buffa::view::OwnedView<
         'static,
     >,
 >;
+///Shorthand for `OwnedView<BeginWebAuthnLoginRequestView<'static>>`.
+pub type OwnedBeginWebAuthnLoginRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<BeginWebAuthnLoginResponseView<'static>>`.
+pub type OwnedBeginWebAuthnLoginResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginResponseView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<CompleteWebAuthnLoginRequestView<'static>>`.
+pub type OwnedCompleteWebAuthnLoginRequestView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginRequestView<
+        'static,
+    >,
+>;
+///Shorthand for `OwnedView<CompleteWebAuthnLoginResponseView<'static>>`.
+pub type OwnedCompleteWebAuthnLoginResponseView = ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginResponseView<
+        'static,
+    >,
+>;
 ///Shorthand for `OwnedView<InitiatePasswordResetRequestView<'static>>`.
 pub type OwnedInitiatePasswordResetRequestView = ::buffa::view::OwnedView<
     crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetRequestView<
@@ -307,6 +331,90 @@ for ::buffa::view::OwnedView<
     }
 }
 impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::BeginWebAuthnLoginResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginResponseView<
+    '_,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::BeginWebAuthnLoginResponse,
+>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginResponseView<
+        'static,
+    >,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+    /// An `OwnedView` still holds the buffer it was decoded from, so
+    /// its large fields can be handed to the response body by
+    /// reference count instead of copied. The bare view impl above
+    /// cannot do this: it has borrows but no buffer to name.
+    fn encode_segments(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body_segments(
+            self.reborrow(),
+            self.bytes(),
+            codec,
+        )
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::CompleteWebAuthnLoginResponse,
+>
+for crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginResponseView<
+    '_,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self, codec)
+    }
+}
+impl ::connectrpc::Encodable<
+    crate::proto::oryon::identity::v1::CompleteWebAuthnLoginResponse,
+>
+for ::buffa::view::OwnedView<
+    crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginResponseView<
+        'static,
+    >,
+> {
+    fn encode(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::buffa::bytes::Bytes, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body(self.reborrow(), codec)
+    }
+    /// An `OwnedView` still holds the buffer it was decoded from, so
+    /// its large fields can be handed to the response body by
+    /// reference count instead of copied. The bare view impl above
+    /// cannot do this: it has borrows but no buffer to name.
+    fn encode_segments(
+        &self,
+        codec: ::connectrpc::CodecFormat,
+    ) -> ::std::result::Result<::connectrpc::EncodedBody, ::connectrpc::ConnectError> {
+        ::connectrpc::__codegen::encode_view_body_segments(
+            self.reborrow(),
+            self.bytes(),
+            codec,
+        )
+    }
+}
+impl ::connectrpc::Encodable<
     crate::proto::oryon::identity::v1::InitiatePasswordResetResponse,
 >
 for crate::proto::oryon::identity::v1::__buffa::view::InitiatePasswordResetResponseView<
@@ -425,6 +533,18 @@ pub const AUTHENTICATION_SERVICE_REFRESH_TOKEN_SPEC: ::connectrpc::Spec = ::conn
 /// Static [`Spec`](::connectrpc::Spec) for the `CompleteLoginMfa` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
 pub const AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
         "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the `BeginWebAuthnLogin` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_BEGIN_WEB_AUTHN_LOGIN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/BeginWebAuthnLogin",
+        ::connectrpc::StreamType::Unary,
+    )
+    .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
+/// Static [`Spec`](::connectrpc::Spec) for the `CompleteWebAuthnLogin` RPC, as seen by the server; the generated client passes it with [`origin`](::connectrpc::Spec::origin) `Client` (compare across sides with [`Spec::same_method`](::connectrpc::Spec::same_method)).
+pub const AUTHENTICATION_SERVICE_COMPLETE_WEB_AUTHN_LOGIN_SPEC: ::connectrpc::Spec = ::connectrpc::Spec::server(
+        "/oryon.identity.v1.AuthenticationService/CompleteWebAuthnLogin",
         ::connectrpc::StreamType::Unary,
     )
     .with_idempotency_level(::connectrpc::IdempotencyLevel::Unknown);
@@ -626,6 +746,52 @@ pub trait AuthenticationService: Send + Sync + 'static {
         Output = ::connectrpc::ServiceResult<
             impl ::connectrpc::Encodable<
                 crate::proto::oryon::identity::v1::CompleteLoginMfaResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the BeginWebAuthnLogin RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn begin_web_authn_login<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::BeginWebAuthnLoginResponse,
+            > + Send + use<'a, Self>,
+        >,
+    > + Send;
+    /// Handle the CompleteWebAuthnLogin RPC.
+    ///
+    /// `'a` lets the response body borrow from `&self` (e.g. server-resident state).
+    ///
+    /// `request` is borrowed from the request body and is valid for the
+    /// duration of the call; message fields are read directly on it
+    /// (zero-copy). The response cannot borrow from `request` — use
+    /// `.to_owned_message()` (or copy the specific fields) for anything
+    /// returned, stored, or moved into `tokio::spawn`.
+    fn complete_web_authn_login<'a>(
+        &'a self,
+        ctx: ::connectrpc::RequestContext,
+        request: ::connectrpc::ServiceRequest<
+            '_,
+            crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+        >,
+    ) -> impl ::std::future::Future<
+        Output = ::connectrpc::ServiceResult<
+            impl ::connectrpc::Encodable<
+                crate::proto::oryon::identity::v1::CompleteWebAuthnLoginResponse,
             > + Send + use<'a, Self>,
         >,
     > + Send;
@@ -883,6 +1049,64 @@ impl<S: AuthenticationService> AuthenticationServiceExt for S {
             .with_spec(AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC)
             .route_view(
                 AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "BeginWebAuthnLogin",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.begin_web_authn_login(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::BeginWebAuthnLoginResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_BEGIN_WEB_AUTHN_LOGIN_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
+                "CompleteWebAuthnLogin",
+                {
+                    let svc = ::std::sync::Arc::clone(&self);
+                    ::connectrpc::view_handler_fn(move |
+                        ctx,
+                        req: ::buffa::view::OwnedView<
+                            crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginRequestView<
+                                'static,
+                            >,
+                        >,
+                        format|
+                    {
+                        let svc = ::std::sync::Arc::clone(&svc);
+                        async move {
+                            let sreq = ::connectrpc::ServiceRequest::<
+                                crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+                            >::from_parts(req.reborrow(), req.bytes());
+                            svc.complete_web_authn_login(ctx, sreq)
+                                .await?
+                                .encode::<
+                                    crate::proto::oryon::identity::v1::CompleteWebAuthnLoginResponse,
+                                >(format)
+                        }
+                    })
+                },
+            )
+            .with_spec(AUTHENTICATION_SERVICE_COMPLETE_WEB_AUTHN_LOGIN_SPEC)
+            .route_view(
+                AUTHENTICATION_SERVICE_SERVICE_NAME,
                 "InitiatePasswordReset",
                 {
                     let svc = ::std::sync::Arc::clone(&self);
@@ -1030,6 +1254,18 @@ for AuthenticationServiceServer<T> {
                 Some(
                     ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
                         .with_spec(AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC),
+                )
+            }
+            "BeginWebAuthnLogin" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_BEGIN_WEB_AUTHN_LOGIN_SPEC),
+                )
+            }
+            "CompleteWebAuthnLogin" => {
+                Some(
+                    ::connectrpc::dispatcher::codegen::MethodDescriptor::unary(false)
+                        .with_spec(AUTHENTICATION_SERVICE_COMPLETE_WEB_AUTHN_LOGIN_SPEC),
                 )
             }
             "InitiatePasswordReset" => {
@@ -1189,6 +1425,50 @@ for AuthenticationServiceServer<T> {
                         .await?
                         .encode::<
                             crate::proto::oryon::identity::v1::CompleteLoginMfaResponse,
+                        >(format)
+                })
+            }
+            "BeginWebAuthnLogin" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+                    >::from_parts(&req, &body);
+                    svc.begin_web_authn_login(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::BeginWebAuthnLoginResponse,
+                        >(format)
+                })
+            }
+            "CompleteWebAuthnLogin" => {
+                let svc = ::std::sync::Arc::clone(&self.inner);
+                Box::pin(async move {
+                    let body = ::connectrpc::dispatcher::codegen::request_proto_bytes::<
+                        crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+                    >(request.encoded()?, format)?;
+                    let req: crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginRequestView<
+                        '_,
+                    > = ::connectrpc::dispatcher::codegen::decode_borrowed_request_view(
+                        &body,
+                        ctx.decode_options(),
+                    )?;
+                    let req = ::connectrpc::ServiceRequest::<
+                        crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+                    >::from_parts(&req, &body);
+                    svc.complete_web_authn_login(ctx, req)
+                        .await?
+                        .encode::<
+                            crate::proto::oryon::identity::v1::CompleteWebAuthnLoginResponse,
                         >(format)
                 })
             }
@@ -1628,6 +1908,96 @@ where
                 &self.transport,
                 &self.config,
                 AUTHENTICATION_SERVICE_COMPLETE_LOGIN_MFA_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the BeginWebAuthnLogin RPC. Sends a request to /oryon.identity.v1.AuthenticationService/BeginWebAuthnLogin.
+    pub async fn begin_web_authn_login(
+        &self,
+        request: crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.begin_web_authn_login_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the BeginWebAuthnLogin RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn begin_web_authn_login_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::BeginWebAuthnLoginRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::BeginWebAuthnLoginResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_BEGIN_WEB_AUTHN_LOGIN_SPEC
+                    .with_origin(::connectrpc::SpecOrigin::Client),
+                request,
+                options,
+            )
+            .await
+    }
+    /// Call the CompleteWebAuthnLogin RPC. Sends a request to /oryon.identity.v1.AuthenticationService/CompleteWebAuthnLogin.
+    pub async fn complete_web_authn_login(
+        &self,
+        request: crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        self.complete_web_authn_login_with_options(
+                request,
+                ::connectrpc::client::CallOptions::default(),
+            )
+            .await
+    }
+    /// Call the CompleteWebAuthnLogin RPC with explicit per-call options. Options override [`ClientConfig`](::connectrpc::client::ClientConfig) defaults.
+    pub async fn complete_web_authn_login_with_options(
+        &self,
+        request: crate::proto::oryon::identity::v1::CompleteWebAuthnLoginRequest,
+        options: ::connectrpc::client::CallOptions,
+    ) -> Result<
+        ::connectrpc::client::UnaryResponse<
+            ::buffa::view::OwnedView<
+                crate::proto::oryon::identity::v1::__buffa::view::CompleteWebAuthnLoginResponseView<
+                    'static,
+                >,
+            >,
+        >,
+        ::connectrpc::ConnectError,
+    > {
+        ::connectrpc::client::call_unary(
+                &self.transport,
+                &self.config,
+                AUTHENTICATION_SERVICE_COMPLETE_WEB_AUTHN_LOGIN_SPEC
                     .with_origin(::connectrpc::SpecOrigin::Client),
                 request,
                 options,

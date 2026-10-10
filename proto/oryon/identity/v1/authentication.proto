@@ -19,6 +19,9 @@ service AuthenticationService {
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
   rpc CompleteLoginMfa(CompleteLoginMfaRequest) returns (CompleteLoginMfaResponse);
 
+  rpc BeginWebAuthnLogin(BeginWebAuthnLoginRequest) returns (BeginWebAuthnLoginResponse);
+  rpc CompleteWebAuthnLogin(CompleteWebAuthnLoginRequest) returns (CompleteWebAuthnLoginResponse);
+
   rpc InitiatePasswordReset(InitiatePasswordResetRequest) returns (InitiatePasswordResetResponse);
   rpc CompletePasswordReset(CompletePasswordResetRequest) returns (CompletePasswordResetResponse);
 }
@@ -150,6 +153,34 @@ message CompleteLoginMfaRequest {
 }
 
 message CompleteLoginMfaResponse {
+  Token token = 1;
+  User user = 2;
+}
+
+message BeginWebAuthnLoginRequest {
+  string flow_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message BeginWebAuthnLoginResponse {
+  AuthFlow flow = 1;
+  // JSON-serialized PublicKeyCredentialRequestOptionsJSON (W3C L3).
+  // Opaque to proto, verified by server on Complete.
+  string request_options_json = 2 [
+    (buf.validate.field).string.min_len = 2,
+    (buf.validate.field).string.max_len = 32768
+  ];
+}
+
+message CompleteWebAuthnLoginRequest {
+  string flow_id = 1 [(buf.validate.field).string.uuid = true];
+  // JSON-serialized PublicKeyCredentialJSON from navigator.credentials.get().
+  string assertion_response_json = 2 [
+    (buf.validate.field).string.min_len = 2,
+    (buf.validate.field).string.max_len = 32768
+  ];
+}
+
+message CompleteWebAuthnLoginResponse {
   Token token = 1;
   User user = 2;
 }

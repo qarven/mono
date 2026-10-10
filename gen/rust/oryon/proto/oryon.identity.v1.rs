@@ -4295,6 +4295,630 @@ pub const __COMPLETE_LOGIN_MFA_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAn
 #[derive(Clone, PartialEq, Default)]
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
+pub struct BeginWebAuthnLoginRequest {
+    /// Field 1: `flow_id`
+    #[serde(
+        rename = "flowId",
+        alias = "flow_id",
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
+    )]
+    pub flow_id: ::buffa::alloc::string::String,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for BeginWebAuthnLoginRequest {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("BeginWebAuthnLoginRequest")
+            .field("flow_id", &self.flow_id)
+            .finish()
+    }
+}
+impl BeginWebAuthnLoginRequest {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginRequest";
+}
+::buffa::impl_default_instance!(BeginWebAuthnLoginRequest);
+impl ::buffa::MessageName for BeginWebAuthnLoginRequest {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "BeginWebAuthnLoginRequest";
+    const FULL_NAME: &'static str = "oryon.identity.v1.BeginWebAuthnLoginRequest";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginRequest";
+}
+impl ::buffa::Message for BeginWebAuthnLoginRequest {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.flow_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.flow_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.flow_id, buf)?;
+            }
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.flow_id.clear();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for BeginWebAuthnLoginRequest {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.BeginWebAuthnLoginRequest";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for BeginWebAuthnLoginRequest {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __BEGIN_WEB_AUTHN_LOGIN_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginRequest",
+    to_json: ::buffa::type_registry::any_to_json::<BeginWebAuthnLoginRequest>,
+    from_json: ::buffa::type_registry::any_from_json::<BeginWebAuthnLoginRequest>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize, ::serde::Deserialize)]
+#[serde(default)]
+pub struct BeginWebAuthnLoginResponse {
+    /// Field 1: `flow`
+    #[serde(
+        rename = "flow",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
+    )]
+    pub flow: ::buffa::MessageField<AuthFlow, ::buffa::Inline<AuthFlow>>,
+    /// JSON-serialized PublicKeyCredentialRequestOptionsJSON (W3C L3).
+    /// Opaque to proto, verified by server on Complete.
+    ///
+    /// Field 2: `request_options_json`
+    #[serde(
+        rename = "requestOptionsJson",
+        alias = "request_options_json",
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
+    )]
+    pub request_options_json: ::buffa::alloc::string::String,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for BeginWebAuthnLoginResponse {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("BeginWebAuthnLoginResponse")
+            .field("flow", &self.flow)
+            .field("request_options_json", &self.request_options_json)
+            .finish()
+    }
+}
+impl BeginWebAuthnLoginResponse {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginResponse";
+}
+::buffa::impl_default_instance!(BeginWebAuthnLoginResponse);
+impl ::buffa::MessageName for BeginWebAuthnLoginResponse {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "BeginWebAuthnLoginResponse";
+    const FULL_NAME: &'static str = "oryon.identity.v1.BeginWebAuthnLoginResponse";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginResponse";
+}
+impl ::buffa::Message for BeginWebAuthnLoginResponse {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.flow.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.flow.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if !self.request_options_json.is_empty() {
+            size
+                += 1u64
+                    + ::buffa::types::string_encoded_len(&self.request_options_json)
+                        as u64;
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.flow.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.flow.write_to(__cache, buf);
+        }
+        if !self.request_options_json.is_empty() {
+            ::buffa::types::put_string_field(2u32, &self.request_options_json, buf);
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.flow.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.request_options_json, buf)?;
+            }
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.flow = ::buffa::MessageField::none();
+        self.request_options_json.clear();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for BeginWebAuthnLoginResponse {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.BeginWebAuthnLoginResponse";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for BeginWebAuthnLoginResponse {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __BEGIN_WEB_AUTHN_LOGIN_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginResponse",
+    to_json: ::buffa::type_registry::any_to_json::<BeginWebAuthnLoginResponse>,
+    from_json: ::buffa::type_registry::any_from_json::<BeginWebAuthnLoginResponse>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize, ::serde::Deserialize)]
+#[serde(default)]
+pub struct CompleteWebAuthnLoginRequest {
+    /// Field 1: `flow_id`
+    #[serde(
+        rename = "flowId",
+        alias = "flow_id",
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
+    )]
+    pub flow_id: ::buffa::alloc::string::String,
+    /// JSON-serialized PublicKeyCredentialJSON from navigator.credentials.get().
+    ///
+    /// Field 2: `assertion_response_json`
+    #[serde(
+        rename = "assertionResponseJson",
+        alias = "assertion_response_json",
+        with = "::buffa::json_helpers::proto_string",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
+    )]
+    pub assertion_response_json: ::buffa::alloc::string::String,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for CompleteWebAuthnLoginRequest {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("CompleteWebAuthnLoginRequest")
+            .field("flow_id", &self.flow_id)
+            .field("assertion_response_json", &self.assertion_response_json)
+            .finish()
+    }
+}
+impl CompleteWebAuthnLoginRequest {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginRequest";
+}
+::buffa::impl_default_instance!(CompleteWebAuthnLoginRequest);
+impl ::buffa::MessageName for CompleteWebAuthnLoginRequest {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "CompleteWebAuthnLoginRequest";
+    const FULL_NAME: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginRequest";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginRequest";
+}
+impl ::buffa::Message for CompleteWebAuthnLoginRequest {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if !self.flow_id.is_empty() {
+            size += 1u64 + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
+        }
+        if !self.assertion_response_json.is_empty() {
+            size
+                += 1u64
+                    + ::buffa::types::string_encoded_len(&self.assertion_response_json)
+                        as u64;
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        _cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if !self.flow_id.is_empty() {
+            ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
+        }
+        if !self.assertion_response_json.is_empty() {
+            ::buffa::types::put_string_field(2u32, &self.assertion_response_json, buf);
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.flow_id, buf)?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::types::merge_string(&mut self.assertion_response_json, buf)?;
+            }
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.flow_id.clear();
+        self.assertion_response_json.clear();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for CompleteWebAuthnLoginRequest {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginRequest";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for CompleteWebAuthnLoginRequest {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __COMPLETE_WEB_AUTHN_LOGIN_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginRequest",
+    to_json: ::buffa::type_registry::any_to_json::<CompleteWebAuthnLoginRequest>,
+    from_json: ::buffa::type_registry::any_from_json::<CompleteWebAuthnLoginRequest>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize, ::serde::Deserialize)]
+#[serde(default)]
+pub struct CompleteWebAuthnLoginResponse {
+    /// Field 1: `token`
+    #[serde(
+        rename = "token",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
+    )]
+    pub token: ::buffa::MessageField<Token, ::buffa::Inline<Token>>,
+    /// Field 2: `user`
+    #[serde(
+        rename = "user",
+        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
+    )]
+    pub user: ::buffa::MessageField<User, ::buffa::Inline<User>>,
+    #[serde(skip)]
+    #[doc(hidden)]
+    pub __buffa_unknown_fields: ::buffa::UnknownFields,
+}
+impl ::core::fmt::Debug for CompleteWebAuthnLoginResponse {
+    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+        f.debug_struct("CompleteWebAuthnLoginResponse")
+            .field("token", &self.token)
+            .field("user", &self.user)
+            .finish()
+    }
+}
+impl CompleteWebAuthnLoginResponse {
+    /// Protobuf type URL for this message, for use with `Any::pack` and
+    /// `Any::unpack_if`.
+    ///
+    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
+    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginResponse";
+}
+::buffa::impl_default_instance!(CompleteWebAuthnLoginResponse);
+impl ::buffa::MessageName for CompleteWebAuthnLoginResponse {
+    const PACKAGE: &'static str = "oryon.identity.v1";
+    const NAME: &'static str = "CompleteWebAuthnLoginResponse";
+    const FULL_NAME: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginResponse";
+    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginResponse";
+}
+impl ::buffa::Message for CompleteWebAuthnLoginResponse {
+    /// Returns the total encoded size in bytes.
+    ///
+    /// Accumulates in `u64` (which cannot overflow for in-memory
+    /// data) and saturates to `u32` at return, so a message whose
+    /// encoded size exceeds the 2 GiB protobuf limit yields a value
+    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
+    /// points reject, never a silently wrapped size.
+    #[allow(clippy::let_and_return)]
+    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        let mut size = 0u64;
+        if self.token.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.token.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        if self.user.is_set() {
+            let __slot = __cache.reserve();
+            let inner_size = self.user.compute_size(__cache);
+            __cache.set(__slot, inner_size);
+            size
+                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                    + inner_size as u64;
+        }
+        size += self.__buffa_unknown_fields.encoded_len() as u64;
+        ::buffa::saturate_size(size)
+    }
+    fn write_to(
+        &self,
+        __cache: &mut ::buffa::SizeCache,
+        buf: &mut impl ::buffa::EncodeSink,
+    ) {
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        if self.token.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                1u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.token.write_to(__cache, buf);
+        }
+        if self.user.is_set() {
+            ::buffa::types::put_len_delimited_header(
+                2u32,
+                u64::from(__cache.consume_next()),
+                buf,
+            );
+            self.user.write_to(__cache, buf);
+        }
+        self.__buffa_unknown_fields.write_to(buf);
+    }
+    fn merge_field(
+        &mut self,
+        tag: ::buffa::encoding::Tag,
+        buf: &mut impl ::buffa::bytes::Buf,
+        ctx: ::buffa::DecodeContext<'_>,
+    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
+        #[allow(unused_imports)]
+        use ::buffa::bytes::Buf as _;
+        #[allow(unused_imports)]
+        use ::buffa::Enumeration as _;
+        match tag.field_number() {
+            1u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.token.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            2u32 => {
+                ::buffa::encoding::check_wire_type(
+                    tag,
+                    ::buffa::encoding::WireType::LengthDelimited,
+                )?;
+                ::buffa::Message::merge_length_delimited(
+                    self.user.get_or_insert_default(),
+                    buf,
+                    ctx,
+                )?;
+            }
+            _ => {
+                self.__buffa_unknown_fields
+                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
+            }
+        }
+        ::core::result::Result::Ok(())
+    }
+    fn clear(&mut self) {
+        self.token = ::buffa::MessageField::none();
+        self.user = ::buffa::MessageField::none();
+        self.__buffa_unknown_fields.clear();
+    }
+}
+impl ::buffa::ExtensionSet for CompleteWebAuthnLoginResponse {
+    const PROTO_FQN: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginResponse";
+    fn unknown_fields(&self) -> &::buffa::UnknownFields {
+        &self.__buffa_unknown_fields
+    }
+    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
+        &mut self.__buffa_unknown_fields
+    }
+}
+impl ::buffa::json_helpers::ProtoElemJson for CompleteWebAuthnLoginResponse {
+    fn serialize_proto_json<S: ::serde::Serializer>(
+        v: &Self,
+        s: S,
+    ) -> ::core::result::Result<S::Ok, S::Error> {
+        ::serde::Serialize::serialize(v, s)
+    }
+    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
+        d: D,
+    ) -> ::core::result::Result<Self, D::Error> {
+        <Self as ::serde::Deserialize>::deserialize(d)
+    }
+}
+#[doc(hidden)]
+pub const __COMPLETE_WEB_AUTHN_LOGIN_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
+    type_url: "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginResponse",
+    to_json: ::buffa::type_registry::any_to_json::<CompleteWebAuthnLoginResponse>,
+    from_json: ::buffa::type_registry::any_from_json::<CompleteWebAuthnLoginResponse>,
+    is_wkt: false,
+};
+#[derive(Clone, PartialEq, Default)]
+#[derive(::serde::Serialize, ::serde::Deserialize)]
+#[serde(default)]
 pub struct InitiatePasswordResetRequest {
     /// Field 1: `identifier`
     #[serde(
@@ -11347,6 +11971,1356 @@ pub mod __buffa {
             }
         }
         #[derive(Clone, Debug, Default)]
+        pub struct BeginWebAuthnLoginRequestView<'a> {
+            /// Field 1: `flow_id`
+            pub flow_id: &'a str,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for BeginWebAuthnLoginRequestView<'a> {
+            type Owned = super::super::BeginWebAuthnLoginRequest;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        view.flow_id = ::buffa::types::borrow_str(&mut cur)?;
+                    }
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::BeginWebAuthnLoginRequest,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::BeginWebAuthnLoginRequest,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::BeginWebAuthnLoginRequest {
+                    flow_id: self.flow_id.to_string(),
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for BeginWebAuthnLoginRequestView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if !self.flow_id.is_empty() {
+                    size
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                _cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if !self.flow_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for BeginWebAuthnLoginRequestView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.flow_id) {
+                    __map.serialize_entry("flowId", self.flow_id)?;
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for BeginWebAuthnLoginRequestView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "BeginWebAuthnLoginRequest";
+            const FULL_NAME: &'static str = "oryon.identity.v1.BeginWebAuthnLoginRequest";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginRequest";
+        }
+        ::buffa::impl_default_view_instance!(BeginWebAuthnLoginRequestView);
+        ::buffa::impl_view_reborrow!(BeginWebAuthnLoginRequestView);
+        /** Self-contained, `'static` owned view of a `BeginWebAuthnLoginRequest` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`BeginWebAuthnLoginRequestView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`BeginWebAuthnLoginRequestView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct BeginWebAuthnLoginRequestOwnedView(
+            ::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>>,
+        );
+        impl BeginWebAuthnLoginRequestOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::decode(bytes)?,
+                    ),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::BeginWebAuthnLoginRequest,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::from_owned(msg)?,
+                    ),
+                )
+            }
+            /// Borrow the full [`BeginWebAuthnLoginRequestView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &BeginWebAuthnLoginRequestView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::BeginWebAuthnLoginRequest {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `flow_id`
+            #[must_use]
+            pub fn flow_id(&self) -> &'_ str {
+                self.0.reborrow().flow_id
+            }
+        }
+        impl ::core::convert::From<
+            ::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>>,
+        > for BeginWebAuthnLoginRequestOwnedView {
+            fn from(
+                inner: ::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>>,
+            ) -> Self {
+                BeginWebAuthnLoginRequestOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<BeginWebAuthnLoginRequestOwnedView>
+        for ::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>> {
+            fn from(wrapper: BeginWebAuthnLoginRequestOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<
+            ::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>>,
+        > for BeginWebAuthnLoginRequestOwnedView {
+            fn as_ref(
+                &self,
+            ) -> &::buffa::OwnedView<BeginWebAuthnLoginRequestView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::BeginWebAuthnLoginRequest {
+            type View<'a> = BeginWebAuthnLoginRequestView<'a>;
+            type ViewHandle = BeginWebAuthnLoginRequestOwnedView;
+        }
+        impl ::serde::Serialize for BeginWebAuthnLoginRequestOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
+        pub struct BeginWebAuthnLoginResponseView<'a> {
+            /// Field 1: `flow`
+            pub flow: ::buffa::MessageFieldView<
+                super::super::__buffa::view::AuthFlowView<'a>,
+            >,
+            /// JSON-serialized PublicKeyCredentialRequestOptionsJSON (W3C L3).
+            /// Opaque to proto, verified by server on Complete.
+            ///
+            /// Field 2: `request_options_json`
+            pub request_options_json: &'a str,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for BeginWebAuthnLoginResponseView<'a> {
+            type Owned = super::super::BeginWebAuthnLoginResponse;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        let __sub_ctx = ctx.descend()?;
+                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        match view.flow.as_mut() {
+                            Some(existing) => {
+                                ::buffa::MessageView::merge_into_view(
+                                    existing,
+                                    sub,
+                                    __sub_ctx,
+                                )?
+                            }
+                            None => {
+                                view.flow = ::buffa::MessageFieldView::set(
+                                    <super::super::__buffa::view::AuthFlowView as ::buffa::MessageView>::decode_view_ctx(
+                                        sub,
+                                        __sub_ctx,
+                                    )?,
+                                );
+                            }
+                        }
+                    }
+                    2u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        view.request_options_json = ::buffa::types::borrow_str(
+                            &mut cur,
+                        )?;
+                    }
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::BeginWebAuthnLoginResponse,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::BeginWebAuthnLoginResponse,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::BeginWebAuthnLoginResponse {
+                    flow: match self.flow.as_option() {
+                        Some(v) => {
+                            ::buffa::MessageField::<
+                                super::super::AuthFlow,
+                                ::buffa::Inline<super::super::AuthFlow>,
+                            >::some(v.to_owned_from_source(__buffa_src)?)
+                        }
+                        None => ::buffa::MessageField::none(),
+                    },
+                    request_options_json: self.request_options_json.to_string(),
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for BeginWebAuthnLoginResponseView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if self.flow.is_set() {
+                    let __slot = __cache.reserve();
+                    let inner_size = self.flow.compute_size(__cache);
+                    __cache.set(__slot, inner_size);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
+                }
+                if !self.request_options_json.is_empty() {
+                    size
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(
+                                &self.request_options_json,
+                            ) as u64;
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                __cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if self.flow.is_set() {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    self.flow.write_to(__cache, buf);
+                }
+                if !self.request_options_json.is_empty() {
+                    ::buffa::types::put_string_field(
+                        2u32,
+                        &self.request_options_json,
+                        buf,
+                    );
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for BeginWebAuthnLoginResponseView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                {
+                    if let ::core::option::Option::Some(__v) = self.flow.as_option() {
+                        __map.serialize_entry("flow", __v)?;
+                    }
+                }
+                if !::buffa::json_helpers::skip_if::is_empty_str(
+                    self.request_options_json,
+                ) {
+                    __map
+                        .serialize_entry(
+                            "requestOptionsJson",
+                            self.request_options_json,
+                        )?;
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for BeginWebAuthnLoginResponseView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "BeginWebAuthnLoginResponse";
+            const FULL_NAME: &'static str = "oryon.identity.v1.BeginWebAuthnLoginResponse";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.BeginWebAuthnLoginResponse";
+        }
+        ::buffa::impl_default_view_instance!(BeginWebAuthnLoginResponseView);
+        ::buffa::impl_view_reborrow!(BeginWebAuthnLoginResponseView);
+        /** Self-contained, `'static` owned view of a `BeginWebAuthnLoginResponse` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`BeginWebAuthnLoginResponseView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`BeginWebAuthnLoginResponseView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct BeginWebAuthnLoginResponseOwnedView(
+            ::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>>,
+        );
+        impl BeginWebAuthnLoginResponseOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::decode(bytes)?,
+                    ),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::BeginWebAuthnLoginResponse,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    BeginWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::from_owned(msg)?,
+                    ),
+                )
+            }
+            /// Borrow the full [`BeginWebAuthnLoginResponseView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &BeginWebAuthnLoginResponseView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(&self) -> super::super::BeginWebAuthnLoginResponse {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `flow`
+            #[must_use]
+            pub fn flow(
+                &self,
+            ) -> &::buffa::MessageFieldView<
+                super::super::__buffa::view::AuthFlowView<'_>,
+            > {
+                &self.0.reborrow().flow
+            }
+            /// JSON-serialized PublicKeyCredentialRequestOptionsJSON (W3C L3).
+            /// Opaque to proto, verified by server on Complete.
+            ///
+            /// Field 2: `request_options_json`
+            #[must_use]
+            pub fn request_options_json(&self) -> &'_ str {
+                self.0.reborrow().request_options_json
+            }
+        }
+        impl ::core::convert::From<
+            ::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>>,
+        > for BeginWebAuthnLoginResponseOwnedView {
+            fn from(
+                inner: ::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>>,
+            ) -> Self {
+                BeginWebAuthnLoginResponseOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<BeginWebAuthnLoginResponseOwnedView>
+        for ::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>> {
+            fn from(wrapper: BeginWebAuthnLoginResponseOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<
+            ::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>>,
+        > for BeginWebAuthnLoginResponseOwnedView {
+            fn as_ref(
+                &self,
+            ) -> &::buffa::OwnedView<BeginWebAuthnLoginResponseView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::BeginWebAuthnLoginResponse {
+            type View<'a> = BeginWebAuthnLoginResponseView<'a>;
+            type ViewHandle = BeginWebAuthnLoginResponseOwnedView;
+        }
+        impl ::serde::Serialize for BeginWebAuthnLoginResponseOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
+        pub struct CompleteWebAuthnLoginRequestView<'a> {
+            /// Field 1: `flow_id`
+            pub flow_id: &'a str,
+            /// JSON-serialized PublicKeyCredentialJSON from navigator.credentials.get().
+            ///
+            /// Field 2: `assertion_response_json`
+            pub assertion_response_json: &'a str,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for CompleteWebAuthnLoginRequestView<'a> {
+            type Owned = super::super::CompleteWebAuthnLoginRequest;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        view.flow_id = ::buffa::types::borrow_str(&mut cur)?;
+                    }
+                    2u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        view.assertion_response_json = ::buffa::types::borrow_str(
+                            &mut cur,
+                        )?;
+                    }
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::CompleteWebAuthnLoginRequest,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::CompleteWebAuthnLoginRequest,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::CompleteWebAuthnLoginRequest {
+                    flow_id: self.flow_id.to_string(),
+                    assertion_response_json: self.assertion_response_json.to_string(),
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for CompleteWebAuthnLoginRequestView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if !self.flow_id.is_empty() {
+                    size
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(&self.flow_id) as u64;
+                }
+                if !self.assertion_response_json.is_empty() {
+                    size
+                        += 1u64
+                            + ::buffa::types::string_encoded_len(
+                                &self.assertion_response_json,
+                            ) as u64;
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                _cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if !self.flow_id.is_empty() {
+                    ::buffa::types::put_string_field(1u32, &self.flow_id, buf);
+                }
+                if !self.assertion_response_json.is_empty() {
+                    ::buffa::types::put_string_field(
+                        2u32,
+                        &self.assertion_response_json,
+                        buf,
+                    );
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for CompleteWebAuthnLoginRequestView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                if !::buffa::json_helpers::skip_if::is_empty_str(self.flow_id) {
+                    __map.serialize_entry("flowId", self.flow_id)?;
+                }
+                if !::buffa::json_helpers::skip_if::is_empty_str(
+                    self.assertion_response_json,
+                ) {
+                    __map
+                        .serialize_entry(
+                            "assertionResponseJson",
+                            self.assertion_response_json,
+                        )?;
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for CompleteWebAuthnLoginRequestView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "CompleteWebAuthnLoginRequest";
+            const FULL_NAME: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginRequest";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginRequest";
+        }
+        ::buffa::impl_default_view_instance!(CompleteWebAuthnLoginRequestView);
+        ::buffa::impl_view_reborrow!(CompleteWebAuthnLoginRequestView);
+        /** Self-contained, `'static` owned view of a `CompleteWebAuthnLoginRequest` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`CompleteWebAuthnLoginRequestView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`CompleteWebAuthnLoginRequestView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct CompleteWebAuthnLoginRequestOwnedView(
+            ::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>>,
+        );
+        impl CompleteWebAuthnLoginRequestOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::decode(bytes)?,
+                    ),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::CompleteWebAuthnLoginRequest,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginRequestOwnedView(
+                        ::buffa::OwnedView::from_owned(msg)?,
+                    ),
+                )
+            }
+            /// Borrow the full [`CompleteWebAuthnLoginRequestView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &CompleteWebAuthnLoginRequestView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(
+                &self,
+            ) -> super::super::CompleteWebAuthnLoginRequest {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `flow_id`
+            #[must_use]
+            pub fn flow_id(&self) -> &'_ str {
+                self.0.reborrow().flow_id
+            }
+            /// JSON-serialized PublicKeyCredentialJSON from navigator.credentials.get().
+            ///
+            /// Field 2: `assertion_response_json`
+            #[must_use]
+            pub fn assertion_response_json(&self) -> &'_ str {
+                self.0.reborrow().assertion_response_json
+            }
+        }
+        impl ::core::convert::From<
+            ::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>>,
+        > for CompleteWebAuthnLoginRequestOwnedView {
+            fn from(
+                inner: ::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>>,
+            ) -> Self {
+                CompleteWebAuthnLoginRequestOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<CompleteWebAuthnLoginRequestOwnedView>
+        for ::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>> {
+            fn from(wrapper: CompleteWebAuthnLoginRequestOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<
+            ::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>>,
+        > for CompleteWebAuthnLoginRequestOwnedView {
+            fn as_ref(
+                &self,
+            ) -> &::buffa::OwnedView<CompleteWebAuthnLoginRequestView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::CompleteWebAuthnLoginRequest {
+            type View<'a> = CompleteWebAuthnLoginRequestView<'a>;
+            type ViewHandle = CompleteWebAuthnLoginRequestOwnedView;
+        }
+        impl ::serde::Serialize for CompleteWebAuthnLoginRequestOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
+        pub struct CompleteWebAuthnLoginResponseView<'a> {
+            /// Field 1: `token`
+            pub token: ::buffa::MessageFieldView<
+                super::super::__buffa::view::TokenView<'a>,
+            >,
+            /// Field 2: `user`
+            pub user: ::buffa::MessageFieldView<
+                super::super::__buffa::view::UserView<'a>,
+            >,
+            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
+        }
+        impl<'a> ::buffa::MessageView<'a> for CompleteWebAuthnLoginResponseView<'a> {
+            type Owned = super::super::CompleteWebAuthnLoginResponse;
+            fn decode_view(
+                buf: &'a [u8],
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                let __limit = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
+                );
+                let __elem = ::core::cell::Cell::new(
+                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
+                );
+                <Self as ::buffa::MessageView>::decode_view_ctx(
+                    buf,
+                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
+                        .with_element_memory(&__elem),
+                )
+            }
+            fn decode_view_with_ctx(
+                buf: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
+            }
+            #[inline]
+            fn merge_view_field(
+                &mut self,
+                tag: ::buffa::encoding::Tag,
+                cur: &'a [u8],
+                before_tag: &'a [u8],
+                ctx: ::buffa::DecodeContext<'_>,
+            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
+                let _ = ctx;
+                #[allow(unused_variables)]
+                let view = self;
+                let mut cur = cur;
+                match tag.field_number() {
+                    1u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        let __sub_ctx = ctx.descend()?;
+                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        match view.token.as_mut() {
+                            Some(existing) => {
+                                ::buffa::MessageView::merge_into_view(
+                                    existing,
+                                    sub,
+                                    __sub_ctx,
+                                )?
+                            }
+                            None => {
+                                view.token = ::buffa::MessageFieldView::set(
+                                    <super::super::__buffa::view::TokenView as ::buffa::MessageView>::decode_view_ctx(
+                                        sub,
+                                        __sub_ctx,
+                                    )?,
+                                );
+                            }
+                        }
+                    }
+                    2u32 => {
+                        ::buffa::encoding::check_wire_type(
+                            tag,
+                            ::buffa::encoding::WireType::LengthDelimited,
+                        )?;
+                        let __sub_ctx = ctx.descend()?;
+                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
+                        match view.user.as_mut() {
+                            Some(existing) => {
+                                ::buffa::MessageView::merge_into_view(
+                                    existing,
+                                    sub,
+                                    __sub_ctx,
+                                )?
+                            }
+                            None => {
+                                view.user = ::buffa::MessageFieldView::set(
+                                    <super::super::__buffa::view::UserView as ::buffa::MessageView>::decode_view_ctx(
+                                        sub,
+                                        __sub_ctx,
+                                    )?,
+                                );
+                            }
+                        }
+                    }
+                    _ => {
+                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
+                        let span_len = before_tag.len() - cur.len();
+                        view.__buffa_unknown_fields
+                            .push_record(before_tag, span_len, ctx)?;
+                    }
+                }
+                ::core::result::Result::Ok(cur)
+            }
+            fn to_owned_message(
+                &self,
+            ) -> ::core::result::Result<
+                super::super::CompleteWebAuthnLoginResponse,
+                ::buffa::DecodeError,
+            > {
+                self.to_owned_from_source(None)
+            }
+            #[allow(clippy::useless_conversion, clippy::needless_update)]
+            fn to_owned_from_source(
+                &self,
+                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
+            ) -> ::core::result::Result<
+                super::super::CompleteWebAuthnLoginResponse,
+                ::buffa::DecodeError,
+            > {
+                #[allow(unused_imports)]
+                use ::buffa::alloc::string::ToString as _;
+                let _ = __buffa_src;
+                ::core::result::Result::Ok(super::super::CompleteWebAuthnLoginResponse {
+                    token: match self.token.as_option() {
+                        Some(v) => {
+                            ::buffa::MessageField::<
+                                super::super::Token,
+                                ::buffa::Inline<super::super::Token>,
+                            >::some(v.to_owned_from_source(__buffa_src)?)
+                        }
+                        None => ::buffa::MessageField::none(),
+                    },
+                    user: match self.user.as_option() {
+                        Some(v) => {
+                            ::buffa::MessageField::<
+                                super::super::User,
+                                ::buffa::Inline<super::super::User>,
+                            >::some(v.to_owned_from_source(__buffa_src)?)
+                        }
+                        None => ::buffa::MessageField::none(),
+                    },
+                    __buffa_unknown_fields: self
+                        .__buffa_unknown_fields
+                        .to_owned()?
+                        .into(),
+                    ..::core::default::Default::default()
+                })
+            }
+        }
+        impl<'a> ::buffa::ViewEncode<'a> for CompleteWebAuthnLoginResponseView<'a> {
+            #[allow(clippy::needless_borrow, clippy::let_and_return)]
+            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                let mut size = 0u64;
+                if self.token.is_set() {
+                    let __slot = __cache.reserve();
+                    let inner_size = self.token.compute_size(__cache);
+                    __cache.set(__slot, inner_size);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
+                }
+                if self.user.is_set() {
+                    let __slot = __cache.reserve();
+                    let inner_size = self.user.compute_size(__cache);
+                    __cache.set(__slot, inner_size);
+                    size
+                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
+                            + inner_size as u64;
+                }
+                size += self.__buffa_unknown_fields.encoded_len() as u64;
+                ::buffa::saturate_size(size)
+            }
+            #[allow(clippy::needless_borrow)]
+            fn write_to(
+                &self,
+                __cache: &mut ::buffa::SizeCache,
+                buf: &mut impl ::buffa::EncodeSink,
+            ) {
+                #[allow(unused_imports)]
+                use ::buffa::Enumeration as _;
+                if self.token.is_set() {
+                    ::buffa::types::put_len_delimited_header(
+                        1u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    self.token.write_to(__cache, buf);
+                }
+                if self.user.is_set() {
+                    ::buffa::types::put_len_delimited_header(
+                        2u32,
+                        u64::from(__cache.consume_next()),
+                        buf,
+                    );
+                    self.user.write_to(__cache, buf);
+                }
+                self.__buffa_unknown_fields.write_to(buf);
+            }
+        }
+        /// Serializes this view as protobuf JSON.
+        ///
+        /// Implicit-presence fields with default values are omitted, `required`
+        /// fields are always emitted, explicit-presence (`optional`) fields are
+        /// emitted only when set, bytes fields are base64-encoded, and enum
+        /// values are their proto name strings.
+        ///
+        /// This impl uses `serialize_map(None)` because the number of emitted
+        /// fields depends on default-omission rules; serializers that require
+        /// known map lengths (e.g. `bincode`) will return a runtime error.
+        /// Use the owned message type for those formats.
+        impl<'__a> ::serde::Serialize for CompleteWebAuthnLoginResponseView<'__a> {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                use ::serde::ser::SerializeMap as _;
+                let mut __map = __s.serialize_map(::core::option::Option::None)?;
+                {
+                    if let ::core::option::Option::Some(__v) = self.token.as_option() {
+                        __map.serialize_entry("token", __v)?;
+                    }
+                }
+                {
+                    if let ::core::option::Option::Some(__v) = self.user.as_option() {
+                        __map.serialize_entry("user", __v)?;
+                    }
+                }
+                __map.end()
+            }
+        }
+        impl<'a> ::buffa::MessageName for CompleteWebAuthnLoginResponseView<'a> {
+            const PACKAGE: &'static str = "oryon.identity.v1";
+            const NAME: &'static str = "CompleteWebAuthnLoginResponse";
+            const FULL_NAME: &'static str = "oryon.identity.v1.CompleteWebAuthnLoginResponse";
+            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.CompleteWebAuthnLoginResponse";
+        }
+        ::buffa::impl_default_view_instance!(CompleteWebAuthnLoginResponseView);
+        ::buffa::impl_view_reborrow!(CompleteWebAuthnLoginResponseView);
+        /** Self-contained, `'static` owned view of a `CompleteWebAuthnLoginResponse` message.
+
+ Wraps [`::buffa::OwnedView`]`<`[`CompleteWebAuthnLoginResponseView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
+
+ Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`CompleteWebAuthnLoginResponseView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
+        #[derive(Clone, Debug)]
+        pub struct CompleteWebAuthnLoginResponseOwnedView(
+            ::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>>,
+        );
+        impl CompleteWebAuthnLoginResponseOwnedView {
+            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
+            ///
+            /// The view borrows directly from the buffer's data; the buffer is
+            /// retained inside the returned handle.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
+            /// protobuf data.
+            pub fn decode(
+                bytes: ::buffa::bytes::Bytes,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::decode(bytes)?,
+                    ),
+                )
+            }
+            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
+            /// max message size).
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
+            /// exceeds the configured limits.
+            pub fn decode_with_options(
+                bytes: ::buffa::bytes::Bytes,
+                opts: &::buffa::DecodeOptions,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
+                    ),
+                )
+            }
+            /// Build from an owned message via an encode → decode round-trip.
+            ///
+            /// # Errors
+            ///
+            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
+            /// message's encoded size exceeds the 2 GiB protobuf limit, or
+            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
+            /// somehow invalid (should not happen for well-formed messages).
+            pub fn from_owned(
+                msg: &super::super::CompleteWebAuthnLoginResponse,
+            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
+                ::core::result::Result::Ok(
+                    CompleteWebAuthnLoginResponseOwnedView(
+                        ::buffa::OwnedView::from_owned(msg)?,
+                    ),
+                )
+            }
+            /// Borrow the full [`CompleteWebAuthnLoginResponseView`] with its lifetime tied to `&self`.
+            #[must_use]
+            pub fn view(&self) -> &CompleteWebAuthnLoginResponseView<'_> {
+                self.0.reborrow()
+            }
+            /// Convert to the owned message type.
+            ///
+            /// Infallible: this type's constructors wire-decode their
+            /// buffer, and a view produced by wire decoding always
+            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
+            /// whose contract also governs handles converted from a raw
+            /// [`::buffa::OwnedView`].
+            #[must_use]
+            pub fn to_owned_message(
+                &self,
+            ) -> super::super::CompleteWebAuthnLoginResponse {
+                self.0.to_owned_message()
+            }
+            /// The underlying bytes buffer.
+            #[must_use]
+            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
+                self.0.bytes()
+            }
+            /// Consume the handle, returning the underlying bytes buffer.
+            #[must_use]
+            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
+                self.0.into_bytes()
+            }
+            /// Field 1: `token`
+            #[must_use]
+            pub fn token(
+                &self,
+            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::TokenView<'_>> {
+                &self.0.reborrow().token
+            }
+            /// Field 2: `user`
+            #[must_use]
+            pub fn user(
+                &self,
+            ) -> &::buffa::MessageFieldView<super::super::__buffa::view::UserView<'_>> {
+                &self.0.reborrow().user
+            }
+        }
+        impl ::core::convert::From<
+            ::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>>,
+        > for CompleteWebAuthnLoginResponseOwnedView {
+            fn from(
+                inner: ::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>>,
+            ) -> Self {
+                CompleteWebAuthnLoginResponseOwnedView(inner)
+            }
+        }
+        impl ::core::convert::From<CompleteWebAuthnLoginResponseOwnedView>
+        for ::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>> {
+            fn from(wrapper: CompleteWebAuthnLoginResponseOwnedView) -> Self {
+                wrapper.0
+            }
+        }
+        impl ::core::convert::AsRef<
+            ::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>>,
+        > for CompleteWebAuthnLoginResponseOwnedView {
+            fn as_ref(
+                &self,
+            ) -> &::buffa::OwnedView<CompleteWebAuthnLoginResponseView<'static>> {
+                &self.0
+            }
+        }
+        impl ::buffa::HasMessageView for super::super::CompleteWebAuthnLoginResponse {
+            type View<'a> = CompleteWebAuthnLoginResponseView<'a>;
+            type ViewHandle = CompleteWebAuthnLoginResponseOwnedView;
+        }
+        impl ::serde::Serialize for CompleteWebAuthnLoginResponseOwnedView {
+            fn serialize<__S: ::serde::Serializer>(
+                &self,
+                __s: __S,
+            ) -> ::core::result::Result<__S::Ok, __S::Error> {
+                ::serde::Serialize::serialize(&self.0, __s)
+            }
+        }
+        #[derive(Clone, Debug, Default)]
         pub struct InitiatePasswordResetRequestView<'a> {
             /// Field 1: `identifier`
             pub identifier: &'a str,
@@ -13109,6 +15083,10 @@ pub mod __buffa {
         reg.register_json_any(super::__REFRESH_TOKEN_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_LOGIN_MFA_REQUEST_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_LOGIN_MFA_RESPONSE_JSON_ANY);
+        reg.register_json_any(super::__BEGIN_WEB_AUTHN_LOGIN_REQUEST_JSON_ANY);
+        reg.register_json_any(super::__BEGIN_WEB_AUTHN_LOGIN_RESPONSE_JSON_ANY);
+        reg.register_json_any(super::__COMPLETE_WEB_AUTHN_LOGIN_REQUEST_JSON_ANY);
+        reg.register_json_any(super::__COMPLETE_WEB_AUTHN_LOGIN_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__INITIATE_PASSWORD_RESET_REQUEST_JSON_ANY);
         reg.register_json_any(super::__INITIATE_PASSWORD_RESET_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_PASSWORD_RESET_REQUEST_JSON_ANY);
@@ -13189,6 +15167,22 @@ pub use self::__buffa::view::CompleteLoginMfaRequestOwnedView;
 pub use self::__buffa::view::CompleteLoginMfaResponseView;
 #[doc(inline)]
 pub use self::__buffa::view::CompleteLoginMfaResponseOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::BeginWebAuthnLoginRequestView;
+#[doc(inline)]
+pub use self::__buffa::view::BeginWebAuthnLoginRequestOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::BeginWebAuthnLoginResponseView;
+#[doc(inline)]
+pub use self::__buffa::view::BeginWebAuthnLoginResponseOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::CompleteWebAuthnLoginRequestView;
+#[doc(inline)]
+pub use self::__buffa::view::CompleteWebAuthnLoginRequestOwnedView;
+#[doc(inline)]
+pub use self::__buffa::view::CompleteWebAuthnLoginResponseView;
+#[doc(inline)]
+pub use self::__buffa::view::CompleteWebAuthnLoginResponseOwnedView;
 #[doc(inline)]
 pub use self::__buffa::view::InitiatePasswordResetRequestView;
 #[doc(inline)]

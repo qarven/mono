@@ -25,6 +25,8 @@ const (
 	AuthenticationService_Login_FullMethodName                  = "/oryon.identity.v1.AuthenticationService/Login"
 	AuthenticationService_RefreshToken_FullMethodName           = "/oryon.identity.v1.AuthenticationService/RefreshToken"
 	AuthenticationService_CompleteLoginMfa_FullMethodName       = "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa"
+	AuthenticationService_BeginWebAuthnLogin_FullMethodName     = "/oryon.identity.v1.AuthenticationService/BeginWebAuthnLogin"
+	AuthenticationService_CompleteWebAuthnLogin_FullMethodName  = "/oryon.identity.v1.AuthenticationService/CompleteWebAuthnLogin"
 	AuthenticationService_InitiatePasswordReset_FullMethodName  = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
 	AuthenticationService_CompletePasswordReset_FullMethodName  = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
 )
@@ -39,6 +41,8 @@ type AuthenticationServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 	CompleteLoginMfa(ctx context.Context, in *CompleteLoginMfaRequest, opts ...grpc.CallOption) (*CompleteLoginMfaResponse, error)
+	BeginWebAuthnLogin(ctx context.Context, in *BeginWebAuthnLoginRequest, opts ...grpc.CallOption) (*BeginWebAuthnLoginResponse, error)
+	CompleteWebAuthnLogin(ctx context.Context, in *CompleteWebAuthnLoginRequest, opts ...grpc.CallOption) (*CompleteWebAuthnLoginResponse, error)
 	InitiatePasswordReset(ctx context.Context, in *InitiatePasswordResetRequest, opts ...grpc.CallOption) (*InitiatePasswordResetResponse, error)
 	CompletePasswordReset(ctx context.Context, in *CompletePasswordResetRequest, opts ...grpc.CallOption) (*CompletePasswordResetResponse, error)
 }
@@ -111,6 +115,26 @@ func (c *authenticationServiceClient) CompleteLoginMfa(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *authenticationServiceClient) BeginWebAuthnLogin(ctx context.Context, in *BeginWebAuthnLoginRequest, opts ...grpc.CallOption) (*BeginWebAuthnLoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(BeginWebAuthnLoginResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_BeginWebAuthnLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationServiceClient) CompleteWebAuthnLogin(ctx context.Context, in *CompleteWebAuthnLoginRequest, opts ...grpc.CallOption) (*CompleteWebAuthnLoginResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CompleteWebAuthnLoginResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_CompleteWebAuthnLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationServiceClient) InitiatePasswordReset(ctx context.Context, in *InitiatePasswordResetRequest, opts ...grpc.CallOption) (*InitiatePasswordResetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(InitiatePasswordResetResponse)
@@ -141,6 +165,8 @@ type AuthenticationServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	CompleteLoginMfa(context.Context, *CompleteLoginMfaRequest) (*CompleteLoginMfaResponse, error)
+	BeginWebAuthnLogin(context.Context, *BeginWebAuthnLoginRequest) (*BeginWebAuthnLoginResponse, error)
+	CompleteWebAuthnLogin(context.Context, *CompleteWebAuthnLoginRequest) (*CompleteWebAuthnLoginResponse, error)
 	InitiatePasswordReset(context.Context, *InitiatePasswordResetRequest) (*InitiatePasswordResetResponse, error)
 	CompletePasswordReset(context.Context, *CompletePasswordResetRequest) (*CompletePasswordResetResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
@@ -170,6 +196,12 @@ func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *R
 }
 func (UnimplementedAuthenticationServiceServer) CompleteLoginMfa(context.Context, *CompleteLoginMfaRequest) (*CompleteLoginMfaResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CompleteLoginMfa not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) BeginWebAuthnLogin(context.Context, *BeginWebAuthnLoginRequest) (*BeginWebAuthnLoginResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method BeginWebAuthnLogin not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) CompleteWebAuthnLogin(context.Context, *CompleteWebAuthnLoginRequest) (*CompleteWebAuthnLoginResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CompleteWebAuthnLogin not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) InitiatePasswordReset(context.Context, *InitiatePasswordResetRequest) (*InitiatePasswordResetResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method InitiatePasswordReset not implemented")
@@ -306,6 +338,42 @@ func _AuthenticationService_CompleteLoginMfa_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticationService_BeginWebAuthnLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BeginWebAuthnLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).BeginWebAuthnLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_BeginWebAuthnLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).BeginWebAuthnLogin(ctx, req.(*BeginWebAuthnLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticationService_CompleteWebAuthnLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CompleteWebAuthnLoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).CompleteWebAuthnLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_CompleteWebAuthnLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).CompleteWebAuthnLogin(ctx, req.(*CompleteWebAuthnLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AuthenticationService_InitiatePasswordReset_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(InitiatePasswordResetRequest)
 	if err := dec(in); err != nil {
@@ -372,6 +440,14 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CompleteLoginMfa",
 			Handler:    _AuthenticationService_CompleteLoginMfa_Handler,
+		},
+		{
+			MethodName: "BeginWebAuthnLogin",
+			Handler:    _AuthenticationService_BeginWebAuthnLogin_Handler,
+		},
+		{
+			MethodName: "CompleteWebAuthnLogin",
+			Handler:    _AuthenticationService_CompleteWebAuthnLogin_Handler,
 		},
 		{
 			MethodName: "InitiatePasswordReset",

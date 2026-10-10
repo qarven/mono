@@ -5,309 +5,429 @@
 package identityconnect
 
 import (
-	connect "connectrpc.com/connect"
+	connect "connectrpc.com/connect/v2"
 	context "context"
-	errors "errors"
 	v1 "github.com/qarven/mono/gen/go/oryon/identity/v1"
-	http "net/http"
-	strings "strings"
+	sync "sync"
 )
-
-// This is a compile-time assertion to ensure that this generated file and the connect package are
-// compatible. If you get a compiler error that this constant is not defined, this code was
-// generated with a version of connect newer than the one compiled into your binary. You can fix the
-// problem by either regenerating this code with an older version of connect or updating the connect
-// version compiled into your binary.
-const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// AuthenticationServiceName is the fully-qualified name of the AuthenticationService service.
 	AuthenticationServiceName = "oryon.identity.v1.AuthenticationService"
 )
 
-// These constants are the fully-qualified names of the RPCs defined in this package. They're
-// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
+// These constants are the procedure names of the RPCs defined in this package. They're exposed at
+// runtime as Spec.Procedure and as the final two segments of the HTTP route.
 //
 // Note that these are different from the fully-qualified method names used by
 // google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// AuthenticationServiceRegistrationProcedure is the fully-qualified name of the
-	// AuthenticationService's Registration RPC.
+	// AuthenticationServiceRegistrationProcedure is the procedure name of the AuthenticationService's
+	// Registration RPC.
 	AuthenticationServiceRegistrationProcedure = "/oryon.identity.v1.AuthenticationService/Registration"
-	// AuthenticationServiceCompleteRegistrationProcedure is the fully-qualified name of the
+	// AuthenticationServiceCompleteRegistrationProcedure is the procedure name of the
 	// AuthenticationService's CompleteRegistration RPC.
 	AuthenticationServiceCompleteRegistrationProcedure = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
-	// AuthenticationServiceResendRegistrationCodeProcedure is the fully-qualified name of the
+	// AuthenticationServiceResendRegistrationCodeProcedure is the procedure name of the
 	// AuthenticationService's ResendRegistrationCode RPC.
 	AuthenticationServiceResendRegistrationCodeProcedure = "/oryon.identity.v1.AuthenticationService/ResendRegistrationCode"
-	// AuthenticationServiceLoginProcedure is the fully-qualified name of the AuthenticationService's
-	// Login RPC.
+	// AuthenticationServiceLoginProcedure is the procedure name of the AuthenticationService's Login
+	// RPC.
 	AuthenticationServiceLoginProcedure = "/oryon.identity.v1.AuthenticationService/Login"
-	// AuthenticationServiceRefreshTokenProcedure is the fully-qualified name of the
-	// AuthenticationService's RefreshToken RPC.
+	// AuthenticationServiceRefreshTokenProcedure is the procedure name of the AuthenticationService's
+	// RefreshToken RPC.
 	AuthenticationServiceRefreshTokenProcedure = "/oryon.identity.v1.AuthenticationService/RefreshToken"
-	// AuthenticationServiceCompleteLoginMfaProcedure is the fully-qualified name of the
+	// AuthenticationServiceCompleteLoginMfaProcedure is the procedure name of the
 	// AuthenticationService's CompleteLoginMfa RPC.
 	AuthenticationServiceCompleteLoginMfaProcedure = "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa"
-	// AuthenticationServiceInitiatePasswordResetProcedure is the fully-qualified name of the
+	// AuthenticationServiceBeginWebAuthnLoginProcedure is the procedure name of the
+	// AuthenticationService's BeginWebAuthnLogin RPC.
+	AuthenticationServiceBeginWebAuthnLoginProcedure = "/oryon.identity.v1.AuthenticationService/BeginWebAuthnLogin"
+	// AuthenticationServiceCompleteWebAuthnLoginProcedure is the procedure name of the
+	// AuthenticationService's CompleteWebAuthnLogin RPC.
+	AuthenticationServiceCompleteWebAuthnLoginProcedure = "/oryon.identity.v1.AuthenticationService/CompleteWebAuthnLogin"
+	// AuthenticationServiceInitiatePasswordResetProcedure is the procedure name of the
 	// AuthenticationService's InitiatePasswordReset RPC.
 	AuthenticationServiceInitiatePasswordResetProcedure = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
-	// AuthenticationServiceCompletePasswordResetProcedure is the fully-qualified name of the
+	// AuthenticationServiceCompletePasswordResetProcedure is the procedure name of the
 	// AuthenticationService's CompletePasswordReset RPC.
 	AuthenticationServiceCompletePasswordResetProcedure = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
 )
 
+var (
+	authenticationServiceRegistrationSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("Registration"),
+			Procedure:  AuthenticationServiceRegistrationProcedure,
+		}
+	})
+	authenticationServiceCompleteRegistrationSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("CompleteRegistration"),
+			Procedure:  AuthenticationServiceCompleteRegistrationProcedure,
+		}
+	})
+	authenticationServiceResendRegistrationCodeSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("ResendRegistrationCode"),
+			Procedure:  AuthenticationServiceResendRegistrationCodeProcedure,
+		}
+	})
+	authenticationServiceLoginSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("Login"),
+			Procedure:  AuthenticationServiceLoginProcedure,
+		}
+	})
+	authenticationServiceRefreshTokenSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("RefreshToken"),
+			Procedure:  AuthenticationServiceRefreshTokenProcedure,
+		}
+	})
+	authenticationServiceCompleteLoginMfaSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("CompleteLoginMfa"),
+			Procedure:  AuthenticationServiceCompleteLoginMfaProcedure,
+		}
+	})
+	authenticationServiceBeginWebAuthnLoginSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("BeginWebAuthnLogin"),
+			Procedure:  AuthenticationServiceBeginWebAuthnLoginProcedure,
+		}
+	})
+	authenticationServiceCompleteWebAuthnLoginSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("CompleteWebAuthnLogin"),
+			Procedure:  AuthenticationServiceCompleteWebAuthnLoginProcedure,
+		}
+	})
+	authenticationServiceInitiatePasswordResetSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("InitiatePasswordReset"),
+			Procedure:  AuthenticationServiceInitiatePasswordResetProcedure,
+		}
+	})
+	authenticationServiceCompletePasswordResetSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods().ByName("CompletePasswordReset"),
+			Procedure:  AuthenticationServiceCompletePasswordResetProcedure,
+		}
+	})
+)
+
 // AuthenticationServiceClient is a client for the oryon.identity.v1.AuthenticationService service.
 type AuthenticationServiceClient interface {
-	Registration(context.Context, *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error)
-	CompleteRegistration(context.Context, *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error)
-	ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error)
-	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
-	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
-	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
-	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
-	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
+	Registration(context.Context, *v1.RegistrationRequest) (*v1.RegistrationResponse, error)
+	CompleteRegistration(context.Context, *v1.CompleteRegistrationRequest) (*v1.CompleteRegistrationResponse, error)
+	ResendRegistrationCode(context.Context, *v1.ResendRegistrationCodeRequest) (*v1.ResendRegistrationCodeResponse, error)
+	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
+	RefreshToken(context.Context, *v1.RefreshTokenRequest) (*v1.RefreshTokenResponse, error)
+	CompleteLoginMfa(context.Context, *v1.CompleteLoginMfaRequest) (*v1.CompleteLoginMfaResponse, error)
+	BeginWebAuthnLogin(context.Context, *v1.BeginWebAuthnLoginRequest) (*v1.BeginWebAuthnLoginResponse, error)
+	CompleteWebAuthnLogin(context.Context, *v1.CompleteWebAuthnLoginRequest) (*v1.CompleteWebAuthnLoginResponse, error)
+	InitiatePasswordReset(context.Context, *v1.InitiatePasswordResetRequest) (*v1.InitiatePasswordResetResponse, error)
+	CompletePasswordReset(context.Context, *v1.CompletePasswordResetRequest) (*v1.CompletePasswordResetResponse, error)
 }
 
 // NewAuthenticationServiceClient constructs a client for the
-// oryon.identity.v1.AuthenticationService service. By default, it uses the Connect protocol with
-// the binary Protobuf Codec, asks for gzipped responses, and sends uncompressed requests. To use
-// the gRPC or gRPC-Web protocols, supply the connect.WithGRPC() or connect.WithGRPCWeb() options.
-//
-// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
-// http://api.acme.com or https://acme.com/grpc).
-func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) AuthenticationServiceClient {
-	baseURL = strings.TrimRight(baseURL, "/")
-	authenticationServiceMethods := v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods()
-	return &authenticationServiceClient{
-		registration: connect.NewClient[v1.RegistrationRequest, v1.RegistrationResponse](
-			httpClient,
-			baseURL+AuthenticationServiceRegistrationProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("Registration")),
-			connect.WithClientOptions(opts...),
-		),
-		completeRegistration: connect.NewClient[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse](
-			httpClient,
-			baseURL+AuthenticationServiceCompleteRegistrationProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("CompleteRegistration")),
-			connect.WithClientOptions(opts...),
-		),
-		resendRegistrationCode: connect.NewClient[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse](
-			httpClient,
-			baseURL+AuthenticationServiceResendRegistrationCodeProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("ResendRegistrationCode")),
-			connect.WithClientOptions(opts...),
-		),
-		login: connect.NewClient[v1.LoginRequest, v1.LoginResponse](
-			httpClient,
-			baseURL+AuthenticationServiceLoginProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("Login")),
-			connect.WithClientOptions(opts...),
-		),
-		refreshToken: connect.NewClient[v1.RefreshTokenRequest, v1.RefreshTokenResponse](
-			httpClient,
-			baseURL+AuthenticationServiceRefreshTokenProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
-			connect.WithClientOptions(opts...),
-		),
-		completeLoginMfa: connect.NewClient[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse](
-			httpClient,
-			baseURL+AuthenticationServiceCompleteLoginMfaProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("CompleteLoginMfa")),
-			connect.WithClientOptions(opts...),
-		),
-		initiatePasswordReset: connect.NewClient[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse](
-			httpClient,
-			baseURL+AuthenticationServiceInitiatePasswordResetProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("InitiatePasswordReset")),
-			connect.WithClientOptions(opts...),
-		),
-		completePasswordReset: connect.NewClient[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse](
-			httpClient,
-			baseURL+AuthenticationServiceCompletePasswordResetProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("CompletePasswordReset")),
-			connect.WithClientOptions(opts...),
-		),
-	}
-}
-
-// authenticationServiceClient implements AuthenticationServiceClient.
-type authenticationServiceClient struct {
-	registration           *connect.Client[v1.RegistrationRequest, v1.RegistrationResponse]
-	completeRegistration   *connect.Client[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse]
-	resendRegistrationCode *connect.Client[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse]
-	login                  *connect.Client[v1.LoginRequest, v1.LoginResponse]
-	refreshToken           *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
-	completeLoginMfa       *connect.Client[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse]
-	initiatePasswordReset  *connect.Client[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse]
-	completePasswordReset  *connect.Client[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse]
-}
-
-// Registration calls oryon.identity.v1.AuthenticationService.Registration.
-func (c *authenticationServiceClient) Registration(ctx context.Context, req *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error) {
-	return c.registration.CallUnary(ctx, req)
-}
-
-// CompleteRegistration calls oryon.identity.v1.AuthenticationService.CompleteRegistration.
-func (c *authenticationServiceClient) CompleteRegistration(ctx context.Context, req *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error) {
-	return c.completeRegistration.CallUnary(ctx, req)
-}
-
-// ResendRegistrationCode calls oryon.identity.v1.AuthenticationService.ResendRegistrationCode.
-func (c *authenticationServiceClient) ResendRegistrationCode(ctx context.Context, req *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error) {
-	return c.resendRegistrationCode.CallUnary(ctx, req)
-}
-
-// Login calls oryon.identity.v1.AuthenticationService.Login.
-func (c *authenticationServiceClient) Login(ctx context.Context, req *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
-	return c.login.CallUnary(ctx, req)
-}
-
-// RefreshToken calls oryon.identity.v1.AuthenticationService.RefreshToken.
-func (c *authenticationServiceClient) RefreshToken(ctx context.Context, req *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
-	return c.refreshToken.CallUnary(ctx, req)
-}
-
-// CompleteLoginMfa calls oryon.identity.v1.AuthenticationService.CompleteLoginMfa.
-func (c *authenticationServiceClient) CompleteLoginMfa(ctx context.Context, req *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error) {
-	return c.completeLoginMfa.CallUnary(ctx, req)
-}
-
-// InitiatePasswordReset calls oryon.identity.v1.AuthenticationService.InitiatePasswordReset.
-func (c *authenticationServiceClient) InitiatePasswordReset(ctx context.Context, req *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error) {
-	return c.initiatePasswordReset.CallUnary(ctx, req)
-}
-
-// CompletePasswordReset calls oryon.identity.v1.AuthenticationService.CompletePasswordReset.
-func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context, req *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error) {
-	return c.completePasswordReset.CallUnary(ctx, req)
+// oryon.identity.v1.AuthenticationService service. Multiple service clients may share a single
+// connect.Client.
+func NewAuthenticationServiceClient(client *connect.Client) AuthenticationServiceClient {
+	return &authenticationServiceClient{client: client}
 }
 
 // AuthenticationServiceHandler is an implementation of the oryon.identity.v1.AuthenticationService
 // service.
 type AuthenticationServiceHandler interface {
-	Registration(context.Context, *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error)
-	CompleteRegistration(context.Context, *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error)
-	ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error)
-	Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error)
-	RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error)
-	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
-	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
-	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
+	Registration(context.Context, *v1.RegistrationRequest) (*v1.RegistrationResponse, error)
+	CompleteRegistration(context.Context, *v1.CompleteRegistrationRequest) (*v1.CompleteRegistrationResponse, error)
+	ResendRegistrationCode(context.Context, *v1.ResendRegistrationCodeRequest) (*v1.ResendRegistrationCodeResponse, error)
+	Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error)
+	RefreshToken(context.Context, *v1.RefreshTokenRequest) (*v1.RefreshTokenResponse, error)
+	CompleteLoginMfa(context.Context, *v1.CompleteLoginMfaRequest) (*v1.CompleteLoginMfaResponse, error)
+	BeginWebAuthnLogin(context.Context, *v1.BeginWebAuthnLoginRequest) (*v1.BeginWebAuthnLoginResponse, error)
+	CompleteWebAuthnLogin(context.Context, *v1.CompleteWebAuthnLoginRequest) (*v1.CompleteWebAuthnLoginResponse, error)
+	InitiatePasswordReset(context.Context, *v1.InitiatePasswordResetRequest) (*v1.InitiatePasswordResetResponse, error)
+	CompletePasswordReset(context.Context, *v1.CompletePasswordResetRequest) (*v1.CompletePasswordResetResponse, error)
 }
 
-// NewAuthenticationServiceHandler builds an HTTP handler from the service implementation. It
-// returns the path on which to mount the handler and the handler itself.
-//
-// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
-// and JSON codecs. They also support gzip compression.
-func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	authenticationServiceMethods := v1.File_oryon_identity_v1_authentication_proto.Services().ByName("AuthenticationService").Methods()
-	authenticationServiceRegistrationHandler := connect.NewUnaryHandler(
-		AuthenticationServiceRegistrationProcedure,
-		svc.Registration,
-		connect.WithSchema(authenticationServiceMethods.ByName("Registration")),
-		connect.WithHandlerOptions(opts...),
+// RegisterAuthenticationServiceHandler registers svc as the oryon.identity.v1.AuthenticationService
+// implementation on server.
+func RegisterAuthenticationServiceHandler(server *connect.Server, svc AuthenticationServiceHandler) {
+	adapter := authenticationServiceHandler{svc: svc}
+	server.Register(
+		connect.Method{Spec: authenticationServiceRegistrationSpec(), Handler: adapter.registration},
+		connect.Method{Spec: authenticationServiceCompleteRegistrationSpec(), Handler: adapter.completeRegistration},
+		connect.Method{Spec: authenticationServiceResendRegistrationCodeSpec(), Handler: adapter.resendRegistrationCode},
+		connect.Method{Spec: authenticationServiceLoginSpec(), Handler: adapter.login},
+		connect.Method{Spec: authenticationServiceRefreshTokenSpec(), Handler: adapter.refreshToken},
+		connect.Method{Spec: authenticationServiceCompleteLoginMfaSpec(), Handler: adapter.completeLoginMfa},
+		connect.Method{Spec: authenticationServiceBeginWebAuthnLoginSpec(), Handler: adapter.beginWebAuthnLogin},
+		connect.Method{Spec: authenticationServiceCompleteWebAuthnLoginSpec(), Handler: adapter.completeWebAuthnLogin},
+		connect.Method{Spec: authenticationServiceInitiatePasswordResetSpec(), Handler: adapter.initiatePasswordReset},
+		connect.Method{Spec: authenticationServiceCompletePasswordResetSpec(), Handler: adapter.completePasswordReset},
 	)
-	authenticationServiceCompleteRegistrationHandler := connect.NewUnaryHandler(
-		AuthenticationServiceCompleteRegistrationProcedure,
-		svc.CompleteRegistration,
-		connect.WithSchema(authenticationServiceMethods.ByName("CompleteRegistration")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceResendRegistrationCodeHandler := connect.NewUnaryHandler(
-		AuthenticationServiceResendRegistrationCodeProcedure,
-		svc.ResendRegistrationCode,
-		connect.WithSchema(authenticationServiceMethods.ByName("ResendRegistrationCode")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceLoginHandler := connect.NewUnaryHandler(
-		AuthenticationServiceLoginProcedure,
-		svc.Login,
-		connect.WithSchema(authenticationServiceMethods.ByName("Login")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceRefreshTokenHandler := connect.NewUnaryHandler(
-		AuthenticationServiceRefreshTokenProcedure,
-		svc.RefreshToken,
-		connect.WithSchema(authenticationServiceMethods.ByName("RefreshToken")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceCompleteLoginMfaHandler := connect.NewUnaryHandler(
-		AuthenticationServiceCompleteLoginMfaProcedure,
-		svc.CompleteLoginMfa,
-		connect.WithSchema(authenticationServiceMethods.ByName("CompleteLoginMfa")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceInitiatePasswordResetHandler := connect.NewUnaryHandler(
-		AuthenticationServiceInitiatePasswordResetProcedure,
-		svc.InitiatePasswordReset,
-		connect.WithSchema(authenticationServiceMethods.ByName("InitiatePasswordReset")),
-		connect.WithHandlerOptions(opts...),
-	)
-	authenticationServiceCompletePasswordResetHandler := connect.NewUnaryHandler(
-		AuthenticationServiceCompletePasswordResetProcedure,
-		svc.CompletePasswordReset,
-		connect.WithSchema(authenticationServiceMethods.ByName("CompletePasswordReset")),
-		connect.WithHandlerOptions(opts...),
-	)
-	return "/oryon.identity.v1.AuthenticationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch r.URL.Path {
-		case AuthenticationServiceRegistrationProcedure:
-			authenticationServiceRegistrationHandler.ServeHTTP(w, r)
-		case AuthenticationServiceCompleteRegistrationProcedure:
-			authenticationServiceCompleteRegistrationHandler.ServeHTTP(w, r)
-		case AuthenticationServiceResendRegistrationCodeProcedure:
-			authenticationServiceResendRegistrationCodeHandler.ServeHTTP(w, r)
-		case AuthenticationServiceLoginProcedure:
-			authenticationServiceLoginHandler.ServeHTTP(w, r)
-		case AuthenticationServiceRefreshTokenProcedure:
-			authenticationServiceRefreshTokenHandler.ServeHTTP(w, r)
-		case AuthenticationServiceCompleteLoginMfaProcedure:
-			authenticationServiceCompleteLoginMfaHandler.ServeHTTP(w, r)
-		case AuthenticationServiceInitiatePasswordResetProcedure:
-			authenticationServiceInitiatePasswordResetHandler.ServeHTTP(w, r)
-		case AuthenticationServiceCompletePasswordResetProcedure:
-			authenticationServiceCompletePasswordResetHandler.ServeHTTP(w, r)
-		default:
-			http.NotFound(w, r)
-		}
-	})
 }
 
 // UnimplementedAuthenticationServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedAuthenticationServiceHandler struct{}
 
-func (UnimplementedAuthenticationServiceHandler) Registration(context.Context, *connect.Request[v1.RegistrationRequest]) (*connect.Response[v1.RegistrationResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Registration is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) Registration(context.Context, *v1.RegistrationRequest) (*v1.RegistrationResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.Registration is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) CompleteRegistration(context.Context, *connect.Request[v1.CompleteRegistrationRequest]) (*connect.Response[v1.CompleteRegistrationResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompleteRegistration is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) CompleteRegistration(context.Context, *v1.CompleteRegistrationRequest) (*v1.CompleteRegistrationResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.CompleteRegistration is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) ResendRegistrationCode(context.Context, *connect.Request[v1.ResendRegistrationCodeRequest]) (*connect.Response[v1.ResendRegistrationCodeResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.ResendRegistrationCode is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) ResendRegistrationCode(context.Context, *v1.ResendRegistrationCodeRequest) (*v1.ResendRegistrationCodeResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.ResendRegistrationCode is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) Login(context.Context, *connect.Request[v1.LoginRequest]) (*connect.Response[v1.LoginResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.Login is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) Login(context.Context, *v1.LoginRequest) (*v1.LoginResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.Login is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) RefreshToken(context.Context, *connect.Request[v1.RefreshTokenRequest]) (*connect.Response[v1.RefreshTokenResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.RefreshToken is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) RefreshToken(context.Context, *v1.RefreshTokenRequest) (*v1.RefreshTokenResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.RefreshToken is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompleteLoginMfa is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) CompleteLoginMfa(context.Context, *v1.CompleteLoginMfaRequest) (*v1.CompleteLoginMfaResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.CompleteLoginMfa is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.InitiatePasswordReset is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) BeginWebAuthnLogin(context.Context, *v1.BeginWebAuthnLoginRequest) (*v1.BeginWebAuthnLoginResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.BeginWebAuthnLogin is not implemented")
 }
 
-func (UnimplementedAuthenticationServiceHandler) CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompletePasswordReset is not implemented"))
+func (UnimplementedAuthenticationServiceHandler) CompleteWebAuthnLogin(context.Context, *v1.CompleteWebAuthnLoginRequest) (*v1.CompleteWebAuthnLoginResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.CompleteWebAuthnLogin is not implemented")
+}
+
+func (UnimplementedAuthenticationServiceHandler) InitiatePasswordReset(context.Context, *v1.InitiatePasswordResetRequest) (*v1.InitiatePasswordResetResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.InitiatePasswordReset is not implemented")
+}
+
+func (UnimplementedAuthenticationServiceHandler) CompletePasswordReset(context.Context, *v1.CompletePasswordResetRequest) (*v1.CompletePasswordResetResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.AuthenticationService.CompletePasswordReset is not implemented")
+}
+
+type authenticationServiceClient struct {
+	client *connect.Client
+}
+
+func (c *authenticationServiceClient) Registration(ctx context.Context, req *v1.RegistrationRequest) (*v1.RegistrationResponse, error) {
+	var res v1.RegistrationResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceRegistrationSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) CompleteRegistration(ctx context.Context, req *v1.CompleteRegistrationRequest) (*v1.CompleteRegistrationResponse, error) {
+	var res v1.CompleteRegistrationResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceCompleteRegistrationSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) ResendRegistrationCode(ctx context.Context, req *v1.ResendRegistrationCodeRequest) (*v1.ResendRegistrationCodeResponse, error) {
+	var res v1.ResendRegistrationCodeResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceResendRegistrationCodeSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) Login(ctx context.Context, req *v1.LoginRequest) (*v1.LoginResponse, error) {
+	var res v1.LoginResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceLoginSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) RefreshToken(ctx context.Context, req *v1.RefreshTokenRequest) (*v1.RefreshTokenResponse, error) {
+	var res v1.RefreshTokenResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceRefreshTokenSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) CompleteLoginMfa(ctx context.Context, req *v1.CompleteLoginMfaRequest) (*v1.CompleteLoginMfaResponse, error) {
+	var res v1.CompleteLoginMfaResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceCompleteLoginMfaSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) BeginWebAuthnLogin(ctx context.Context, req *v1.BeginWebAuthnLoginRequest) (*v1.BeginWebAuthnLoginResponse, error) {
+	var res v1.BeginWebAuthnLoginResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceBeginWebAuthnLoginSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) CompleteWebAuthnLogin(ctx context.Context, req *v1.CompleteWebAuthnLoginRequest) (*v1.CompleteWebAuthnLoginResponse, error) {
+	var res v1.CompleteWebAuthnLoginResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceCompleteWebAuthnLoginSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) InitiatePasswordReset(ctx context.Context, req *v1.InitiatePasswordResetRequest) (*v1.InitiatePasswordResetResponse, error) {
+	var res v1.InitiatePasswordResetResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceInitiatePasswordResetSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context, req *v1.CompletePasswordResetRequest) (*v1.CompletePasswordResetResponse, error) {
+	var res v1.CompletePasswordResetResponse
+	if err := c.client.CallUnary(ctx, authenticationServiceCompletePasswordResetSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+type authenticationServiceHandler struct{ svc AuthenticationServiceHandler }
+
+func (h authenticationServiceHandler) registration(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.RegistrationRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.Registration(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) completeRegistration(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.CompleteRegistrationRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.CompleteRegistration(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) resendRegistrationCode(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.ResendRegistrationCodeRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.ResendRegistrationCode(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) login(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.LoginRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.Login(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) refreshToken(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.RefreshTokenRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.RefreshToken(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) completeLoginMfa(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.CompleteLoginMfaRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.CompleteLoginMfa(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) beginWebAuthnLogin(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.BeginWebAuthnLoginRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.BeginWebAuthnLogin(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) completeWebAuthnLogin(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.CompleteWebAuthnLoginRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.CompleteWebAuthnLogin(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) initiatePasswordReset(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.InitiatePasswordResetRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.InitiatePasswordReset(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
+}
+
+func (h authenticationServiceHandler) completePasswordReset(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.CompletePasswordResetRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.CompletePasswordReset(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
 }

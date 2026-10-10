@@ -5,104 +5,93 @@
 package identityconnect
 
 import (
-	connect "connectrpc.com/connect"
+	connect "connectrpc.com/connect/v2"
 	context "context"
-	errors "errors"
 	v1 "github.com/qarven/mono/gen/go/oryon/identity/v1"
-	http "net/http"
-	strings "strings"
+	sync "sync"
 )
-
-// This is a compile-time assertion to ensure that this generated file and the connect package are
-// compatible. If you get a compiler error that this constant is not defined, this code was
-// generated with a version of connect newer than the one compiled into your binary. You can fix the
-// problem by either regenerating this code with an older version of connect or updating the connect
-// version compiled into your binary.
-const _ = connect.IsAtLeastVersion1_13_0
 
 const (
 	// SessionServiceName is the fully-qualified name of the SessionService service.
 	SessionServiceName = "oryon.identity.v1.SessionService"
 )
 
-// These constants are the fully-qualified names of the RPCs defined in this package. They're
-// exposed at runtime as Spec.Procedure and as the final two segments of the HTTP route.
+// These constants are the procedure names of the RPCs defined in this package. They're exposed at
+// runtime as Spec.Procedure and as the final two segments of the HTTP route.
 //
 // Note that these are different from the fully-qualified method names used by
 // google.golang.org/protobuf/reflect/protoreflect. To convert from these constants to
 // reflection-formatted method names, remove the leading slash and convert the remaining slash to a
 // period.
 const (
-	// SessionServiceLogoutProcedure is the fully-qualified name of the SessionService's Logout RPC.
+	// SessionServiceLogoutProcedure is the procedure name of the SessionService's Logout RPC.
 	SessionServiceLogoutProcedure = "/oryon.identity.v1.SessionService/Logout"
+)
+
+var (
+	sessionServiceLogoutSpec = sync.OnceValue(func() connect.Spec {
+		return connect.Spec{
+			StreamType: connect.StreamTypeUnary,
+			Schema:     v1.File_oryon_identity_v1_session_proto.Services().ByName("SessionService").Methods().ByName("Logout"),
+			Procedure:  SessionServiceLogoutProcedure,
+		}
+	})
 )
 
 // SessionServiceClient is a client for the oryon.identity.v1.SessionService service.
 type SessionServiceClient interface {
-	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	Logout(context.Context, *v1.LogoutRequest) (*v1.LogoutResponse, error)
 }
 
-// NewSessionServiceClient constructs a client for the oryon.identity.v1.SessionService service. By
-// default, it uses the Connect protocol with the binary Protobuf Codec, asks for gzipped responses,
-// and sends uncompressed requests. To use the gRPC or gRPC-Web protocols, supply the
-// connect.WithGRPC() or connect.WithGRPCWeb() options.
-//
-// The URL supplied here should be the base URL for the Connect or gRPC server (for example,
-// http://api.acme.com or https://acme.com/grpc).
-func NewSessionServiceClient(httpClient connect.HTTPClient, baseURL string, opts ...connect.ClientOption) SessionServiceClient {
-	baseURL = strings.TrimRight(baseURL, "/")
-	sessionServiceMethods := v1.File_oryon_identity_v1_session_proto.Services().ByName("SessionService").Methods()
-	return &sessionServiceClient{
-		logout: connect.NewClient[v1.LogoutRequest, v1.LogoutResponse](
-			httpClient,
-			baseURL+SessionServiceLogoutProcedure,
-			connect.WithSchema(sessionServiceMethods.ByName("Logout")),
-			connect.WithClientOptions(opts...),
-		),
-	}
-}
-
-// sessionServiceClient implements SessionServiceClient.
-type sessionServiceClient struct {
-	logout *connect.Client[v1.LogoutRequest, v1.LogoutResponse]
-}
-
-// Logout calls oryon.identity.v1.SessionService.Logout.
-func (c *sessionServiceClient) Logout(ctx context.Context, req *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {
-	return c.logout.CallUnary(ctx, req)
+// NewSessionServiceClient constructs a client for the oryon.identity.v1.SessionService service.
+// Multiple service clients may share a single connect.Client.
+func NewSessionServiceClient(client *connect.Client) SessionServiceClient {
+	return &sessionServiceClient{client: client}
 }
 
 // SessionServiceHandler is an implementation of the oryon.identity.v1.SessionService service.
 type SessionServiceHandler interface {
-	Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error)
+	Logout(context.Context, *v1.LogoutRequest) (*v1.LogoutResponse, error)
 }
 
-// NewSessionServiceHandler builds an HTTP handler from the service implementation. It returns the
-// path on which to mount the handler and the handler itself.
-//
-// By default, handlers support the Connect, gRPC, and gRPC-Web protocols with the binary Protobuf
-// and JSON codecs. They also support gzip compression.
-func NewSessionServiceHandler(svc SessionServiceHandler, opts ...connect.HandlerOption) (string, http.Handler) {
-	sessionServiceMethods := v1.File_oryon_identity_v1_session_proto.Services().ByName("SessionService").Methods()
-	sessionServiceLogoutHandler := connect.NewUnaryHandler(
-		SessionServiceLogoutProcedure,
-		svc.Logout,
-		connect.WithSchema(sessionServiceMethods.ByName("Logout")),
-		connect.WithHandlerOptions(opts...),
+// RegisterSessionServiceHandler registers svc as the oryon.identity.v1.SessionService
+// implementation on server.
+func RegisterSessionServiceHandler(server *connect.Server, svc SessionServiceHandler) {
+	adapter := sessionServiceHandler{svc: svc}
+	server.Register(
+		connect.Method{Spec: sessionServiceLogoutSpec(), Handler: adapter.logout},
 	)
-	return "/oryon.identity.v1.SessionService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch r.URL.Path {
-		case SessionServiceLogoutProcedure:
-			sessionServiceLogoutHandler.ServeHTTP(w, r)
-		default:
-			http.NotFound(w, r)
-		}
-	})
 }
 
 // UnimplementedSessionServiceHandler returns CodeUnimplemented from all methods.
 type UnimplementedSessionServiceHandler struct{}
 
-func (UnimplementedSessionServiceHandler) Logout(context.Context, *connect.Request[v1.LogoutRequest]) (*connect.Response[v1.LogoutResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.SessionService.Logout is not implemented"))
+func (UnimplementedSessionServiceHandler) Logout(context.Context, *v1.LogoutRequest) (*v1.LogoutResponse, error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, "oryon.identity.v1.SessionService.Logout is not implemented")
+}
+
+type sessionServiceClient struct {
+	client *connect.Client
+}
+
+func (c *sessionServiceClient) Logout(ctx context.Context, req *v1.LogoutRequest) (*v1.LogoutResponse, error) {
+	var res v1.LogoutResponse
+	if err := c.client.CallUnary(ctx, sessionServiceLogoutSpec(), req, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+type sessionServiceHandler struct{ svc SessionServiceHandler }
+
+func (h sessionServiceHandler) logout(ctx context.Context, _ connect.Spec, stream connect.ServerStream) error {
+	var req v1.LogoutRequest
+	if err := stream.Receive(&req); err != nil {
+		return err
+	}
+	res, err := h.svc.Logout(ctx, &req)
+	if err != nil {
+		return err
+	}
+	return stream.Send(res)
 }
