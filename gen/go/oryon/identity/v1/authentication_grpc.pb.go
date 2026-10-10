@@ -19,15 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AuthenticationService_Registration_FullMethodName            = "/oryon.identity.v1.AuthenticationService/Registration"
-	AuthenticationService_CompleteRegistration_FullMethodName    = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
-	AuthenticationService_ResendRegistrationCode_FullMethodName  = "/oryon.identity.v1.AuthenticationService/ResendRegistrationCode"
-	AuthenticationService_Login_FullMethodName                   = "/oryon.identity.v1.AuthenticationService/Login"
-	AuthenticationService_RefreshToken_FullMethodName            = "/oryon.identity.v1.AuthenticationService/RefreshToken"
-	AuthenticationService_CompleteLoginMfa_FullMethodName        = "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa"
-	AuthenticationService_InitiatePasswordReset_FullMethodName   = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
-	AuthenticationService_CompletePasswordReset_FullMethodName   = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
-	AuthenticationService_ResendPasswordResetCode_FullMethodName = "/oryon.identity.v1.AuthenticationService/ResendPasswordResetCode"
+	AuthenticationService_Registration_FullMethodName           = "/oryon.identity.v1.AuthenticationService/Registration"
+	AuthenticationService_CompleteRegistration_FullMethodName   = "/oryon.identity.v1.AuthenticationService/CompleteRegistration"
+	AuthenticationService_ResendRegistrationCode_FullMethodName = "/oryon.identity.v1.AuthenticationService/ResendRegistrationCode"
+	AuthenticationService_Login_FullMethodName                  = "/oryon.identity.v1.AuthenticationService/Login"
+	AuthenticationService_RefreshToken_FullMethodName           = "/oryon.identity.v1.AuthenticationService/RefreshToken"
+	AuthenticationService_CompleteLoginMfa_FullMethodName       = "/oryon.identity.v1.AuthenticationService/CompleteLoginMfa"
+	AuthenticationService_InitiatePasswordReset_FullMethodName  = "/oryon.identity.v1.AuthenticationService/InitiatePasswordReset"
+	AuthenticationService_CompletePasswordReset_FullMethodName  = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -42,7 +41,6 @@ type AuthenticationServiceClient interface {
 	CompleteLoginMfa(ctx context.Context, in *CompleteLoginMfaRequest, opts ...grpc.CallOption) (*CompleteLoginMfaResponse, error)
 	InitiatePasswordReset(ctx context.Context, in *InitiatePasswordResetRequest, opts ...grpc.CallOption) (*InitiatePasswordResetResponse, error)
 	CompletePasswordReset(ctx context.Context, in *CompletePasswordResetRequest, opts ...grpc.CallOption) (*CompletePasswordResetResponse, error)
-	ResendPasswordResetCode(ctx context.Context, in *ResendPasswordResetCodeRequest, opts ...grpc.CallOption) (*ResendPasswordResetCodeResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -133,16 +131,6 @@ func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context,
 	return out, nil
 }
 
-func (c *authenticationServiceClient) ResendPasswordResetCode(ctx context.Context, in *ResendPasswordResetCodeRequest, opts ...grpc.CallOption) (*ResendPasswordResetCodeResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ResendPasswordResetCodeResponse)
-	err := c.cc.Invoke(ctx, AuthenticationService_ResendPasswordResetCode_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility.
@@ -155,7 +143,6 @@ type AuthenticationServiceServer interface {
 	CompleteLoginMfa(context.Context, *CompleteLoginMfaRequest) (*CompleteLoginMfaResponse, error)
 	InitiatePasswordReset(context.Context, *InitiatePasswordResetRequest) (*InitiatePasswordResetResponse, error)
 	CompletePasswordReset(context.Context, *CompletePasswordResetRequest) (*CompletePasswordResetResponse, error)
-	ResendPasswordResetCode(context.Context, *ResendPasswordResetCodeRequest) (*ResendPasswordResetCodeResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -189,9 +176,6 @@ func (UnimplementedAuthenticationServiceServer) InitiatePasswordReset(context.Co
 }
 func (UnimplementedAuthenticationServiceServer) CompletePasswordReset(context.Context, *CompletePasswordResetRequest) (*CompletePasswordResetResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CompletePasswordReset not implemented")
-}
-func (UnimplementedAuthenticationServiceServer) ResendPasswordResetCode(context.Context, *ResendPasswordResetCodeRequest) (*ResendPasswordResetCodeResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "method ResendPasswordResetCode not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 func (UnimplementedAuthenticationServiceServer) testEmbeddedByValue()                               {}
@@ -358,24 +342,6 @@ func _AuthenticationService_CompletePasswordReset_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthenticationService_ResendPasswordResetCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ResendPasswordResetCodeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServiceServer).ResendPasswordResetCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: AuthenticationService_ResendPasswordResetCode_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServiceServer).ResendPasswordResetCode(ctx, req.(*ResendPasswordResetCodeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -414,10 +380,6 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CompletePasswordReset",
 			Handler:    _AuthenticationService_CompletePasswordReset_Handler,
-		},
-		{
-			MethodName: "ResendPasswordResetCode",
-			Handler:    _AuthenticationService_ResendPasswordResetCode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

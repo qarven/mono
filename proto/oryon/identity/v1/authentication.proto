@@ -21,7 +21,6 @@ service AuthenticationService {
 
   rpc InitiatePasswordReset(InitiatePasswordResetRequest) returns (InitiatePasswordResetResponse);
   rpc CompletePasswordReset(CompletePasswordResetRequest) returns (CompletePasswordResetResponse);
-  rpc ResendPasswordResetCode(ResendPasswordResetCodeRequest) returns (ResendPasswordResetCodeResponse);
 }
 
 // ======
@@ -159,14 +158,11 @@ message InitiatePasswordResetRequest {
   string identifier = 1 [(buf.validate.field).string.min_len = 3];
 }
 
-message InitiatePasswordResetResponse {
-  VerificationChallenge challenge = 1;
-}
+message InitiatePasswordResetResponse {}
 
 message CompletePasswordResetRequest {
-  string verification_id = 1 [(buf.validate.field).string.uuid = true];
-  string code = 2 [(buf.validate.field).required = true];
-  string new_password = 3 [
+  string code = 1 [(buf.validate.field).required = true];
+  string new_password = 2 [
     (buf.validate.field).string.min_len = 8,
     (buf.validate.field).string.max_len = 128
   ];
@@ -174,12 +170,4 @@ message CompletePasswordResetRequest {
 
 message CompletePasswordResetResponse {
   User user = 1;
-}
-
-message ResendPasswordResetCodeRequest {
-  string verification_id = 1 [(buf.validate.field).string.uuid = true];
-}
-
-message ResendPasswordResetCodeResponse {
-  VerificationChallenge challenge = 1;
 }

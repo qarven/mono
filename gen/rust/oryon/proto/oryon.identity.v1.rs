@@ -4422,24 +4422,13 @@ pub const __INITIATE_PASSWORD_RESET_REQUEST_JSON_ANY: ::buffa::type_registry::Js
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
 pub struct InitiatePasswordResetResponse {
-    /// Field 1: `challenge`
-    #[serde(
-        rename = "challenge",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub challenge: ::buffa::MessageField<
-        VerificationChallenge,
-        ::buffa::Inline<VerificationChallenge>,
-    >,
     #[serde(skip)]
     #[doc(hidden)]
     pub __buffa_unknown_fields: ::buffa::UnknownFields,
 }
 impl ::core::fmt::Debug for InitiatePasswordResetResponse {
     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("InitiatePasswordResetResponse")
-            .field("challenge", &self.challenge)
-            .finish()
+        f.debug_struct("InitiatePasswordResetResponse").finish()
     }
 }
 impl InitiatePasswordResetResponse {
@@ -4465,36 +4454,20 @@ impl ::buffa::Message for InitiatePasswordResetResponse {
     /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
     /// points reject, never a silently wrapped size.
     #[allow(clippy::let_and_return)]
-    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if self.challenge.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.challenge.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
         size += self.__buffa_unknown_fields.encoded_len() as u64;
         ::buffa::saturate_size(size)
     }
     fn write_to(
         &self,
-        __cache: &mut ::buffa::SizeCache,
+        _cache: &mut ::buffa::SizeCache,
         buf: &mut impl ::buffa::EncodeSink,
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if self.challenge.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                1u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.challenge.write_to(__cache, buf);
-        }
         self.__buffa_unknown_fields.write_to(buf);
     }
     fn merge_field(
@@ -4508,17 +4481,6 @@ impl ::buffa::Message for InitiatePasswordResetResponse {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.challenge.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
             _ => {
                 self.__buffa_unknown_fields
                     .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
@@ -4527,7 +4489,6 @@ impl ::buffa::Message for InitiatePasswordResetResponse {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.challenge = ::buffa::MessageField::none();
         self.__buffa_unknown_fields.clear();
     }
 }
@@ -4564,22 +4525,14 @@ pub const __INITIATE_PASSWORD_RESET_RESPONSE_JSON_ANY: ::buffa::type_registry::J
 #[derive(::serde::Serialize, ::serde::Deserialize)]
 #[serde(default)]
 pub struct CompletePasswordResetRequest {
-    /// Field 1: `verification_id`
-    #[serde(
-        rename = "verificationId",
-        alias = "verification_id",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub verification_id: ::buffa::alloc::string::String,
-    /// Field 2: `code`
+    /// Field 1: `code`
     #[serde(
         rename = "code",
         with = "::buffa::json_helpers::proto_string",
         skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
     )]
     pub code: ::buffa::alloc::string::String,
-    /// Field 3: `new_password`
+    /// Field 2: `new_password`
     #[serde(
         rename = "newPassword",
         alias = "new_password",
@@ -4594,7 +4547,6 @@ pub struct CompletePasswordResetRequest {
 impl ::core::fmt::Debug for CompletePasswordResetRequest {
     fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
         f.debug_struct("CompletePasswordResetRequest")
-            .field("verification_id", &self.verification_id)
             .field("code", &self.code)
             .field("new_password", &self.new_password)
             .finish()
@@ -4627,11 +4579,6 @@ impl ::buffa::Message for CompletePasswordResetRequest {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
         let mut size = 0u64;
-        if !self.verification_id.is_empty() {
-            size
-                += 1u64
-                    + ::buffa::types::string_encoded_len(&self.verification_id) as u64;
-        }
         if !self.code.is_empty() {
             size += 1u64 + ::buffa::types::string_encoded_len(&self.code) as u64;
         }
@@ -4648,14 +4595,11 @@ impl ::buffa::Message for CompletePasswordResetRequest {
     ) {
         #[allow(unused_imports)]
         use ::buffa::Enumeration as _;
-        if !self.verification_id.is_empty() {
-            ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
-        }
         if !self.code.is_empty() {
-            ::buffa::types::put_string_field(2u32, &self.code, buf);
+            ::buffa::types::put_string_field(1u32, &self.code, buf);
         }
         if !self.new_password.is_empty() {
-            ::buffa::types::put_string_field(3u32, &self.new_password, buf);
+            ::buffa::types::put_string_field(2u32, &self.new_password, buf);
         }
         self.__buffa_unknown_fields.write_to(buf);
     }
@@ -4675,16 +4619,9 @@ impl ::buffa::Message for CompletePasswordResetRequest {
                     tag,
                     ::buffa::encoding::WireType::LengthDelimited,
                 )?;
-                ::buffa::types::merge_string(&mut self.verification_id, buf)?;
-            }
-            2u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
                 ::buffa::types::merge_string(&mut self.code, buf)?;
             }
-            3u32 => {
+            2u32 => {
                 ::buffa::encoding::check_wire_type(
                     tag,
                     ::buffa::encoding::WireType::LengthDelimited,
@@ -4699,7 +4636,6 @@ impl ::buffa::Message for CompletePasswordResetRequest {
         ::core::result::Result::Ok(())
     }
     fn clear(&mut self) {
-        self.verification_id.clear();
         self.code.clear();
         self.new_password.clear();
         self.__buffa_unknown_fields.clear();
@@ -4871,277 +4807,6 @@ pub const __COMPLETE_PASSWORD_RESET_RESPONSE_JSON_ANY: ::buffa::type_registry::J
     type_url: "type.googleapis.com/oryon.identity.v1.CompletePasswordResetResponse",
     to_json: ::buffa::type_registry::any_to_json::<CompletePasswordResetResponse>,
     from_json: ::buffa::type_registry::any_from_json::<CompletePasswordResetResponse>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct ResendPasswordResetCodeRequest {
-    /// Field 1: `verification_id`
-    #[serde(
-        rename = "verificationId",
-        alias = "verification_id",
-        with = "::buffa::json_helpers::proto_string",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_empty_str"
-    )]
-    pub verification_id: ::buffa::alloc::string::String,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for ResendPasswordResetCodeRequest {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("ResendPasswordResetCodeRequest")
-            .field("verification_id", &self.verification_id)
-            .finish()
-    }
-}
-impl ResendPasswordResetCodeRequest {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeRequest";
-}
-::buffa::impl_default_instance!(ResendPasswordResetCodeRequest);
-impl ::buffa::MessageName for ResendPasswordResetCodeRequest {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "ResendPasswordResetCodeRequest";
-    const FULL_NAME: &'static str = "oryon.identity.v1.ResendPasswordResetCodeRequest";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeRequest";
-}
-impl ::buffa::Message for ResendPasswordResetCodeRequest {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if !self.verification_id.is_empty() {
-            size
-                += 1u64
-                    + ::buffa::types::string_encoded_len(&self.verification_id) as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        _cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if !self.verification_id.is_empty() {
-            ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::types::merge_string(&mut self.verification_id, buf)?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.verification_id.clear();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for ResendPasswordResetCodeRequest {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.ResendPasswordResetCodeRequest";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for ResendPasswordResetCodeRequest {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __RESEND_PASSWORD_RESET_CODE_REQUEST_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeRequest",
-    to_json: ::buffa::type_registry::any_to_json::<ResendPasswordResetCodeRequest>,
-    from_json: ::buffa::type_registry::any_from_json::<ResendPasswordResetCodeRequest>,
-    is_wkt: false,
-};
-#[derive(Clone, PartialEq, Default)]
-#[derive(::serde::Serialize, ::serde::Deserialize)]
-#[serde(default)]
-pub struct ResendPasswordResetCodeResponse {
-    /// Field 1: `challenge`
-    #[serde(
-        rename = "challenge",
-        skip_serializing_if = "::buffa::json_helpers::skip_if::is_unset_message_field"
-    )]
-    pub challenge: ::buffa::MessageField<
-        VerificationChallenge,
-        ::buffa::Inline<VerificationChallenge>,
-    >,
-    #[serde(skip)]
-    #[doc(hidden)]
-    pub __buffa_unknown_fields: ::buffa::UnknownFields,
-}
-impl ::core::fmt::Debug for ResendPasswordResetCodeResponse {
-    fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-        f.debug_struct("ResendPasswordResetCodeResponse")
-            .field("challenge", &self.challenge)
-            .finish()
-    }
-}
-impl ResendPasswordResetCodeResponse {
-    /// Protobuf type URL for this message, for use with `Any::pack` and
-    /// `Any::unpack_if`.
-    ///
-    /// Format: `type.googleapis.com/<fully.qualified.TypeName>`
-    pub const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeResponse";
-}
-::buffa::impl_default_instance!(ResendPasswordResetCodeResponse);
-impl ::buffa::MessageName for ResendPasswordResetCodeResponse {
-    const PACKAGE: &'static str = "oryon.identity.v1";
-    const NAME: &'static str = "ResendPasswordResetCodeResponse";
-    const FULL_NAME: &'static str = "oryon.identity.v1.ResendPasswordResetCodeResponse";
-    const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeResponse";
-}
-impl ::buffa::Message for ResendPasswordResetCodeResponse {
-    /// Returns the total encoded size in bytes.
-    ///
-    /// Accumulates in `u64` (which cannot overflow for in-memory
-    /// data) and saturates to `u32` at return, so a message whose
-    /// encoded size exceeds the 2 GiB protobuf limit yields a value
-    /// above [`::buffa::MAX_MESSAGE_BYTES`] that the encode entry
-    /// points reject, never a silently wrapped size.
-    #[allow(clippy::let_and_return)]
-    fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        let mut size = 0u64;
-        if self.challenge.is_set() {
-            let __slot = __cache.reserve();
-            let inner_size = self.challenge.compute_size(__cache);
-            __cache.set(__slot, inner_size);
-            size
-                += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                    + inner_size as u64;
-        }
-        size += self.__buffa_unknown_fields.encoded_len() as u64;
-        ::buffa::saturate_size(size)
-    }
-    fn write_to(
-        &self,
-        __cache: &mut ::buffa::SizeCache,
-        buf: &mut impl ::buffa::EncodeSink,
-    ) {
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        if self.challenge.is_set() {
-            ::buffa::types::put_len_delimited_header(
-                1u32,
-                u64::from(__cache.consume_next()),
-                buf,
-            );
-            self.challenge.write_to(__cache, buf);
-        }
-        self.__buffa_unknown_fields.write_to(buf);
-    }
-    fn merge_field(
-        &mut self,
-        tag: ::buffa::encoding::Tag,
-        buf: &mut impl ::buffa::bytes::Buf,
-        ctx: ::buffa::DecodeContext<'_>,
-    ) -> ::core::result::Result<(), ::buffa::DecodeError> {
-        #[allow(unused_imports)]
-        use ::buffa::bytes::Buf as _;
-        #[allow(unused_imports)]
-        use ::buffa::Enumeration as _;
-        match tag.field_number() {
-            1u32 => {
-                ::buffa::encoding::check_wire_type(
-                    tag,
-                    ::buffa::encoding::WireType::LengthDelimited,
-                )?;
-                ::buffa::Message::merge_length_delimited(
-                    self.challenge.get_or_insert_default(),
-                    buf,
-                    ctx,
-                )?;
-            }
-            _ => {
-                self.__buffa_unknown_fields
-                    .push(::buffa::encoding::decode_unknown_field(tag, buf, ctx)?);
-            }
-        }
-        ::core::result::Result::Ok(())
-    }
-    fn clear(&mut self) {
-        self.challenge = ::buffa::MessageField::none();
-        self.__buffa_unknown_fields.clear();
-    }
-}
-impl ::buffa::ExtensionSet for ResendPasswordResetCodeResponse {
-    const PROTO_FQN: &'static str = "oryon.identity.v1.ResendPasswordResetCodeResponse";
-    fn unknown_fields(&self) -> &::buffa::UnknownFields {
-        &self.__buffa_unknown_fields
-    }
-    fn unknown_fields_mut(&mut self) -> &mut ::buffa::UnknownFields {
-        &mut self.__buffa_unknown_fields
-    }
-}
-impl ::buffa::json_helpers::ProtoElemJson for ResendPasswordResetCodeResponse {
-    fn serialize_proto_json<S: ::serde::Serializer>(
-        v: &Self,
-        s: S,
-    ) -> ::core::result::Result<S::Ok, S::Error> {
-        ::serde::Serialize::serialize(v, s)
-    }
-    fn deserialize_proto_json<'de, D: ::serde::Deserializer<'de>>(
-        d: D,
-    ) -> ::core::result::Result<Self, D::Error> {
-        <Self as ::serde::Deserialize>::deserialize(d)
-    }
-}
-#[doc(hidden)]
-pub const __RESEND_PASSWORD_RESET_CODE_RESPONSE_JSON_ANY: ::buffa::type_registry::JsonAnyEntry = ::buffa::type_registry::JsonAnyEntry {
-    type_url: "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeResponse",
-    to_json: ::buffa::type_registry::any_to_json::<ResendPasswordResetCodeResponse>,
-    from_json: ::buffa::type_registry::any_from_json::<ResendPasswordResetCodeResponse>,
     is_wkt: false,
 };
 /// ==============
@@ -11963,10 +11628,6 @@ pub mod __buffa {
         }
         #[derive(Clone, Debug, Default)]
         pub struct InitiatePasswordResetResponseView<'a> {
-            /// Field 1: `challenge`
-            pub challenge: ::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'a>,
-            >,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
         impl<'a> ::buffa::MessageView<'a> for InitiatePasswordResetResponseView<'a> {
@@ -12005,31 +11666,6 @@ pub mod __buffa {
                 let view = self;
                 let mut cur = cur;
                 match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.challenge.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.challenge = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::VerificationChallengeView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
                     _ => {
                         ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
                         let span_len = before_tag.len() - cur.len();
@@ -12059,15 +11695,6 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::InitiatePasswordResetResponse {
-                    challenge: match self.challenge.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::VerificationChallenge,
-                                ::buffa::Inline<super::super::VerificationChallenge>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
                     __buffa_unknown_fields: self
                         .__buffa_unknown_fields
                         .to_owned()?
@@ -12078,37 +11705,21 @@ pub mod __buffa {
         }
         impl<'a> ::buffa::ViewEncode<'a> for InitiatePasswordResetResponseView<'a> {
             #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
+            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if self.challenge.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.challenge.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
                 size += self.__buffa_unknown_fields.encoded_len() as u64;
                 ::buffa::saturate_size(size)
             }
             #[allow(clippy::needless_borrow)]
             fn write_to(
                 &self,
-                __cache: &mut ::buffa::SizeCache,
+                _cache: &mut ::buffa::SizeCache,
                 buf: &mut impl ::buffa::EncodeSink,
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if self.challenge.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        1u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.challenge.write_to(__cache, buf);
-                }
                 self.__buffa_unknown_fields.write_to(buf);
             }
         }
@@ -12130,12 +11741,6 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                {
-                    if let ::core::option::Option::Some(__v) = self.challenge.as_option()
-                    {
-                        __map.serialize_entry("challenge", __v)?;
-                    }
-                }
                 __map.end()
             }
         }
@@ -12237,15 +11842,6 @@ pub mod __buffa {
             pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
                 self.0.into_bytes()
             }
-            /// Field 1: `challenge`
-            #[must_use]
-            pub fn challenge(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'_>,
-            > {
-                &self.0.reborrow().challenge
-            }
         }
         impl ::core::convert::From<
             ::buffa::OwnedView<InitiatePasswordResetResponseView<'static>>,
@@ -12285,11 +11881,9 @@ pub mod __buffa {
         }
         #[derive(Clone, Debug, Default)]
         pub struct CompletePasswordResetRequestView<'a> {
-            /// Field 1: `verification_id`
-            pub verification_id: &'a str,
-            /// Field 2: `code`
+            /// Field 1: `code`
             pub code: &'a str,
-            /// Field 3: `new_password`
+            /// Field 2: `new_password`
             pub new_password: &'a str,
             pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
         }
@@ -12334,16 +11928,9 @@ pub mod __buffa {
                             tag,
                             ::buffa::encoding::WireType::LengthDelimited,
                         )?;
-                        view.verification_id = ::buffa::types::borrow_str(&mut cur)?;
-                    }
-                    2u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
                         view.code = ::buffa::types::borrow_str(&mut cur)?;
                     }
-                    3u32 => {
+                    2u32 => {
                         ::buffa::encoding::check_wire_type(
                             tag,
                             ::buffa::encoding::WireType::LengthDelimited,
@@ -12379,7 +11966,6 @@ pub mod __buffa {
                 use ::buffa::alloc::string::ToString as _;
                 let _ = __buffa_src;
                 ::core::result::Result::Ok(super::super::CompletePasswordResetRequest {
-                    verification_id: self.verification_id.to_string(),
                     code: self.code.to_string(),
                     new_password: self.new_password.to_string(),
                     __buffa_unknown_fields: self
@@ -12396,12 +11982,6 @@ pub mod __buffa {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
                 let mut size = 0u64;
-                if !self.verification_id.is_empty() {
-                    size
-                        += 1u64
-                            + ::buffa::types::string_encoded_len(&self.verification_id)
-                                as u64;
-                }
                 if !self.code.is_empty() {
                     size += 1u64 + ::buffa::types::string_encoded_len(&self.code) as u64;
                 }
@@ -12422,14 +12002,11 @@ pub mod __buffa {
             ) {
                 #[allow(unused_imports)]
                 use ::buffa::Enumeration as _;
-                if !self.verification_id.is_empty() {
-                    ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
-                }
                 if !self.code.is_empty() {
-                    ::buffa::types::put_string_field(2u32, &self.code, buf);
+                    ::buffa::types::put_string_field(1u32, &self.code, buf);
                 }
                 if !self.new_password.is_empty() {
-                    ::buffa::types::put_string_field(3u32, &self.new_password, buf);
+                    ::buffa::types::put_string_field(2u32, &self.new_password, buf);
                 }
                 self.__buffa_unknown_fields.write_to(buf);
             }
@@ -12452,9 +12029,6 @@ pub mod __buffa {
             ) -> ::core::result::Result<__S::Ok, __S::Error> {
                 use ::serde::ser::SerializeMap as _;
                 let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.verification_id) {
-                    __map.serialize_entry("verificationId", self.verification_id)?;
-                }
                 if !::buffa::json_helpers::skip_if::is_empty_str(self.code) {
                     __map.serialize_entry("code", self.code)?;
                 }
@@ -12562,17 +12136,12 @@ pub mod __buffa {
             pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
                 self.0.into_bytes()
             }
-            /// Field 1: `verification_id`
-            #[must_use]
-            pub fn verification_id(&self) -> &'_ str {
-                self.0.reborrow().verification_id
-            }
-            /// Field 2: `code`
+            /// Field 1: `code`
             #[must_use]
             pub fn code(&self) -> &'_ str {
                 self.0.reborrow().code
             }
-            /// Field 3: `new_password`
+            /// Field 2: `new_password`
             #[must_use]
             pub fn new_password(&self) -> &'_ str {
                 self.0.reborrow().new_password
@@ -12926,608 +12495,6 @@ pub mod __buffa {
             type ViewHandle = CompletePasswordResetResponseOwnedView;
         }
         impl ::serde::Serialize for CompletePasswordResetResponseOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct ResendPasswordResetCodeRequestView<'a> {
-            /// Field 1: `verification_id`
-            pub verification_id: &'a str,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for ResendPasswordResetCodeRequestView<'a> {
-            type Owned = super::super::ResendPasswordResetCodeRequest;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        view.verification_id = ::buffa::types::borrow_str(&mut cur)?;
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::ResendPasswordResetCodeRequest,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::ResendPasswordResetCodeRequest,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::ResendPasswordResetCodeRequest {
-                    verification_id: self.verification_id.to_string(),
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for ResendPasswordResetCodeRequestView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, _cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if !self.verification_id.is_empty() {
-                    size
-                        += 1u64
-                            + ::buffa::types::string_encoded_len(&self.verification_id)
-                                as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                _cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if !self.verification_id.is_empty() {
-                    ::buffa::types::put_string_field(1u32, &self.verification_id, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for ResendPasswordResetCodeRequestView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                if !::buffa::json_helpers::skip_if::is_empty_str(self.verification_id) {
-                    __map.serialize_entry("verificationId", self.verification_id)?;
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for ResendPasswordResetCodeRequestView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "ResendPasswordResetCodeRequest";
-            const FULL_NAME: &'static str = "oryon.identity.v1.ResendPasswordResetCodeRequest";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeRequest";
-        }
-        ::buffa::impl_default_view_instance!(ResendPasswordResetCodeRequestView);
-        ::buffa::impl_view_reborrow!(ResendPasswordResetCodeRequestView);
-        /** Self-contained, `'static` owned view of a `ResendPasswordResetCodeRequest` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`ResendPasswordResetCodeRequestView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`ResendPasswordResetCodeRequestView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct ResendPasswordResetCodeRequestOwnedView(
-            ::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>>,
-        );
-        impl ResendPasswordResetCodeRequestOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeRequestOwnedView(
-                        ::buffa::OwnedView::decode(bytes)?,
-                    ),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeRequestOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::ResendPasswordResetCodeRequest,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeRequestOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`ResendPasswordResetCodeRequestView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &ResendPasswordResetCodeRequestView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(
-                &self,
-            ) -> super::super::ResendPasswordResetCodeRequest {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Field 1: `verification_id`
-            #[must_use]
-            pub fn verification_id(&self) -> &'_ str {
-                self.0.reborrow().verification_id
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>>,
-        > for ResendPasswordResetCodeRequestOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>>,
-            ) -> Self {
-                ResendPasswordResetCodeRequestOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<ResendPasswordResetCodeRequestOwnedView>
-        for ::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>> {
-            fn from(wrapper: ResendPasswordResetCodeRequestOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>>,
-        > for ResendPasswordResetCodeRequestOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<ResendPasswordResetCodeRequestView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::ResendPasswordResetCodeRequest {
-            type View<'a> = ResendPasswordResetCodeRequestView<'a>;
-            type ViewHandle = ResendPasswordResetCodeRequestOwnedView;
-        }
-        impl ::serde::Serialize for ResendPasswordResetCodeRequestOwnedView {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                ::serde::Serialize::serialize(&self.0, __s)
-            }
-        }
-        #[derive(Clone, Debug, Default)]
-        pub struct ResendPasswordResetCodeResponseView<'a> {
-            /// Field 1: `challenge`
-            pub challenge: ::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'a>,
-            >,
-            pub __buffa_unknown_fields: ::buffa::UnknownFieldsView<'a>,
-        }
-        impl<'a> ::buffa::MessageView<'a> for ResendPasswordResetCodeResponseView<'a> {
-            type Owned = super::super::ResendPasswordResetCodeResponse;
-            fn decode_view(
-                buf: &'a [u8],
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                let __limit = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_UNKNOWN_FIELD_LIMIT,
-                );
-                let __elem = ::core::cell::Cell::new(
-                    ::buffa::DEFAULT_ELEMENT_MEMORY_LIMIT,
-                );
-                <Self as ::buffa::MessageView>::decode_view_ctx(
-                    buf,
-                    ::buffa::DecodeContext::new(::buffa::RECURSION_LIMIT, &__limit)
-                        .with_element_memory(&__elem),
-                )
-            }
-            fn decode_view_with_ctx(
-                buf: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                <Self as ::buffa::MessageView>::decode_view_ctx(buf, ctx)
-            }
-            #[inline]
-            fn merge_view_field(
-                &mut self,
-                tag: ::buffa::encoding::Tag,
-                cur: &'a [u8],
-                before_tag: &'a [u8],
-                ctx: ::buffa::DecodeContext<'_>,
-            ) -> ::core::result::Result<&'a [u8], ::buffa::DecodeError> {
-                let _ = ctx;
-                #[allow(unused_variables)]
-                let view = self;
-                let mut cur = cur;
-                match tag.field_number() {
-                    1u32 => {
-                        ::buffa::encoding::check_wire_type(
-                            tag,
-                            ::buffa::encoding::WireType::LengthDelimited,
-                        )?;
-                        let __sub_ctx = ctx.descend()?;
-                        let sub = ::buffa::types::borrow_bytes(&mut cur)?;
-                        match view.challenge.as_mut() {
-                            Some(existing) => {
-                                ::buffa::MessageView::merge_into_view(
-                                    existing,
-                                    sub,
-                                    __sub_ctx,
-                                )?
-                            }
-                            None => {
-                                view.challenge = ::buffa::MessageFieldView::set(
-                                    <super::super::__buffa::view::VerificationChallengeView as ::buffa::MessageView>::decode_view_ctx(
-                                        sub,
-                                        __sub_ctx,
-                                    )?,
-                                );
-                            }
-                        }
-                    }
-                    _ => {
-                        ::buffa::encoding::skip_field_depth(tag, &mut cur, ctx.depth())?;
-                        let span_len = before_tag.len() - cur.len();
-                        view.__buffa_unknown_fields
-                            .push_record(before_tag, span_len, ctx)?;
-                    }
-                }
-                ::core::result::Result::Ok(cur)
-            }
-            fn to_owned_message(
-                &self,
-            ) -> ::core::result::Result<
-                super::super::ResendPasswordResetCodeResponse,
-                ::buffa::DecodeError,
-            > {
-                self.to_owned_from_source(None)
-            }
-            #[allow(clippy::useless_conversion, clippy::needless_update)]
-            fn to_owned_from_source(
-                &self,
-                __buffa_src: ::core::option::Option<&::buffa::bytes::Bytes>,
-            ) -> ::core::result::Result<
-                super::super::ResendPasswordResetCodeResponse,
-                ::buffa::DecodeError,
-            > {
-                #[allow(unused_imports)]
-                use ::buffa::alloc::string::ToString as _;
-                let _ = __buffa_src;
-                ::core::result::Result::Ok(super::super::ResendPasswordResetCodeResponse {
-                    challenge: match self.challenge.as_option() {
-                        Some(v) => {
-                            ::buffa::MessageField::<
-                                super::super::VerificationChallenge,
-                                ::buffa::Inline<super::super::VerificationChallenge>,
-                            >::some(v.to_owned_from_source(__buffa_src)?)
-                        }
-                        None => ::buffa::MessageField::none(),
-                    },
-                    __buffa_unknown_fields: self
-                        .__buffa_unknown_fields
-                        .to_owned()?
-                        .into(),
-                    ..::core::default::Default::default()
-                })
-            }
-        }
-        impl<'a> ::buffa::ViewEncode<'a> for ResendPasswordResetCodeResponseView<'a> {
-            #[allow(clippy::needless_borrow, clippy::let_and_return)]
-            fn compute_size(&self, __cache: &mut ::buffa::SizeCache) -> u32 {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                let mut size = 0u64;
-                if self.challenge.is_set() {
-                    let __slot = __cache.reserve();
-                    let inner_size = self.challenge.compute_size(__cache);
-                    __cache.set(__slot, inner_size);
-                    size
-                        += 1u64 + ::buffa::encoding::varint_len(inner_size as u64) as u64
-                            + inner_size as u64;
-                }
-                size += self.__buffa_unknown_fields.encoded_len() as u64;
-                ::buffa::saturate_size(size)
-            }
-            #[allow(clippy::needless_borrow)]
-            fn write_to(
-                &self,
-                __cache: &mut ::buffa::SizeCache,
-                buf: &mut impl ::buffa::EncodeSink,
-            ) {
-                #[allow(unused_imports)]
-                use ::buffa::Enumeration as _;
-                if self.challenge.is_set() {
-                    ::buffa::types::put_len_delimited_header(
-                        1u32,
-                        u64::from(__cache.consume_next()),
-                        buf,
-                    );
-                    self.challenge.write_to(__cache, buf);
-                }
-                self.__buffa_unknown_fields.write_to(buf);
-            }
-        }
-        /// Serializes this view as protobuf JSON.
-        ///
-        /// Implicit-presence fields with default values are omitted, `required`
-        /// fields are always emitted, explicit-presence (`optional`) fields are
-        /// emitted only when set, bytes fields are base64-encoded, and enum
-        /// values are their proto name strings.
-        ///
-        /// This impl uses `serialize_map(None)` because the number of emitted
-        /// fields depends on default-omission rules; serializers that require
-        /// known map lengths (e.g. `bincode`) will return a runtime error.
-        /// Use the owned message type for those formats.
-        impl<'__a> ::serde::Serialize for ResendPasswordResetCodeResponseView<'__a> {
-            fn serialize<__S: ::serde::Serializer>(
-                &self,
-                __s: __S,
-            ) -> ::core::result::Result<__S::Ok, __S::Error> {
-                use ::serde::ser::SerializeMap as _;
-                let mut __map = __s.serialize_map(::core::option::Option::None)?;
-                {
-                    if let ::core::option::Option::Some(__v) = self.challenge.as_option()
-                    {
-                        __map.serialize_entry("challenge", __v)?;
-                    }
-                }
-                __map.end()
-            }
-        }
-        impl<'a> ::buffa::MessageName for ResendPasswordResetCodeResponseView<'a> {
-            const PACKAGE: &'static str = "oryon.identity.v1";
-            const NAME: &'static str = "ResendPasswordResetCodeResponse";
-            const FULL_NAME: &'static str = "oryon.identity.v1.ResendPasswordResetCodeResponse";
-            const TYPE_URL: &'static str = "type.googleapis.com/oryon.identity.v1.ResendPasswordResetCodeResponse";
-        }
-        ::buffa::impl_default_view_instance!(ResendPasswordResetCodeResponseView);
-        ::buffa::impl_view_reborrow!(ResendPasswordResetCodeResponseView);
-        /** Self-contained, `'static` owned view of a `ResendPasswordResetCodeResponse` message.
-
- Wraps [`::buffa::OwnedView`]`<`[`ResendPasswordResetCodeResponseView`]`<'static>>`: the decoded view and the [`::buffa::bytes::Bytes`] buffer it borrows from travel together, so the handle is `'static` and `Send + Sync` — suitable for async handlers, spawned tasks, and anywhere a `'static` bound is required.
-
- Field accessors return borrows tied to `&self`. Use [`Self::view`] to get the full [`ResendPasswordResetCodeResponseView`] when you need struct patterns, iteration helpers, or to pass the view to lifetime-parameterised code.*/
-        #[derive(Clone, Debug)]
-        pub struct ResendPasswordResetCodeResponseOwnedView(
-            ::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>>,
-        );
-        impl ResendPasswordResetCodeResponseOwnedView {
-            /// Decode an owned view from a [`::buffa::bytes::Bytes`] buffer.
-            ///
-            /// The view borrows directly from the buffer's data; the buffer is
-            /// retained inside the returned handle.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer contains invalid
-            /// protobuf data.
-            pub fn decode(
-                bytes: ::buffa::bytes::Bytes,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeResponseOwnedView(
-                        ::buffa::OwnedView::decode(bytes)?,
-                    ),
-                )
-            }
-            /// Decode with custom [`::buffa::DecodeOptions`] (recursion limit,
-            /// max message size).
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError`] if the buffer is invalid or
-            /// exceeds the configured limits.
-            pub fn decode_with_options(
-                bytes: ::buffa::bytes::Bytes,
-                opts: &::buffa::DecodeOptions,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeResponseOwnedView(
-                        ::buffa::OwnedView::decode_with_options(bytes, opts)?,
-                    ),
-                )
-            }
-            /// Build from an owned message via an encode → decode round-trip.
-            ///
-            /// # Errors
-            ///
-            /// Returns [`::buffa::DecodeError::MessageTooLarge`] if the
-            /// message's encoded size exceeds the 2 GiB protobuf limit, or
-            /// another [`::buffa::DecodeError`] if the re-encoded bytes are
-            /// somehow invalid (should not happen for well-formed messages).
-            pub fn from_owned(
-                msg: &super::super::ResendPasswordResetCodeResponse,
-            ) -> ::core::result::Result<Self, ::buffa::DecodeError> {
-                ::core::result::Result::Ok(
-                    ResendPasswordResetCodeResponseOwnedView(
-                        ::buffa::OwnedView::from_owned(msg)?,
-                    ),
-                )
-            }
-            /// Borrow the full [`ResendPasswordResetCodeResponseView`] with its lifetime tied to `&self`.
-            #[must_use]
-            pub fn view(&self) -> &ResendPasswordResetCodeResponseView<'_> {
-                self.0.reborrow()
-            }
-            /// Convert to the owned message type.
-            ///
-            /// Infallible: this type's constructors wire-decode their
-            /// buffer, and a view produced by wire decoding always
-            /// converts. Delegates to [`::buffa::OwnedView::to_owned_message`],
-            /// whose contract also governs handles converted from a raw
-            /// [`::buffa::OwnedView`].
-            #[must_use]
-            pub fn to_owned_message(
-                &self,
-            ) -> super::super::ResendPasswordResetCodeResponse {
-                self.0.to_owned_message()
-            }
-            /// The underlying bytes buffer.
-            #[must_use]
-            pub fn bytes(&self) -> &::buffa::bytes::Bytes {
-                self.0.bytes()
-            }
-            /// Consume the handle, returning the underlying bytes buffer.
-            #[must_use]
-            pub fn into_bytes(self) -> ::buffa::bytes::Bytes {
-                self.0.into_bytes()
-            }
-            /// Field 1: `challenge`
-            #[must_use]
-            pub fn challenge(
-                &self,
-            ) -> &::buffa::MessageFieldView<
-                super::super::__buffa::view::VerificationChallengeView<'_>,
-            > {
-                &self.0.reborrow().challenge
-            }
-        }
-        impl ::core::convert::From<
-            ::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>>,
-        > for ResendPasswordResetCodeResponseOwnedView {
-            fn from(
-                inner: ::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>>,
-            ) -> Self {
-                ResendPasswordResetCodeResponseOwnedView(inner)
-            }
-        }
-        impl ::core::convert::From<ResendPasswordResetCodeResponseOwnedView>
-        for ::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>> {
-            fn from(wrapper: ResendPasswordResetCodeResponseOwnedView) -> Self {
-                wrapper.0
-            }
-        }
-        impl ::core::convert::AsRef<
-            ::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>>,
-        > for ResendPasswordResetCodeResponseOwnedView {
-            fn as_ref(
-                &self,
-            ) -> &::buffa::OwnedView<ResendPasswordResetCodeResponseView<'static>> {
-                &self.0
-            }
-        }
-        impl ::buffa::HasMessageView for super::super::ResendPasswordResetCodeResponse {
-            type View<'a> = ResendPasswordResetCodeResponseView<'a>;
-            type ViewHandle = ResendPasswordResetCodeResponseOwnedView;
-        }
-        impl ::serde::Serialize for ResendPasswordResetCodeResponseOwnedView {
             fn serialize<__S: ::serde::Serializer>(
                 &self,
                 __s: __S,
@@ -14146,8 +13113,6 @@ pub mod __buffa {
         reg.register_json_any(super::__INITIATE_PASSWORD_RESET_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_PASSWORD_RESET_REQUEST_JSON_ANY);
         reg.register_json_any(super::__COMPLETE_PASSWORD_RESET_RESPONSE_JSON_ANY);
-        reg.register_json_any(super::__RESEND_PASSWORD_RESET_CODE_REQUEST_JSON_ANY);
-        reg.register_json_any(super::__RESEND_PASSWORD_RESET_CODE_RESPONSE_JSON_ANY);
         reg.register_json_any(super::__LOGOUT_REQUEST_JSON_ANY);
         reg.register_json_any(super::__LOGOUT_RESPONSE_JSON_ANY);
     }
@@ -14240,14 +13205,6 @@ pub use self::__buffa::view::CompletePasswordResetRequestOwnedView;
 pub use self::__buffa::view::CompletePasswordResetResponseView;
 #[doc(inline)]
 pub use self::__buffa::view::CompletePasswordResetResponseOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::ResendPasswordResetCodeRequestView;
-#[doc(inline)]
-pub use self::__buffa::view::ResendPasswordResetCodeRequestOwnedView;
-#[doc(inline)]
-pub use self::__buffa::view::ResendPasswordResetCodeResponseView;
-#[doc(inline)]
-pub use self::__buffa::view::ResendPasswordResetCodeResponseOwnedView;
 #[doc(inline)]
 pub use self::__buffa::view::LogoutRequestView;
 #[doc(inline)]

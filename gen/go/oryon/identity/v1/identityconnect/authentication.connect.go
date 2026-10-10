@@ -57,9 +57,6 @@ const (
 	// AuthenticationServiceCompletePasswordResetProcedure is the fully-qualified name of the
 	// AuthenticationService's CompletePasswordReset RPC.
 	AuthenticationServiceCompletePasswordResetProcedure = "/oryon.identity.v1.AuthenticationService/CompletePasswordReset"
-	// AuthenticationServiceResendPasswordResetCodeProcedure is the fully-qualified name of the
-	// AuthenticationService's ResendPasswordResetCode RPC.
-	AuthenticationServiceResendPasswordResetCodeProcedure = "/oryon.identity.v1.AuthenticationService/ResendPasswordResetCode"
 )
 
 // AuthenticationServiceClient is a client for the oryon.identity.v1.AuthenticationService service.
@@ -72,7 +69,6 @@ type AuthenticationServiceClient interface {
 	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
 	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
 	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
-	ResendPasswordResetCode(context.Context, *connect.Request[v1.ResendPasswordResetCodeRequest]) (*connect.Response[v1.ResendPasswordResetCodeResponse], error)
 }
 
 // NewAuthenticationServiceClient constructs a client for the
@@ -134,26 +130,19 @@ func NewAuthenticationServiceClient(httpClient connect.HTTPClient, baseURL strin
 			connect.WithSchema(authenticationServiceMethods.ByName("CompletePasswordReset")),
 			connect.WithClientOptions(opts...),
 		),
-		resendPasswordResetCode: connect.NewClient[v1.ResendPasswordResetCodeRequest, v1.ResendPasswordResetCodeResponse](
-			httpClient,
-			baseURL+AuthenticationServiceResendPasswordResetCodeProcedure,
-			connect.WithSchema(authenticationServiceMethods.ByName("ResendPasswordResetCode")),
-			connect.WithClientOptions(opts...),
-		),
 	}
 }
 
 // authenticationServiceClient implements AuthenticationServiceClient.
 type authenticationServiceClient struct {
-	registration            *connect.Client[v1.RegistrationRequest, v1.RegistrationResponse]
-	completeRegistration    *connect.Client[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse]
-	resendRegistrationCode  *connect.Client[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse]
-	login                   *connect.Client[v1.LoginRequest, v1.LoginResponse]
-	refreshToken            *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
-	completeLoginMfa        *connect.Client[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse]
-	initiatePasswordReset   *connect.Client[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse]
-	completePasswordReset   *connect.Client[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse]
-	resendPasswordResetCode *connect.Client[v1.ResendPasswordResetCodeRequest, v1.ResendPasswordResetCodeResponse]
+	registration           *connect.Client[v1.RegistrationRequest, v1.RegistrationResponse]
+	completeRegistration   *connect.Client[v1.CompleteRegistrationRequest, v1.CompleteRegistrationResponse]
+	resendRegistrationCode *connect.Client[v1.ResendRegistrationCodeRequest, v1.ResendRegistrationCodeResponse]
+	login                  *connect.Client[v1.LoginRequest, v1.LoginResponse]
+	refreshToken           *connect.Client[v1.RefreshTokenRequest, v1.RefreshTokenResponse]
+	completeLoginMfa       *connect.Client[v1.CompleteLoginMfaRequest, v1.CompleteLoginMfaResponse]
+	initiatePasswordReset  *connect.Client[v1.InitiatePasswordResetRequest, v1.InitiatePasswordResetResponse]
+	completePasswordReset  *connect.Client[v1.CompletePasswordResetRequest, v1.CompletePasswordResetResponse]
 }
 
 // Registration calls oryon.identity.v1.AuthenticationService.Registration.
@@ -196,11 +185,6 @@ func (c *authenticationServiceClient) CompletePasswordReset(ctx context.Context,
 	return c.completePasswordReset.CallUnary(ctx, req)
 }
 
-// ResendPasswordResetCode calls oryon.identity.v1.AuthenticationService.ResendPasswordResetCode.
-func (c *authenticationServiceClient) ResendPasswordResetCode(ctx context.Context, req *connect.Request[v1.ResendPasswordResetCodeRequest]) (*connect.Response[v1.ResendPasswordResetCodeResponse], error) {
-	return c.resendPasswordResetCode.CallUnary(ctx, req)
-}
-
 // AuthenticationServiceHandler is an implementation of the oryon.identity.v1.AuthenticationService
 // service.
 type AuthenticationServiceHandler interface {
@@ -212,7 +196,6 @@ type AuthenticationServiceHandler interface {
 	CompleteLoginMfa(context.Context, *connect.Request[v1.CompleteLoginMfaRequest]) (*connect.Response[v1.CompleteLoginMfaResponse], error)
 	InitiatePasswordReset(context.Context, *connect.Request[v1.InitiatePasswordResetRequest]) (*connect.Response[v1.InitiatePasswordResetResponse], error)
 	CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error)
-	ResendPasswordResetCode(context.Context, *connect.Request[v1.ResendPasswordResetCodeRequest]) (*connect.Response[v1.ResendPasswordResetCodeResponse], error)
 }
 
 // NewAuthenticationServiceHandler builds an HTTP handler from the service implementation. It
@@ -270,12 +253,6 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 		connect.WithSchema(authenticationServiceMethods.ByName("CompletePasswordReset")),
 		connect.WithHandlerOptions(opts...),
 	)
-	authenticationServiceResendPasswordResetCodeHandler := connect.NewUnaryHandler(
-		AuthenticationServiceResendPasswordResetCodeProcedure,
-		svc.ResendPasswordResetCode,
-		connect.WithSchema(authenticationServiceMethods.ByName("ResendPasswordResetCode")),
-		connect.WithHandlerOptions(opts...),
-	)
 	return "/oryon.identity.v1.AuthenticationService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case AuthenticationServiceRegistrationProcedure:
@@ -294,8 +271,6 @@ func NewAuthenticationServiceHandler(svc AuthenticationServiceHandler, opts ...c
 			authenticationServiceInitiatePasswordResetHandler.ServeHTTP(w, r)
 		case AuthenticationServiceCompletePasswordResetProcedure:
 			authenticationServiceCompletePasswordResetHandler.ServeHTTP(w, r)
-		case AuthenticationServiceResendPasswordResetCodeProcedure:
-			authenticationServiceResendPasswordResetCodeHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -335,8 +310,4 @@ func (UnimplementedAuthenticationServiceHandler) InitiatePasswordReset(context.C
 
 func (UnimplementedAuthenticationServiceHandler) CompletePasswordReset(context.Context, *connect.Request[v1.CompletePasswordResetRequest]) (*connect.Response[v1.CompletePasswordResetResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.CompletePasswordReset is not implemented"))
-}
-
-func (UnimplementedAuthenticationServiceHandler) ResendPasswordResetCode(context.Context, *connect.Request[v1.ResendPasswordResetCodeRequest]) (*connect.Response[v1.ResendPasswordResetCodeResponse], error) {
-	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("oryon.identity.v1.AuthenticationService.ResendPasswordResetCode is not implemented"))
 }
